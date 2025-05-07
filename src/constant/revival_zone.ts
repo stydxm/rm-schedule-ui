@@ -3,7 +3,7 @@ import {ZoneJsonData} from "../types/zone";
 const rx = 0;
 const ry = 0;
 
-const xOffset = 420;
+const xOffset = 435;
 
 export const RevivalZoneGroupJsonData: ZoneJsonData = {
   rootId: '#1',

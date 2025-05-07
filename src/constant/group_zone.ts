@@ -1,9 +1,9 @@
-import {TitleData, ZoneJsonData} from "../types/zone";
+import { TitleData, ZoneJsonData } from "../types/zone";
 
 const rx = 0;
 const ry = 30;
 
-const GroupXOffset = 420;
+const GroupXOffset = 435;
 
 export const GroupZoneGroupJsonData: ZoneJsonData = {
   rootId: '#1',
@@ -40,7 +40,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#2',
       text: '第二轮 1:0',
       x: rx - 2 * GroupXOffset,
-      y: ry - 80,
+      y: ry - 60,
       data: {
         title: '瑞士轮第二轮 1胜0负',
         titleColor: '#FFFFFF',
@@ -55,10 +55,10 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [],
             text: ['A组 第一轮 第1名', 'A组 第一轮 第2名', 'A组 第一轮 第3名', 'A组 第一轮 第4名', 'A组 第一轮 第5名', 'A组 第一轮 第6名', 'A组 第一轮 第7名', 'A组 第一轮 第8名'],
             forecasts: [
-              {red: 1, blue: 2},
-              {red: 3, blue: 4},
-              {red: 5, blue: 6},
-              {red: 7, blue: 8}
+              { red: 1, blue: 2 },
+              { red: 3, blue: 4 },
+              { red: 5, blue: 6 },
+              { red: 7, blue: 8 }
             ]
           },
           {
@@ -67,10 +67,10 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [],
             text: ['B组 第一轮 第1名', 'B组 第一轮 第2名', 'B组 第一轮 第3名', 'B组 第一轮 第4名', 'B组 第一轮 第5名', 'B组 第一轮 第6名', 'B组 第一轮 第7名', 'B组 第一轮 第8名'],
             forecasts: [
-              {red: 1, blue: 2},
-              {red: 3, blue: 4},
-              {red: 5, blue: 6},
-              {red: 7, blue: 8}
+              { red: 1, blue: 2 },
+              { red: 3, blue: 4 },
+              { red: 5, blue: 6 },
+              { red: 7, blue: 8 }
             ]
           }
         ]
@@ -80,7 +80,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#3',
       text: '第二轮 0:1',
       x: rx - 2 * GroupXOffset,
-      y: ry + 340,
+      y: ry + 360,
       data: {
         title: '瑞士轮第二轮 0胜1负',
         titleColor: '#FFFFFF',
@@ -95,10 +95,10 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [1, 2, 3, 4, 5, 6, 7, 8],
             text: ['A组 第一轮 第9名', 'A组 第一轮 第10名', 'A组 第一轮 第11名', 'A组 第一轮 第12名', 'A组 第一轮 第13名', 'A组 第一轮 第14名', 'A组 第一轮 第15名', 'A组 第一轮 第16名'],
             forecasts: [
-              {red: 9, blue: 10},
-              {red: 11, blue: 12},
-              {red: 13, blue: 14},
-              {red: 15, blue: 16}
+              { red: 9, blue: 10 },
+              { red: 11, blue: 12 },
+              { red: 13, blue: 14 },
+              { red: 15, blue: 16 }
             ]
           },
           {
@@ -107,10 +107,10 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [9, 10, 11, 12, 13, 14, 15, 16],
             text: ['B组 第一轮 第9名', 'B组 第一轮 第10名', 'B组 第一轮 第11名', 'B组 第一轮 第12名', 'B组 第一轮 第13名', 'B组 第一轮 第14名', 'B组 第一轮 第15名', 'B组 第一轮 第16名'],
             forecasts: [
-              {red: 9, blue: 10},
-              {red: 11, blue: 12},
-              {red: 13, blue: 14},
-              {red: 15, blue: 16}
+              { red: 9, blue: 10 },
+              { red: 11, blue: 12 },
+              { red: 13, blue: 14 },
+              { red: 15, blue: 16 }
             ]
           }
         ]
@@ -120,7 +120,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#4',
       text: '第三轮 2:0',
       x: rx - GroupXOffset,
-      y: ry - 140,
+      y: ry - 120,
       data: {
         title: '瑞士轮第三轮 2胜0负',
         titleColor: '#FFFFFF',
@@ -135,8 +135,8 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [],
             text: ['A组 第二轮 第1名', 'A组 第二轮 第2名', 'A组 第二轮 第3名', 'A组 第二轮 第4名'],
             forecasts: [
-              {red: 2, blue: 1},
-              {red: 4, blue: 3}
+              { red: 2, blue: 1 },
+              { red: 4, blue: 3 }
             ]
           },
           {
@@ -145,8 +145,8 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [],
             text: ['B组 第二轮 第1名', 'B组 第二轮 第2名', 'B组 第二轮 第3名', 'B组 第二轮 第4名'],
             forecasts: [
-              {red: 2, blue: 1},
-              {red: 4, blue: 3}
+              { red: 2, blue: 1 },
+              { red: 4, blue: 3 }
             ]
           }
         ]
@@ -156,7 +156,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#5',
       text: '第三轮 1:1',
       x: rx - GroupXOffset,
-      y: ry + 100,
+      y: ry + 125,
       data: {
         title: '瑞士轮第三轮 1胜1负',
         titleColor: '#FFFFFF',
@@ -171,10 +171,10 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [17, 18, 19, 20],
             text: ['A组 第二轮 第5名', 'A组 第二轮 第6名', 'A组 第二轮 第7名', 'A组 第二轮 第8名', 'A组 第二轮 第9名', 'A组 第二轮 第10名', 'A组 第二轮 第11名', 'A组 第二轮 第12名'],
             forecasts: [
-              {red: 6, blue: 5},
-              {red: 8, blue: 7},
-              {red: 10, blue: 9},
-              {red: 12, blue: 11}
+              { red: 6, blue: 5 },
+              { red: 8, blue: 7 },
+              { red: 10, blue: 9 },
+              { red: 12, blue: 11 }
             ]
           },
           {
@@ -183,10 +183,10 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
             losers: [25, 26, 27, 28],
             text: ['B组 第二轮 第5名', 'B组 第二轮 第6名', 'B组 第二轮 第7名', 'B组 第二轮 第8名', 'B组 第二轮 第9名', 'B组 第二轮 第10名', 'B组 第二轮 第11名', 'B组 第二轮 第12名'],
             forecasts: [
-              {red: 6, blue: 5},
-              {red: 8, blue: 7},
-              {red: 10, blue: 9},
-              {red: 12, blue: 11}
+              { red: 6, blue: 5 },
+              { red: 8, blue: 7 },
+              { red: 10, blue: 9 },
+              { red: 12, blue: 11 }
             ]
           }
         ]
@@ -196,7 +196,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#6',
       text: '第三轮 0:2 淘汰',
       x: rx - GroupXOffset,
-      y: ry + 505,
+      y: ry + 545,
       data: {
         title: '淘汰 0胜2负',
         titleColor: '#FFFFFF',
@@ -256,7 +256,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#8',
       text: '第三轮 2:1 晋级',
       x: rx,
-      y: ry + 140,
+      y: ry + 150,
       data: {
         title: '晋级淘汰赛 2胜1负',
         titleColor: '#FFFFFF',
@@ -286,7 +286,7 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
       id: '#9',
       text: '第三轮 1:2 淘汰',
       x: rx,
-      y: ry + 480,
+      y: ry + 520,
       data: {
         title: '淘汰 1胜2负',
         titleColor: '#FFFFFF',
@@ -314,16 +314,16 @@ export const GroupZoneGroupJsonData: ZoneJsonData = {
     },
   ],
   lines: [
-    {from: '#1', to: '#2',},
-    {from: '#1', to: '#3',},
-    {from: '#2', to: '#4',},
-    {from: '#2', to: '#5',},
-    {from: '#3', to: '#5',},
-    {from: '#3', to: '#6',},
-    {from: '#4', to: '#7',},
-    {from: '#4', to: '#8',},
-    {from: '#5', to: '#8',},
-    {from: '#5', to: '#9',},
+    { from: '#1', to: '#2', },
+    { from: '#1', to: '#3', },
+    { from: '#2', to: '#4', },
+    { from: '#2', to: '#5', },
+    { from: '#3', to: '#5', },
+    { from: '#3', to: '#6', },
+    { from: '#4', to: '#7', },
+    { from: '#4', to: '#8', },
+    { from: '#5', to: '#8', },
+    { from: '#5', to: '#9', },
   ],
 }
 
@@ -333,7 +333,7 @@ export const GroupZoneRoundOrder = {
 }
 
 
-const KnockoutXOffset = 360;
+const KnockoutXOffset = 380;
 const KnockoutYOffset = 50;
 
 export const GroupZoneKnockoutOrderNumbers = {
@@ -718,22 +718,22 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
       },
     ],
     lines: [
-      {from: '#1', to: '#9',},
-      {from: '#2', to: '#9',},
-      {from: '#3', to: '#10',},
-      {from: '#4', to: '#10',},
-      {from: '#5', to: '#11',},
-      {from: '#6', to: '#11',},
-      {from: '#7', to: '#12',},
-      {from: '#8', to: '#12',},
-      {from: '#9', to: '#13',},
-      {from: '#10', to: '#14',},
-      {from: '#11', to: '#13',},
-      {from: '#12', to: '#14',},
-      {from: '#13', to: '#15',},
-      {from: '#14', to: '#15',},
-      {from: '#13', to: '#16',},
-      {from: '#14', to: '#16',},
+      { from: '#1', to: '#9', },
+      { from: '#2', to: '#9', },
+      { from: '#3', to: '#10', },
+      { from: '#4', to: '#10', },
+      { from: '#5', to: '#11', },
+      { from: '#6', to: '#11', },
+      { from: '#7', to: '#12', },
+      { from: '#8', to: '#12', },
+      { from: '#9', to: '#13', },
+      { from: '#10', to: '#14', },
+      { from: '#11', to: '#13', },
+      { from: '#12', to: '#14', },
+      { from: '#13', to: '#15', },
+      { from: '#14', to: '#15', },
+      { from: '#13', to: '#16', },
+      { from: '#14', to: '#16', },
     ],
   }
 }

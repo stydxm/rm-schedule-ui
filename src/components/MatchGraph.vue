@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import RelationGraph, {RGOptions} from 'relation-graph-vue3';
-import {usePromotionStore} from "../stores/promotion";
-import {MatchNode, Player, PlayerWithMatch} from "../types/schedule";
-import {computed} from "vue";
-import {useAppStore} from "../stores/app";
-import {useRoute} from "vue-router";
-import {RoundOrder} from "../types/round_order";
-import {GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData} from "../types/zone";
+import RelationGraph, { RGOptions } from 'relation-graph-vue3';
+import { usePromotionStore } from "../stores/promotion";
+import { MatchNode, Player, PlayerWithMatch } from "../types/schedule";
+import { computed } from "vue";
+import { useAppStore } from "../stores/app";
+import { useRoute } from "vue-router";
+import { RoundOrder } from "../types/round_order";
+import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from "../types/zone";
 import moment from "moment";
 
 interface Props {
@@ -49,7 +49,7 @@ setInterval(refresh, 30_000)
 
 const graphRef = ref<RelationGraph>()
 
-const nodeWidth = 350;
+const nodeWidth = 380;
 const options = ref<RGOptions>({
   layout: {
     layoutName: 'fixed',
@@ -249,14 +249,14 @@ window.addEventListener('touchmove', updateFingersCount);
 window.addEventListener('touchend', updateFingersCount);
 
 const isDragging = ref(false);
-const nodeStart = ref({x: 0, y: 0});
-const canvasStart = ref({x: 0, y: 0});
+const nodeStart = ref({ x: 0, y: 0 });
+const canvasStart = ref({ x: 0, y: 0 });
 
 const onDragStart = (x: number, y: number) => {
   isDragging.value = true;
-  nodeStart.value = {x: x, y: y};
+  nodeStart.value = { x: x, y: y };
   const canvasOffset = graphRef.value.getInstance().options.canvasOffset
-  canvasStart.value = {x: canvasOffset.x, y: canvasOffset.y};
+  canvasStart.value = { x: canvasOffset.x, y: canvasOffset.y };
 };
 
 const onTouchStart = (event: TouchEvent) => {
@@ -402,7 +402,7 @@ const round = computed(() => {
                           @click="selectPlayer(v.player)"
                         >
                           <div class="school-image-container">
-                            <img src="@/assets/school_bg.png" alt="Image"/>
+                            <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                             <div class="overlay ml-4">
                               <div v-if="v.match.status == 'DONE'" style="background: #FFA500">
                                 <h4 class="px-1" style="width: 2.5rem">{{ convertToOrdinal(matchRank(v.player)) }}</h4>
@@ -429,7 +429,7 @@ const round = computed(() => {
                       <div class="right-column">
                         <div class="top-row row-content mt-2">
                           <div class="school-image-container">
-                            <img src="@/assets/school_bg.png" alt="Image"/>
+                            <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                             <div class="overlay ml-4">
                               <div style="background: #616161">
                                 <h4 class="px-1" style="width: 2.5rem">待定</h4>
@@ -475,7 +475,7 @@ const round = computed(() => {
                               @click="selectPlayer(match(v).redSide.player)"
                             >
                               <div class="school-image-container">
-                                <img src="@/assets/school_bg.png" alt="Image"/>
+                                <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                                 <div class="overlay ml-4">
                                   <div
                                     style="background: #616161"
@@ -520,7 +520,7 @@ const round = computed(() => {
                               @click="selectPlayer(match(v).blueSide.player)"
                             >
                               <div class="school-image-container">
-                                <img src="@/assets/school_bg.png" alt="Image"/>
+                                <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                                 <div class="overlay ml-4">
                                   <div
                                     style="background: #616161"
@@ -583,7 +583,7 @@ const round = computed(() => {
                           <div class="right-column">
                             <div class="top-row row-content mb-1">
                               <div class="school-image-container">
-                                <img src="@/assets/school_bg.png" alt="Image"/>
+                                <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                                 <div class="overlay ml-4">
                                   <div style="background: #616161">
                                     <h4 class="px-1"> 0 </h4>
@@ -603,7 +603,7 @@ const round = computed(() => {
 
                             <div class="row-content">
                               <div class="school-image-container">
-                                <img src="@/assets/school_bg.png" alt="Image"/>
+                                <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                                 <div class="overlay ml-4">
                                   <div style="background: #616161">
                                     <h4 class="px-1"> 0 </h4>
@@ -637,7 +637,7 @@ const round = computed(() => {
                     <div class="right-column">
                       <div class="top-row row-content mt-2">
                         <div class="school-image-container">
-                          <img src="@/assets/school_bg.png" alt="Image"/>
+                          <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
                           <div class="overlay ml-4">
                             <div :style="{background: node.data.rankColor}">
                               <h4 class="px-1" style="width: 2.5rem">
@@ -683,7 +683,7 @@ const round = computed(() => {
                         @click="selectPlayer(v.player)"
                       >
                         <div class="school-image-container">
-                          <img src="@/assets/school_bg.png" alt="Image"/>
+                          <img src="@/assets/school_bg.png" style="width: 345px" alt="Image"/>
                           <div class="overlay ml-4">
                             <div v-if="v.match.status == 'DONE'"
                                  :style="{background: node.data.rankColor}">
@@ -713,7 +713,7 @@ const round = computed(() => {
                     <div class="right-column">
                       <div class="top-row row-content mt-2">
                         <div class="school-image-container">
-                          <img src="@/assets/school_bg.png" alt="Image"/>
+                          <img src="@/assets/school_bg.png" style="width: 345px" alt="Image"/>
                           <div class="overlay ml-4">
                             <div style="background: #616161">
                               <h4 class="px-1" style="width: 2.5rem">待定</h4>
@@ -892,6 +892,7 @@ const round = computed(() => {
   flex: 1; /* 占据剩余空间 */
   min-width: 0; /* 确保 flex 项目的最小宽度为 0 */
   text-align: left; /* 确保文本居左对齐 */
+  font-size: 18px;
 }
 
 .container2 {

@@ -3,7 +3,7 @@ import {ImageData, ZoneJsonData} from "../types/zone";
 const rx = 0;
 const ry = 90;
 
-const xOffset = 420;
+const xOffset = 435;
 
 export const RevivalZone2GroupJsonData: ZoneJsonData = {
   rootId: '#1',

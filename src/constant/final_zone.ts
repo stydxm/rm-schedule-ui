@@ -3,7 +3,7 @@ import {TitleData, ZoneJsonData} from "../types/zone";
 const rx = 0;
 const ry = 0;
 
-const groupXOffset = 420;
+const groupXOffset = 435;
 
 export const FinalZoneGroup1JsonData: ZoneJsonData = {
   rootId: '#1',
@@ -40,7 +40,7 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
       id: '#2',
       text: '第二轮 1-0',
       x: rx - 3 * groupXOffset,
-      y: ry - 250,
+      y: ry - 260,
       data: {
         title: '瑞士轮第二轮 1-0',
         titleColor: '#FFFFFF',
@@ -82,7 +82,7 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
       id: '#3',
       text: '第二轮 0-1',
       x: rx - 3 * groupXOffset,
-      y: ry + 160,
+      y: ry + 180,
       data: {
         title: '瑞士轮第二轮 0-1',
         titleColor: '#FFFFFF',
@@ -160,7 +160,7 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
       id: '#5',
       text: '第三轮 1-1',
       x: rx - 2 * groupXOffset,
-      y: ry - 60,
+      y: ry - 40,
       data: {
         title: '瑞士轮第三轮 1-1',
         titleColor: '#FFFFFF',
@@ -202,7 +202,7 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
       id: '#6',
       text: '第三轮 0-2',
       x: rx - 2 * groupXOffset,
-      y: ry + 345,
+      y: ry + 395,
       data: {
         title: '瑞士轮第三轮 0-2',
         titleColor: '#FFFFFF',
@@ -237,8 +237,8 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
     {
       id: '#7',
       text: '晋级 3-0',
-      x: rx - groupXOffset,
-      y: ry - 262,
+      x: rx - groupXOffset + 15,
+      y: ry - 264,
       data: {
         title: '晋级淘汰赛 3-0',
         titleColor: '#FFFFFF',
@@ -267,8 +267,8 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
     {
       id: '#8',
       text: '淘汰 0-3',
-      x: rx - groupXOffset,
-      y: ry + 382,
+      x: rx - groupXOffset + 15,
+      y: ry + 430,
       data: {
         title: '淘汰 0-3',
         titleColor: '#FFFFFF',
@@ -298,7 +298,7 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
       id: '#9',
       text: '第四轮 2-1',
       x: 0,
-      y: ry - 200,
+      y: ry - 180,
       data: {
         title: '瑞士轮第四轮 2-1',
         titleColor: '#FFFFFF',
@@ -338,7 +338,7 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
       id: '#10',
       text: '第四轮 1-2',
       x: 0,
-      y: ry + 160,
+      y: ry + 180,
       data: {
         title: '瑞士轮第四轮 1-2',
         titleColor: '#FFFFFF',
@@ -509,7 +509,7 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
       id: '#4',
       text: '晋级 3-1',
       x: rx - groupXOffset,
-      y: ry - 260,
+      y: ry - 270,
       data: {
         title: '晋级淘汰赛 3-1',
         titleColor: '#FFFFFF',
@@ -679,7 +679,7 @@ export const FinalZoneGroup2RoundOrder = {
   'B': [55, 64, 64],
 }
 
-const KnockoutXOffset = 420;
+const KnockoutXOffset = 435;
 const KnockoutYOffset = 50;
 
 export const FinalZoneKnockoutJsonData: ZoneJsonData = {
