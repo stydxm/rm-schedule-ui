@@ -303,7 +303,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
       ]
     },
     {
-      id: 567, name: '南部赛区', disabled: false,
+      id: 567, name: '东部赛区', disabled: false,
       parts: [
         {
           name: 'A组前段',
