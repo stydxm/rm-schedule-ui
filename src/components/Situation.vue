@@ -52,13 +52,28 @@ function badgeTab(zoneId: number): boolean {
   }
   return false
 }
-</script>
+
+const backgroundImage = computed(() => {
+  switch (promotionStore.season) {
+    case 2024:
+      if (zoneId.value >= 524) {
+        return "/background/2024_final.png"
+      } else {
+        return "/background/2024_group.jpg"
+      }
+    case 2025:
+      // TODO: 适配竖屏设备
+      return "/background/2025_group.jpg"
+  }
+
+  return "/background/2024_final.png"
+});</script>
 
 <template>
   <div class="my-font">
     <img
       class="background-image"
-      src="@/assets/background3.png"
+      :src="backgroundImage"
       alt=""/>
 
     <SearchPlayer :zone-id="zoneId"/>
