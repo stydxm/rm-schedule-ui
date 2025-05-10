@@ -69,6 +69,7 @@ function badgeTab(zoneId: number): boolean {
           <v-tabs
             v-if="!liveMode"
             class="row"
+            height="55px"
             v-model="promotionStore.zoneId"
             bg-color="rgba(255, 255, 255, 0.1)"
           >
@@ -94,7 +95,7 @@ function badgeTab(zoneId: number): boolean {
             ></v-select>
             <v-spacer/>
 
-            <div class="text-right ml-4 mr-2">
+            <div class="text-right ml-4 mr-2 mt-1">
               RM Schedule
               <v-btn
                 variant="flat"
