@@ -1006,7 +1006,7 @@ export const GroupZoneRoundOrder = {
   'B': [9, 25, 39, 46],
 }
 
-const quotaCompetitionXOffset = 450;
+const quotaCompetitionXOffset = 435;
 
 export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
   rootId: '#1',
