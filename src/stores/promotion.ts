@@ -1,9 +1,9 @@
-import {defineStore} from 'pinia'
-import {ScheduleData, MatchNode, ZoneNode, Player, PlayerWithMatch} from "../types/schedule";
-import axios, {AxiosResponse} from "axios";
-import {GroupPlayer, GroupRankInfo, GroupRankInfoZone} from "../types/group_rank_info";
-import {MpMatch, MpMatchRoot} from "../types/mp_match";
-import {computed} from "vue";
+import { defineStore } from 'pinia'
+import { ScheduleData, MatchNode, ZoneNode, Player, PlayerWithMatch } from "../types/schedule";
+import axios, { AxiosResponse } from "axios";
+import { GroupPlayer, GroupRankInfo, GroupRankInfoZone } from "../types/group_rank_info";
+import { MpMatch, MpMatchRoot } from "../types/mp_match";
+import { is } from "@babel/types";
 
 export interface Schedule {
   data: ScheduleData
@@ -11,17 +11,41 @@ export interface Schedule {
 
 export const usePromotionStore = defineStore('promotion', {
   state: () => ({
+    season: 0 as number,
+    zoneId: 0 as number,
     schedule: {} as Schedule,
     groupRank: {} as GroupRankInfo,
     mpMatchMap: new Map<string, MpMatch>(),
     selectedPlayer: null as Player,
   }),
-  getters: {},
+  getters: {
+    backgroundImage(state): string {
+      const isMobile = window.innerWidth < window.innerHeight;
+      switch (state.season) {
+        case 2024:
+          if (state.zoneId >= 524) {
+            // 全国赛
+            return "/background/2024_final.png"
+          } else {
+            // 区域赛
+            return "/background/2024_group.jpg"
+          }
+        case 2025:
+          if (isMobile) return "/background/2025_group_mobile.png"
+          else return "/background/2025_group.jpg"
+      }
+
+      return "/background/2024_final.png"
+    }
+  },
   actions: {
     async updateSchedule() {
       await axios({
         method: 'GET',
         url: '/api/schedule',
+        params: {
+          season: this.season,
+        }
       }).then(async (response: AxiosResponse<Schedule>) => {
         this.schedule = response.data
       })
@@ -30,6 +54,9 @@ export const usePromotionStore = defineStore('promotion', {
       await axios({
         method: 'GET',
         url: '/api/group_rank_info',
+        params: {
+          season: this.season,
+        }
       }).then((response: AxiosResponse<any>) => {
         this.groupRank = response.data
       })
@@ -39,6 +66,7 @@ export const usePromotionStore = defineStore('promotion', {
         method: 'GET',
         url: '/api/mp/match',
         params: {
+          season: this.season,
           match_ids: matchIds.join(',')
         }
       }).then((res: AxiosResponse<MpMatchRoot>) => {

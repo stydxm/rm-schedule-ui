@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {useAppStore} from "../stores/app";
-import {usePromotionStore} from "../stores/promotion";
-import {computed} from "vue";
-import {Player} from "../types/schedule";
+import { useAppStore } from "../stores/app";
+import { usePromotionStore } from "../stores/promotion";
+import { computed, ref } from "vue";
+import { Player } from "../types/schedule";
 import PinyinMatch from 'pinyin-match';
 
 interface Props {
