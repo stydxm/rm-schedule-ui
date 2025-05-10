@@ -34,6 +34,10 @@ function updateQuery() {
   router.push({ path: `/${promotionStore.season}/${zoneId.value}`, query: { group: selectedGroup.value } })
 }
 
+function updateHref(newSeason: number) {
+  window.location.href = `/${newSeason}`
+}
+
 watch(zoneId, updateQuery)
 watch(selectedGroup, updateQuery)
 
@@ -74,6 +78,7 @@ function badgeTab(zoneId: number): boolean {
               variant="filled"
               :items="['2024', '2025']"
               v-model="promotionStore.season"
+              @update:model-value="(newSeason: number) => updateHref(newSeason)"
             ></v-select>
             <div class="col">
               <v-tab
