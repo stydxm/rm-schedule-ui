@@ -1184,8 +1184,6 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
   ],
 }
 
-export const QuotaCompetition_11_5_TitleData: TitleData[] = []
-
 
 const KnockoutXOffset = 380;
 const KnockoutYOffset = 50;

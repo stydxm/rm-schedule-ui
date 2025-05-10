@@ -7,7 +7,8 @@ import {
   GroupZoneGroup2RoundOrder,
   GroupZoneGroupJsonData,
   GroupZoneKnockoutTitleData,
-  GroupZoneRoundOrder, QuotaCompetition_11_5_JsonData, QuotaCompetition_11_5_TitleData
+  GroupZoneRoundOrder,
+  QuotaCompetition_11_5_JsonData,
 } from "./group_zone";
 import {
   GlobalZoneJsonData, GlobalZoneRoundOrder,
@@ -256,7 +257,6 @@ export const ZoneMap: { [key: number]: Zone[] } = {
           type: 'group',
           group: 'Knockout',
           jsonData: QuotaCompetition_11_5_JsonData,
-          extraTitleData: QuotaCompetition_11_5_TitleData,
           roundOrder: GroupZoneRoundOrder
         },
         {
