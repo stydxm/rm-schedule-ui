@@ -258,24 +258,38 @@ export const ZoneMap: { [key: number]: Zone[] } = {
       id: 566, name: '中部赛区', disabled: false,
       parts: [
         {
-          name: 'A组',
+          name: 'A组前段',
           type: 'group',
           group: 'A',
-          jsonData: GroupZoneGroupJsonData,
-          roundOrder: GroupZoneRoundOrder
+          jsonData: GroupZoneGroup1JsonData,
+          roundOrder: GroupZoneGroup1RoundOrder,
         },
         {
-          name: 'B组',
+          name: 'B组前段',
           type: 'group',
           group: 'B',
-          jsonData: GroupZoneGroupJsonData,
-          roundOrder: GroupZoneRoundOrder
+          jsonData: GroupZoneGroup1JsonData,
+          roundOrder: GroupZoneGroup1RoundOrder,
+        },
+        {
+          name: 'A组后段',
+          type: 'group',
+          group: 'A',
+          jsonData: GroupZoneGroup2JsonData,
+          roundOrder: GroupZoneGroup2RoundOrder,
+        },
+        {
+          name: 'B组后段',
+          type: 'group',
+          group: 'B',
+          jsonData: GroupZoneGroup2JsonData,
+          roundOrder: GroupZoneGroup2RoundOrder,
         },
         {
           name: '淘汰赛',
           type: 'knockout',
           group: 'Knockout',
-          jsonData: GetGroupZoneKnockoutJsonData(499),
+          jsonData: GetGroupZoneKnockoutJsonData(566),
           extraTitleData: GroupZoneKnockoutTitleData,
           roundOrder: GroupZoneRoundOrder
         }
@@ -285,24 +299,38 @@ export const ZoneMap: { [key: number]: Zone[] } = {
       id: 567, name: '南部赛区', disabled: false,
       parts: [
         {
-          name: 'A组',
+          name: 'A组前段',
           type: 'group',
           group: 'A',
-          jsonData: GroupZoneGroupJsonData,
-          roundOrder: GroupZoneRoundOrder
+          jsonData: GroupZoneGroup1JsonData,
+          roundOrder: GroupZoneGroup1RoundOrder,
         },
         {
-          name: 'B组',
+          name: 'B组前段',
           type: 'group',
           group: 'B',
-          jsonData: GroupZoneGroupJsonData,
-          roundOrder: GroupZoneRoundOrder
+          jsonData: GroupZoneGroup1JsonData,
+          roundOrder: GroupZoneGroup1RoundOrder,
+        },
+        {
+          name: 'A组后段',
+          type: 'group',
+          group: 'A',
+          jsonData: GroupZoneGroup2JsonData,
+          roundOrder: GroupZoneGroup2RoundOrder,
+        },
+        {
+          name: 'B组后段',
+          type: 'group',
+          group: 'B',
+          jsonData: GroupZoneGroup2JsonData,
+          roundOrder: GroupZoneGroup2RoundOrder,
         },
         {
           name: '淘汰赛',
           type: 'knockout',
           group: 'Knockout',
-          jsonData: GetGroupZoneKnockoutJsonData(500),
+          jsonData: GetGroupZoneKnockoutJsonData(567),
           extraTitleData: GroupZoneKnockoutTitleData,
           roundOrder: GroupZoneRoundOrder
         }

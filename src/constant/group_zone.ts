@@ -1035,6 +1035,18 @@ export const GroupZoneKnockoutOrderNumbers = {
     83, 84,
     87, 89,
   ],
+  566: [0,
+    67, 68, 69, 70, 71, 72, 73, 74,
+    75, 76, 77, 78,
+    83, 84,
+    87, 88,
+  ],
+  567: [0,
+    67, 68, 69, 70, 71, 72, 73, 74,
+    75, 76, 77, 78,
+    83, 84,
+    89, 91,
+  ],
 }
 
 export const GroupZoneKnockoutTitleData: TitleData[] = [
