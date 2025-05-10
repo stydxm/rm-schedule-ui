@@ -41,6 +41,13 @@ export interface Zone {
   parts: Part[],
 }
 
+export const SeasonList = [2024, 2025];
+
+export const DefaultZoneMap = {
+  2024: 526,
+  2025: 565,
+}
+
 export const ZoneMap: { [key: number]: Zone[] } = {
   2024: [
     {

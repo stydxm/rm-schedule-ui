@@ -5,7 +5,7 @@ import { computed, watch, ref } from "vue";
 import { usePromotionStore } from "../stores/promotion";
 import AnalyzeTeam from "./AnalyzeTeam.vue";
 import { useRoute, useRouter } from "vue-router";
-import { ZoneMap } from "../constant/zone";
+import { DefaultZoneMap, SeasonList, ZoneMap } from "../constant/zone";
 
 const route = useRoute()
 const router = useRouter()
@@ -24,9 +24,9 @@ if (!Object.keys(ZoneMap).includes(String(promotionStore.season))) {
   zoneTab.value = ZoneMap[promotionStore.season][0].id
   updateQuery()
 }
-// 如果 ZoneId 不存在，则自动选择第一个可用的 ZoneId
+// 如果 ZoneId 不存在，则自动选择默认的 ZoneId
 if (!ZoneMap[promotionStore.season].find((zone) => zone.id == zoneId.value)) {
-  zoneTab.value = ZoneMap[promotionStore.season][0].id
+  zoneTab.value = DefaultZoneMap[promotionStore.season]
   updateQuery()
 }
 
@@ -76,7 +76,7 @@ function badgeTab(zoneId: number): boolean {
               label="Season"
               max-width="120px"
               variant="filled"
-              :items="['2024', '2025']"
+              :items="SeasonList"
               v-model="promotionStore.season"
               @update:model-value="(newSeason: number) => updateHref(newSeason)"
             ></v-select>
