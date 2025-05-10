@@ -80,27 +80,22 @@ function badgeTab(zoneId: number): boolean {
               v-model="promotionStore.season"
               @update:model-value="(newSeason: number) => updateHref(newSeason)"
             ></v-select>
-            <div class="col">
-              <v-tab
-                v-for="zone in ZoneMap[promotionStore.season]"
-                :key="zone.id"
-                :disabled="zone.disabled"
-                :value="zone.id"
-              >
-                <v-badge
-                  v-if="badgeTab(zone.id)"
-                  color="white"
-                  dot floating
-                >
-                  {{ zone.name }}
-                </v-badge>
-                <span v-else>
-                  {{ zone.name }}
-                </span>
-              </v-tab>
-            </div>
+            <v-select
+              label="Zone"
+              max-width="260px"
+              variant="filled"
+              :item-props="true"
+              item-value="id"
+              item-title="name"
+              :disable="(item) => !item.disabled"
+              :items="ZoneMap[promotionStore.season]"
+              v-model="promotionStore.zoneId"
+              @update:model-value="updateQuery"
+            ></v-select>
+            <v-spacer/>
 
-            <div class="text-right mr-2">
+            <div class="text-right ml-4 mr-2">
+              RM Schedule
               <v-btn
                 variant="flat"
                 color="transparent"
@@ -161,6 +156,7 @@ function badgeTab(zoneId: number): boolean {
                           :color="isSelected ? 'primary' : undefined"
                           class="mx-1 my-2"
                           rounded
+                          variant="outlined"
                           size="small"
                           @click="toggle">
                           {{ n }}
