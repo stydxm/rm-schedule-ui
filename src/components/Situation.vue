@@ -11,22 +11,22 @@ const route = useRoute()
 const router = useRouter()
 
 const liveMode = ref(route.query.live == "1")
-const zoneTab = ref(Number(route.params.zoneId) || 0)
 const selectedGroup = ref([route.query.group || 0])
 const appStore = useAppStore()
 const promotionStore = usePromotionStore();
 
-const zoneId = computed(() => Number(zoneTab.value))
+const zoneId = computed(() => promotionStore.zoneId)
 promotionStore.season = Number(route.params.season)
+promotionStore.zoneId = Number(route.params.zoneId)
 // 如果 Season 不存在，则自动选择最后一个可用的 Season
 if (!Object.keys(ZoneMap).includes(String(promotionStore.season))) {
   promotionStore.season = Number(Object.keys(ZoneMap).slice(-1)[0])
-  zoneTab.value = ZoneMap[promotionStore.season][0].id
+  promotionStore.zoneId = ZoneMap[promotionStore.season][0].id
   updateQuery()
 }
 // 如果 ZoneId 不存在，则自动选择默认的 ZoneId
 if (!ZoneMap[promotionStore.season].find((zone) => zone.id == zoneId.value)) {
-  zoneTab.value = DefaultZoneMap[promotionStore.season]
+  promotionStore.zoneId = DefaultZoneMap[promotionStore.season]
   updateQuery()
 }
 
@@ -52,28 +52,13 @@ function badgeTab(zoneId: number): boolean {
   }
   return false
 }
-
-const backgroundImage = computed(() => {
-  switch (promotionStore.season) {
-    case 2024:
-      if (zoneId.value >= 524) {
-        return "/background/2024_final.png"
-      } else {
-        return "/background/2024_group.jpg"
-      }
-    case 2025:
-      // TODO: 适配竖屏设备
-      return "/background/2025_group.jpg"
-  }
-
-  return "/background/2024_final.png"
-});</script>
+</script>
 
 <template>
   <div class="my-font">
     <img
       class="background-image"
-      :src="backgroundImage"
+      :src="promotionStore.backgroundImage"
       alt=""/>
 
     <SearchPlayer :zone-id="zoneId"/>
@@ -84,7 +69,7 @@ const backgroundImage = computed(() => {
           <v-tabs
             v-if="!liveMode"
             class="row"
-            v-model="zoneTab"
+            v-model="promotionStore.zoneId"
             bg-color="rgba(255, 255, 255, 0.1)"
           >
             <v-select

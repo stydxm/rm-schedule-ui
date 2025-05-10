@@ -292,6 +292,10 @@ const onDragEnd = () => {
   isDragging.value = false;
 };
 
+const bgGrayEnabled = computed(() => {
+  return promotionStore.backgroundImage !== '/background/2024_final.png';
+})
+
 const groupIndex = computed(() => {
   switch (props.group) {
     case 'A':
@@ -368,6 +372,7 @@ const round = computed(() => {
           >
             <div v-if="node.data.title != ''"
                  class="text-h6"
+                 :class="{'node-title-bg-gray': bgGrayEnabled}"
                  :style="'color: ' + node.data.titleColor">
               <div class="title-image-container">
                 <img :style="'border-right: 2px solid ' + node.data.borderColor"
@@ -380,6 +385,7 @@ const round = computed(() => {
             </div>
 
             <div class="pt-1 pb-3"
+                 :class="{'node-bg-gray': bgGrayEnabled}"
                  :style="{
                    'border-left': '2px solid ' + node.data.borderColor,
                    'border-right': '2px solid ' + node.data.borderColor,
@@ -1081,6 +1087,14 @@ const round = computed(() => {
 
 .node-title-border {
   border-right: 2px solid #5a879c;
+}
+
+.node-title-bg-gray {
+  background: linear-gradient(to right, transparent 50%, rgba(96, 96, 96, 0.3) 100%);
+}
+
+.node-bg-gray {
+  background-color: rgba(96, 96, 96, 0.3);
 }
 
 .my-font {

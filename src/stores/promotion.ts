@@ -11,12 +11,29 @@ export interface Schedule {
 export const usePromotionStore = defineStore('promotion', {
   state: () => ({
     season: 0 as number,
+    zoneId: 0 as number,
     schedule: {} as Schedule,
     groupRank: {} as GroupRankInfo,
     mpMatchMap: new Map<string, MpMatch>(),
     selectedPlayer: null as Player,
   }),
-  getters: {},
+  getters: {
+    backgroundImage(state): string {
+      switch (state.season) {
+        case 2024:
+          if (state.zoneId >= 524) {
+            return "/background/2024_final.png"
+          } else {
+            return "/background/2024_group.jpg"
+          }
+        case 2025:
+          // TODO: 适配竖屏设备
+          return "/background/2025_group.jpg"
+      }
+
+      return "/background/2024_final.png"
+    }
+  },
   actions: {
     async updateSchedule() {
       await axios({
