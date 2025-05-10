@@ -63,7 +63,7 @@ const items = [
         <p>22-24赛季 宣传运营组 杨卓石</p>
         <h3 class="mt-4">— 特别鸣谢 —</h3>
         <p>RoboMaster 组委会</p>
-        <p>如有更多软件 idea，可以微信搜索微信号 <b>rmfans666</b> 联系 RoboMaster 组委会</p>
+        <p>如有更多软件 idea，可以搜索微信号 <b>rmfans666</b> 联系 RoboMaster 组委会</p>
 
         <div class="mt-6">
           <v-img src="@/assets/qr-code2.png"></v-img>
