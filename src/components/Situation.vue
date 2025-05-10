@@ -1,25 +1,37 @@
 <script setup lang="ts">
-import {useAppStore} from "../stores/app";
+import { useAppStore } from "../stores/app";
 import MatchGraph from "./MatchGraph.vue";
-import {computed, watch} from "vue";
-import {usePromotionStore} from "../stores/promotion";
+import { computed, watch } from "vue";
+import { usePromotionStore } from "../stores/promotion";
 import AnalyzeTeam from "./AnalyzeTeam.vue";
-import {useRoute, useRouter} from "vue-router";
-import {Zones} from "../constant/zone";
+import { useRoute, useRouter } from "vue-router";
+import { ZoneMap } from "../constant/zone";
 
 const route = useRoute()
 const router = useRouter()
 
 const liveMode = ref(route.query.live == "1")
-const zoneTab = ref(Number(route.params.zoneId) || 526)
+const zoneTab = ref(Number(route.params.zoneId) || 0)
 const selectedGroup = ref([route.query.group || 0])
 const appStore = useAppStore()
 const promotionStore = usePromotionStore();
 
 const zoneId = computed(() => Number(zoneTab.value))
+promotionStore.season = Number(route.params.season)
+// 如果 Season 不存在，则自动选择最后一个可用的 Season
+if (!Object.keys(ZoneMap).includes(String(promotionStore.season))) {
+  promotionStore.season = Number(Object.keys(ZoneMap).slice(-1)[0])
+  zoneTab.value = ZoneMap[promotionStore.season][0].id
+  updateQuery()
+}
+// 如果 ZoneId 不存在，则自动选择第一个可用的 ZoneId
+if (!ZoneMap[promotionStore.season].find((zone) => zone.id == zoneId.value)) {
+  zoneTab.value = ZoneMap[promotionStore.season][0].id
+  updateQuery()
+}
 
 function updateQuery() {
-  router.push({path: `/${zoneId.value}`, query: {group: selectedGroup.value}})
+  router.push({ path: `/${promotionStore.season}/${zoneId.value}`, query: { group: selectedGroup.value } })
 }
 
 watch(zoneId, updateQuery)
@@ -56,9 +68,16 @@ function badgeTab(zoneId: number): boolean {
             v-model="zoneTab"
             bg-color="rgba(255, 255, 255, 0.1)"
           >
+            <v-select
+              label="Season"
+              max-width="120px"
+              variant="filled"
+              :items="['2024', '2025']"
+              v-model="promotionStore.season"
+            ></v-select>
             <div class="col">
               <v-tab
-                v-for="zone in Zones"
+                v-for="zone in ZoneMap[promotionStore.season]"
                 :key="zone.id"
                 :disabled="zone.disabled"
                 :value="zone.id"
@@ -91,7 +110,7 @@ function badgeTab(zoneId: number): boolean {
         <v-row>
           <v-col cols="12">
             <div
-              v-for="zone in Zones"
+              v-for="zone in ZoneMap[promotionStore.season]"
               :key="zone.id"
             >
               <div v-if="zoneId == zone.id">

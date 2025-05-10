@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {MatchNode, Player} from "../types/schedule";
-import axios, {AxiosResponse} from "axios";
-import {RankListItem} from "../types/rank";
-import {usePromotionStore} from "../stores/promotion";
-import {computed} from "vue";
+import { MatchNode, Player } from "../types/schedule";
+import axios, { AxiosResponse } from "axios";
+import { RankListItem } from "../types/rank";
+import { usePromotionStore } from "../stores/promotion";
+import { computed } from "vue";
 
 interface Props {
   zoneId: number,
@@ -23,7 +23,10 @@ const loading = ref(true)
 axios({
   method: 'GET',
   url: '/api/rank',
-  params: {school_name: props.player.team.collegeName,}
+  params: {
+    season: promotionStore.season,
+    school_name: props.player.team.collegeName,
+  }
 }).then((resp: AxiosResponse<RankListItem>) => {
   rank.value = resp.data
 }).finally(() => {

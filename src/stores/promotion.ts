@@ -1,9 +1,8 @@
-import {defineStore} from 'pinia'
-import {ScheduleData, MatchNode, ZoneNode, Player, PlayerWithMatch} from "../types/schedule";
-import axios, {AxiosResponse} from "axios";
-import {GroupPlayer, GroupRankInfo, GroupRankInfoZone} from "../types/group_rank_info";
-import {MpMatch, MpMatchRoot} from "../types/mp_match";
-import {computed} from "vue";
+import { defineStore } from 'pinia'
+import { ScheduleData, MatchNode, ZoneNode, Player, PlayerWithMatch } from "../types/schedule";
+import axios, { AxiosResponse } from "axios";
+import { GroupPlayer, GroupRankInfo, GroupRankInfoZone } from "../types/group_rank_info";
+import { MpMatch, MpMatchRoot } from "../types/mp_match";
 
 export interface Schedule {
   data: ScheduleData
@@ -11,6 +10,7 @@ export interface Schedule {
 
 export const usePromotionStore = defineStore('promotion', {
   state: () => ({
+    season: 0 as number,
     schedule: {} as Schedule,
     groupRank: {} as GroupRankInfo,
     mpMatchMap: new Map<string, MpMatch>(),
@@ -22,6 +22,9 @@ export const usePromotionStore = defineStore('promotion', {
       await axios({
         method: 'GET',
         url: '/api/schedule',
+        params: {
+          season: this.season,
+        }
       }).then(async (response: AxiosResponse<Schedule>) => {
         this.schedule = response.data
       })
@@ -30,6 +33,9 @@ export const usePromotionStore = defineStore('promotion', {
       await axios({
         method: 'GET',
         url: '/api/group_rank_info',
+        params: {
+          season: this.season,
+        }
       }).then((response: AxiosResponse<any>) => {
         this.groupRank = response.data
       })
@@ -39,6 +45,7 @@ export const usePromotionStore = defineStore('promotion', {
         method: 'GET',
         url: '/api/mp/match',
         params: {
+          season: this.season,
           match_ids: matchIds.join(',')
         }
       }).then((res: AxiosResponse<MpMatchRoot>) => {
