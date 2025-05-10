@@ -3,7 +3,7 @@ import { MatchNode, Player } from "../types/schedule";
 import axios, { AxiosResponse } from "axios";
 import { RankListItem } from "../types/rank";
 import { usePromotionStore } from "../stores/promotion";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 interface Props {
   zoneId: number,

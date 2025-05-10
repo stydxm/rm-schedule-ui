@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAppStore } from "../stores/app";
 import MatchGraph from "./MatchGraph.vue";
-import { computed, watch } from "vue";
+import { computed, watch, ref } from "vue";
 import { usePromotionStore } from "../stores/promotion";
 import AnalyzeTeam from "./AnalyzeTeam.vue";
 import { useRoute, useRouter } from "vue-router";

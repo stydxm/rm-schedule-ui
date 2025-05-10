@@ -2,7 +2,7 @@
 import RelationGraph, { RGOptions } from 'relation-graph-vue3';
 import { usePromotionStore } from "../stores/promotion";
 import { MatchNode, Player, PlayerWithMatch } from "../types/schedule";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useAppStore } from "../stores/app";
 import { useRoute } from "vue-router";
 import { RoundOrder } from "../types/round_order";
