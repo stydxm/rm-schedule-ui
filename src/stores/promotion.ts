@@ -3,6 +3,7 @@ import { ScheduleData, MatchNode, ZoneNode, Player, PlayerWithMatch } from "../t
 import axios, { AxiosResponse } from "axios";
 import { GroupPlayer, GroupRankInfo, GroupRankInfoZone } from "../types/group_rank_info";
 import { MpMatch, MpMatchRoot } from "../types/mp_match";
+import { is } from "@babel/types";
 
 export interface Schedule {
   data: ScheduleData
@@ -19,16 +20,19 @@ export const usePromotionStore = defineStore('promotion', {
   }),
   getters: {
     backgroundImage(state): string {
+      const isMobile = window.innerWidth < window.innerHeight;
       switch (state.season) {
         case 2024:
           if (state.zoneId >= 524) {
+            // 全国赛
             return "/background/2024_final.png"
           } else {
+            // 区域赛
             return "/background/2024_group.jpg"
           }
         case 2025:
-          // TODO: 适配竖屏设备
-          return "/background/2025_group.jpg"
+          if (isMobile) return "/background/2025_group_mobile.png"
+          else return "/background/2025_group.jpg"
       }
 
       return "/background/2024_final.png"
