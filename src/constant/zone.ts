@@ -8,7 +8,7 @@ import {
   GroupZoneGroupJsonData,
   GroupZoneKnockoutTitleData,
   GroupZoneRoundOrder,
-  QuotaCompetition_11_5_JsonData,
+  QuotaCompetition_11_5_JsonData, QuotaCompetition_8_6_JsonData,
 } from "./group_zone";
 import {
   GlobalZoneJsonData, GlobalZoneRoundOrder,
@@ -299,6 +299,13 @@ export const ZoneMap: { [key: number]: Zone[] } = {
           group: 'B',
           jsonData: GroupZoneGroup2JsonData,
           roundOrder: GroupZoneGroup2RoundOrder,
+        },
+        {
+          name: '复活赛名额争夺战',
+          type: 'group',
+          group: 'Knockout',
+          jsonData: QuotaCompetition_8_6_JsonData,
+          roundOrder: GroupZoneRoundOrder
         },
         {
           name: '淘汰赛',
