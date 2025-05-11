@@ -1026,8 +1026,8 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
         zones: [
           {
             matches: [79, 80, 81, 82],
-            winners: [85, 86],
-            losers: [],
+            winners: [],
+            losers: [67, 68, 69, 70, 71, 72, 73, 74],
             text: ['第67场 败者', '第68场 败者', '第69场 败者', '第70场 败者', '第71场 败者', '第72场 败者', '第73场 败者', '第74场 败者']
           },
         ]
@@ -1048,7 +1048,7 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
         zones: [
           {
             matches: [85, 86],
-            winners: [],
+            winners: [79, 80, 81, 82],
             losers: [],
             text: ['第79场 胜者', '第80场 胜者', '第81场 胜者', '第82场 胜者']
           },
@@ -1129,7 +1129,7 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
       id: '#6',
       text: '晋级全国赛 2-1',
       x: rx + quotaCompetitionXOffset * 3,
-      y: ry - 60,
+      y: ry - 40,
       data: {
         title: '晋级全国赛 2-1',
         titleColor: '#FFFFFF',
@@ -1153,7 +1153,7 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
       id: '#7',
       text: '晋级复活赛 1-2',
       x: rx + quotaCompetitionXOffset * 3,
-      y: ry + 120,
+      y: ry + 140,
       data: {
         title: '晋级复活赛 1-2',
         titleColor: '#FFFFFF',
@@ -1202,8 +1202,8 @@ export const QuotaCompetition_8_6_JsonData: ZoneJsonData = {
         zones: [
           {
             matches: [79, 80, 81, 82],
-            winners: [85, 86],
-            losers: [],
+            winners: [],
+            losers: [67, 68, 69, 70, 71, 72, 73, 74],
             text: ['第67场 败者', '第68场 败者', '第69场 败者', '第70场 败者', '第71场 败者', '第72场 败者', '第73场 败者', '第74场 败者']
           },
         ]
@@ -1249,7 +1249,7 @@ export const QuotaCompetition_8_6_JsonData: ZoneJsonData = {
           {
             matches: [85, 86],
             winners: [],
-            losers: [],
+            losers: [79, 80, 81, 82],
             text: ['第79场 败者', '第80场 败者', '第81场 败者', '第82场 败者']
           }
         ]
@@ -1310,6 +1310,206 @@ export const QuotaCompetition_8_6_JsonData: ZoneJsonData = {
     { from: '#3', to: '#4', },
     { from: '#3', to: '#5', },
   ],
+}
+
+export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
+  rootId: '#1',
+  nodes: [
+    {
+      id: '#1',
+      text: '全国赛名额争夺 0-0',
+      x: rx,
+      y: ry,
+      data: {
+        title: '全国赛名额争夺 0-0',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_bg.png',
+        borderColor: '#5A879C',
+        round: -1,
+        type: 'match',
+        zones: [
+          {
+            matches: [79, 80, 81, 82],
+            winners: [],
+            losers: [67, 68, 69, 70, 71, 72, 73, 74],
+            text: ['第67场 败者', '第68场 败者', '第69场 败者', '第70场 败者', '第71场 败者', '第72场 败者', '第73场 败者', '第74场 败者']
+          },
+        ]
+      }
+    },
+    {
+      id: '#2',
+      text: '全国赛名额争夺 1-0',
+      x: rx + quotaCompetitionXOffset,
+      y: ry - 100,
+      data: {
+        title: '全国赛名额争夺 1-0',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_bg.png',
+        borderColor: '#5A879C',
+        round: -1,
+        type: 'match',
+        zones: [
+          {
+            matches: [85, 86],
+            winners: [79, 80, 81, 82],
+            losers: [],
+            text: ['第79场 胜者', '第80场 胜者', '第81场 胜者', '第82场 胜者']
+          }
+        ]
+      }
+    },
+    {
+      id: '#3',
+      text: '复活赛名额争夺 0-1',
+      x: rx + quotaCompetitionXOffset,
+      y: ry + 200,
+      data: {
+        title: '复活赛名额争夺 0-1',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_bg.png',
+        borderColor: '#5A879C',
+        round: -1,
+        type: 'match',
+        zones: [
+          {
+            matches: [87, 88],
+            winners: [],
+            losers: [79, 80, 81, 82],
+            text: ['第79场 败者', '第80场 败者', '第81场 败者', '第82场 败者']
+          }
+        ]
+      }
+    },
+    {
+      id: '#4',
+      text: '全国赛名额争夺 2-0',
+      x: rx + quotaCompetitionXOffset * 2,
+      y: ry - 200,
+      data: {
+        title: '全国赛名额争夺 2-0',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_bg.png',
+        borderColor: '#5A879C',
+        round: -1,
+        type: 'match',
+        zones: [
+          {
+            matches: [90],
+            winners: [85, 86],
+            losers: [],
+            text: ['第85场 胜者', '第86场 胜者']
+          }
+        ]
+      }
+    },
+    {
+      id: '#5',
+      text: '晋级复活赛 1-1',
+      x: rx + quotaCompetitionXOffset * 2,
+      y: ry + 0,
+      data: {
+        title: '晋级复活赛 1-1',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_winner_bg.png',
+        borderColor: '#E7A662',
+        collegeNameColor: '#FFB553',
+        rankColor: '#FFA500',
+        round: -1,
+        type: 'promote',
+        zones: [
+          {
+            matches: [],
+            winners: [87, 88],
+            losers: [85, 86],
+            text: ['第87场 胜者', '第88场 胜者', '第85场 败者', '第86场 败者']
+          }
+        ]
+      }
+    },
+    {
+      id: '#6',
+      text: '淘汰 0-2',
+      x: rx + quotaCompetitionXOffset * 2,
+      y: ry + 300,
+      data: {
+        title: '淘汰 0-2',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_loser_bg.png',
+        borderColor: '#3E484D',
+        collegeNameColor: '#9D9F9F',
+        rankColor: '#4F4F4F',
+        round: -1,
+        type: 'eliminate',
+        zones: [
+          {
+            matches: [],
+            winners: [],
+            losers: [87, 88],
+            text: ['第87场 败者', '第88场 败者']
+          },
+        ]
+      }
+    },
+    {
+      id: '#7',
+      text: '晋级全国赛 2-1',
+      x: rx + quotaCompetitionXOffset * 3,
+      y: ry - 280,
+      data: {
+        title: '晋级全国赛 2-1',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_winner_bg.png',
+        borderColor: '#E7A662',
+        collegeNameColor: '#FFB553',
+        rankColor: '#FFA500',
+        round: -1,
+        type: 'promote',
+        zones: [
+          {
+            matches: [],
+            winners: [90],
+            losers: [],
+            text: ['第90场 胜者']
+          }
+        ]
+      }
+    },
+    {
+      id: '#8',
+      text: '晋级复活赛 1-2',
+      x: rx + quotaCompetitionXOffset * 3,
+      y: ry - 80,
+      data: {
+        title: '晋级复活赛 1-2',
+        titleColor: '#FFFFFF',
+        titleImage: '/static/title_winner_bg.png',
+        borderColor: '#E7A662',
+        collegeNameColor: '#FFB553',
+        rankColor: '#FFA500',
+        round: -1,
+        type: 'promote',
+        zones: [
+          {
+            matches: [],
+            winners: [],
+            losers: [90],
+            text: ['第90场 败者']
+          }
+        ]
+      }
+    }
+  ],
+  lines: [
+    { from: '#1', to: '#2', },
+    { from: '#1', to: '#3', },
+    { from: '#2', to: '#4', },
+    { from: '#2', to: '#5', },
+    { from: '#3', to: '#5', },
+    { from: '#3', to: '#6', },
+    { from: '#4', to: '#7', },
+    { from: '#4', to: '#8', },
+  ]
 }
 
 const KnockoutXOffset = 380;
