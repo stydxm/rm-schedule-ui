@@ -16,6 +16,8 @@ export interface CompleteForm {
   team: string
   score: number
   initialCoinDocument: number
+  levelDocument: string
   initialCoinTechnology: number
+  levelTechnology: string
   initialCoinTotal: number
 }

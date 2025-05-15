@@ -96,7 +96,8 @@ function convertToOrdinal(number: number): string {
         <div class="right-column ml-4">
           <h3>{{ player.team.collegeName }}</h3>
           <h4>{{ player.team.name }}</h4>
-          <h6 v-if="rank">RoboMaster 高校积分榜第 {{ rank.rankScoreItem.rank }} 名</h6>
+          <h6 v-if="rank">RoboMaster 高校积分榜第 {{ rank.rankScoreItem.rank }} 名
+            ({{ rank.rankScoreItem.score }})</h6>
         </div>
       </div>
     </v-card-title>
@@ -178,11 +179,11 @@ function convertToOrdinal(number: number): string {
                   </tr>
                   <tr>
                     <td>初始金币-项目文档</td>
-                    <td>{{ rank.completeForm.initialCoinDocument }}</td>
+                    <td>{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
                   </tr>
                   <tr>
                     <td>初始金币-技术方案</td>
-                    <td>{{ rank.completeForm.initialCoinTechnology }}</td>
+                    <td>{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
                   </tr>
                   <tr>
                     <td>总初始金币</td>
