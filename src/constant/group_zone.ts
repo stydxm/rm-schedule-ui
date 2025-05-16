@@ -1626,7 +1626,7 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][2]],
               winners: [],
               losers: [],
-              text: ['小组赛A 第4名', '小组赛B 第5名']
+              text: ['小组赛B 第5名', '小组赛A 第4名']
             },
           ]
         }
@@ -1666,7 +1666,7 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][4]],
               winners: [],
               losers: [],
-              text: ['小组赛B 第6名', '小组赛A 第3名']
+              text: ['小组赛A 第3名', '小组赛B 第6名']
             },
           ]
         }
@@ -1686,7 +1686,7 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][5]],
               winners: [],
               losers: [],
-              text: ['小组赛A 第2名', '小组赛B 第7名']
+              text: ['小组赛A 第6名', '小组赛B 第3名']
             },
           ]
         }
@@ -1706,7 +1706,7 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][6]],
               winners: [],
               losers: [],
-              text: ['小组赛B 第3名', '小组赛A 第6名']
+              text: ['小组赛A 第2名', '小组赛B 第7名']
             },
           ]
         }
@@ -1726,7 +1726,7 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][7]],
               winners: [],
               losers: [],
-              text: ['小组赛B 第8名', '小组赛A 第1名']
+              text: ['小组赛B 第4名', '小组赛A 第5名']
             },
           ]
         }
@@ -1746,7 +1746,7 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][8]],
               winners: [],
               losers: [],
-              text: ['小组赛A 第5名', '小组赛B 第4名']
+              text: ['小组赛B 第8名', '小组赛A 第1名']
             },
           ]
         }
