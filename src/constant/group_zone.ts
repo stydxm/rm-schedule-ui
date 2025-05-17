@@ -1166,8 +1166,8 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
         zones: [
           {
             matches: [],
-            winners: [88],
-            losers: [],
+            winners: [],
+            losers: [88],
             text: ['第88场 败者']
           },
         ]
