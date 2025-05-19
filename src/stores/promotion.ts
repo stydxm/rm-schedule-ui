@@ -17,6 +17,7 @@ export const usePromotionStore = defineStore('promotion', {
     groupRank: {} as GroupRankInfo,
     mpMatchMap: new Map<string, MpMatch>(),
     selectedPlayer: null as Player,
+    suggestionEnabled: false as boolean,
   }),
   getters: {
     backgroundImage(state): string {

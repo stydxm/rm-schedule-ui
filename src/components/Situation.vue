@@ -95,6 +95,14 @@ function badgeTab(zoneId: number): boolean {
             ></v-select>
             <v-spacer/>
 
+            <v-switch
+              v-if="zoneId == 566"
+              color="orange"
+              class="ml-2"
+              label="预测"
+              v-model="promotionStore.suggestionEnabled"
+            ></v-switch>
+
             <div class="text-right ml-4 mr-2 mt-1">
               RM Schedule
               <v-btn

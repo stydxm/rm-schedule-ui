@@ -8,6 +8,7 @@ import { useRoute } from "vue-router";
 import { RoundOrder } from "../types/round_order";
 import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from "../types/zone";
 import moment from "moment";
+import { CompleteForm } from "../constant/complete_form";
 
 interface Props {
   zoneId: number,
@@ -224,6 +225,16 @@ function playerSelected(player: Player): boolean {
   if (!promotionStore.selectedPlayer) return false
   if (!player) return false
   return promotionStore.selectedPlayer.id == player.id
+}
+
+function winnerSuggestion(match: MatchNode): "RED" | "BLUE" | "NONE" {
+  if (promotionStore.zoneId != 566) return "NONE"
+  let redRank = CompleteForm.find((e) => e.school == match.redSide.player?.team.collegeName)
+  let blueRank = CompleteForm.find((e) => e.school == match.blueSide.player?.team.collegeName)
+  if (!redRank || !blueRank) return "NONE"
+  if (redRank.rank < blueRank.rank) return "RED"
+  if (redRank.rank > blueRank.rank) return "BLUE"
+  return "NONE"
 }
 
 function matchTooltip(match: MatchNode): string {
@@ -514,6 +525,10 @@ const round = computed(() => {
                                         class="one-line-text">{{ match(v).redSide.player?.team.collegeName }}</span>
                                   <span v-else :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
                                         class="one-line-text">{{ node.data.zones[groupIndex].text[2 * i] }}</span>
+                                  <v-icon
+                                    v-if="promotionStore.suggestionEnabled && winnerSuggestion(match(v)) == 'RED'"
+                                    icon="mdi-checkbox-marked-circle">
+                                  </v-icon>
                                 </div>
                               </div>
                             </div>
@@ -559,6 +574,10 @@ const round = computed(() => {
                                         class="one-line-text">{{ match(v).blueSide.player?.team.collegeName }}</span>
                                   <span v-else :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
                                         class="one-line-text">{{ node.data.zones[groupIndex].text[2 * i + 1] }}</span>
+                                  <v-icon
+                                    v-if="promotionStore.suggestionEnabled && winnerSuggestion(match(v)) == 'BLUE'"
+                                    icon="mdi-checkbox-marked-circle">
+                                  </v-icon>
                                 </div>
                               </div>
                             </div>
