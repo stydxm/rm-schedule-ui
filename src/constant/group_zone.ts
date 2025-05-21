@@ -1057,11 +1057,11 @@ export const QuotaCompetition_11_5_JsonData: ZoneJsonData = {
     },
     {
       id: '#3',
-      text: '晋级复活赛 1-0',
+      text: '晋级复活赛 0-1',
       x: rx + quotaCompetitionXOffset,
       y: ry + 200,
       data: {
-        title: '晋级复活赛 1-0',
+        title: '晋级复活赛 0-1',
         titleColor: '#FFFFFF',
         titleImage: '/static/title_winner_bg.png',
         borderColor: '#E7A662',
