@@ -11,6 +11,7 @@ const route = useRoute()
 const router = useRouter()
 
 const liveMode = ref(route.query.live == "1")
+const predict = ref(route.query.predict == "1")
 const selectedGroup = ref([route.query.group || 0])
 const appStore = useAppStore()
 const promotionStore = usePromotionStore();
@@ -95,13 +96,13 @@ function badgeTab(zoneId: number): boolean {
             ></v-select>
             <v-spacer/>
 
-<!--            <v-switch-->
-<!--              v-if="zoneId == 566"-->
-<!--              color="orange"-->
-<!--              class="ml-2"-->
-<!--              label="预测"-->
-<!--              v-model="promotionStore.suggestionEnabled"-->
-<!--            ></v-switch>-->
+            <v-switch
+              v-if="predict"
+              color="orange"
+              class="ml-2"
+              label="预测"
+              v-model="promotionStore.suggestionEnabled"
+            ></v-switch>
 
             <div class="text-right ml-4 mr-2 mt-1">
               RM Schedule
