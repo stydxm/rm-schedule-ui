@@ -228,7 +228,7 @@ function playerSelected(player: Player): boolean {
 }
 
 function winnerSuggestion(match: MatchNode): "RED" | "BLUE" | "NONE" {
-  if (promotionStore.zoneId != 566) return "NONE"
+  if (promotionStore.zoneId != 567) return "NONE"
   let redRank = CompleteForm.find((e) => e.school == match.redSide.player?.team.collegeName)
   let blueRank = CompleteForm.find((e) => e.school == match.blueSide.player?.team.collegeName)
   if (!redRank || !blueRank) return "NONE"
