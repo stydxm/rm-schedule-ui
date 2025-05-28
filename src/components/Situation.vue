@@ -22,7 +22,7 @@ promotionStore.zoneId = Number(route.params.zoneId)
 // 如果 Season 不存在，则自动选择最后一个可用的 Season
 if (!Object.keys(ZoneMap).includes(String(promotionStore.season))) {
   promotionStore.season = Number(Object.keys(ZoneMap).slice(-1)[0])
-  promotionStore.zoneId = ZoneMap[promotionStore.season][0].id
+  promotionStore.zoneId = DefaultZoneMap[promotionStore.season]
   updateQuery()
 }
 // 如果 ZoneId 不存在，则自动选择默认的 ZoneId
