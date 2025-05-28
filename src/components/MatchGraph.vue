@@ -304,7 +304,8 @@ const onDragEnd = () => {
 };
 
 const bgGrayEnabled = computed(() => {
-  return promotionStore.backgroundImage !== '/background/2024_final.png';
+  return false;
+  // return promotionStore.backgroundImage !== '/background/2024_final.png';
 })
 
 const groupIndex = computed(() => {
