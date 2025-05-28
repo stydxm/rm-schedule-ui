@@ -59,6 +59,9 @@ function badgeTab(zoneId: number): boolean {
   <div class="my-font">
     <img
       class="background-image"
+      :style="{
+        opacity: promotionStore.backgroundImageOpacity,
+      }"
       :src="promotionStore.backgroundImage"
       alt=""/>
 

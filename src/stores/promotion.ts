@@ -20,6 +20,22 @@ export const usePromotionStore = defineStore('promotion', {
     suggestionEnabled: false as boolean,
   }),
   getters: {
+    backgroundImageOpacity(state): number {
+      switch (state.season) {
+        case 2024:
+          if (state.zoneId >= 524) {
+            // 全国赛
+            return 1.0
+          } else {
+            // 区域赛
+            return 0.5
+          }
+        case 2025:
+          return 0.5
+      }
+
+      return 1.0
+    },
     backgroundImage(state): string {
       const isMobile = window.innerWidth < window.innerHeight;
       switch (state.season) {
