@@ -1453,11 +1453,11 @@ export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
     },
     {
       id: '#7',
-      text: '晋级全国赛 2-1',
+      text: '晋级全国赛 3-0',
       x: rx + quotaCompetitionXOffset * 3,
       y: ry - 280,
       data: {
-        title: '晋级全国赛 2-1',
+        title: '晋级全国赛 3-0',
         titleColor: '#FFFFFF',
         titleImage: '/static/title_winner_bg.png',
         borderColor: '#E7A662',
@@ -1477,11 +1477,11 @@ export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
     },
     {
       id: '#8',
-      text: '晋级复活赛 1-2',
+      text: '晋级复活赛 2-1',
       x: rx + quotaCompetitionXOffset * 3,
       y: ry - 80,
       data: {
-        title: '晋级复活赛 1-2',
+        title: '晋级复活赛 2-1',
         titleColor: '#FFFFFF',
         titleImage: '/static/title_winner_bg.png',
         borderColor: '#E7A662',
