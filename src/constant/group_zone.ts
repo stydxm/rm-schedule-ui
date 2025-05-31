@@ -1331,8 +1331,8 @@ export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
           {
             matches: [79, 80, 81, 82],
             winners: [],
-            losers: [67, 68, 69, 70, 71, 72, 73, 74],
-            text: ['第67场 败者', '第68场 败者', '第69场 败者', '第70场 败者', '第71场 败者', '第72场 败者', '第73场 败者', '第74场 败者']
+            losers: [67, 68, 70, 69, 71, 72, 74, 73],
+            text: ['第67场 败者', '第68场 败者', '第70场 败者', '第69场 败者', '第71场 败者', '第72场 败者', '第74场 败者', '第73场 败者']
           },
         ]
       }
@@ -1352,9 +1352,9 @@ export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
         zones: [
           {
             matches: [85, 86],
-            winners: [79, 80, 81, 82],
+            winners: [79, 81, 80, 82],
             losers: [],
-            text: ['第79场 胜者', '第80场 胜者', '第81场 胜者', '第82场 胜者']
+            text: ['第79场 胜者', '第81场 胜者', '第80场 胜者', '第82场 胜者']
           }
         ]
       }
@@ -1375,8 +1375,8 @@ export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
           {
             matches: [87, 88],
             winners: [],
-            losers: [79, 80, 81, 82],
-            text: ['第79场 败者', '第80场 败者', '第81场 败者', '第82场 败者']
+            losers: [79, 81, 80, 82],
+            text: ['第79场 败者', '第81场 败者', '第80场 败者', '第82场 败者']
           }
         ]
       }
@@ -1422,7 +1422,7 @@ export const QuotaCompetition_9_5_JsonData: ZoneJsonData = {
             matches: [],
             winners: [87, 88],
             losers: [85, 86],
-            text: ['第87场 胜者', '第88场 胜者', '第85场 败者', '第86场 败者']
+            text: ['第85场 败者', '第86场 败者', '第87场 胜者', '第88场 胜者']
           }
         ]
       }
@@ -1764,9 +1764,9 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
           zones: [
             {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][9]],
-              winners: [GroupZoneKnockoutOrderNumbers[zoneId][2], GroupZoneKnockoutOrderNumbers[zoneId][1]],
+              winners: [GroupZoneKnockoutOrderNumbers[zoneId][1], GroupZoneKnockoutOrderNumbers[zoneId][2]],
               losers: [],
-              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][2]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][1]}场 胜者`]
+              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][1]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][2]}场 胜者`]
             },
           ]
         }
@@ -1784,9 +1784,9 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
           zones: [
             {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][10]],
-              winners: [GroupZoneKnockoutOrderNumbers[zoneId][3], GroupZoneKnockoutOrderNumbers[zoneId][4]],
+              winners: [GroupZoneKnockoutOrderNumbers[zoneId][4], GroupZoneKnockoutOrderNumbers[zoneId][3]],
               losers: [],
-              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][3]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][4]}场 胜者`]
+              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][4]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][3]}场 胜者`]
             },
           ]
         }
@@ -1804,9 +1804,9 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
           zones: [
             {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][11]],
-              winners: [GroupZoneKnockoutOrderNumbers[zoneId][6], GroupZoneKnockoutOrderNumbers[zoneId][5]],
+              winners: [GroupZoneKnockoutOrderNumbers[zoneId][5], GroupZoneKnockoutOrderNumbers[zoneId][6]],
               losers: [],
-              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][6]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][5]}场 胜者`]
+              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][5]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][6]}场 胜者`]
             },
           ]
         }
@@ -1824,9 +1824,9 @@ export const GetGroupZoneKnockoutJsonData = (zoneId: number): ZoneJsonData => {
           zones: [
             {
               matches: [GroupZoneKnockoutOrderNumbers[zoneId][12]],
-              winners: [GroupZoneKnockoutOrderNumbers[zoneId][7], GroupZoneKnockoutOrderNumbers[zoneId][8]],
+              winners: [GroupZoneKnockoutOrderNumbers[zoneId][8], GroupZoneKnockoutOrderNumbers[zoneId][7]],
               losers: [],
-              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][7]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][8]}场 胜者`]
+              text: [`第${GroupZoneKnockoutOrderNumbers[zoneId][8]}场 胜者`, `第${GroupZoneKnockoutOrderNumbers[zoneId][7]}场 胜者`]
             },
           ]
         }
