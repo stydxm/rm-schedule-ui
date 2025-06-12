@@ -64,7 +64,7 @@ function handleZoneChange() {
         }
       }
     }
-    if (latestZoneId != props.zoneId) promotionStore.zoneId = latestZoneId
+    if (latestZoneId != props.zoneId) promotionStore.zoneId = Number(latestZoneId)
   }
 }
 
