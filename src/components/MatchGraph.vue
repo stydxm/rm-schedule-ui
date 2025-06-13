@@ -31,9 +31,12 @@ const liveMode = ref(route.query.live == "1")
 
 const appStore = useAppStore();
 const promotionStore = usePromotionStore();
-const promise1 = promotionStore.updateSchedule()
-const promise2 = promotionStore.updateGroupRank()
-Promise.all([promise1, promise2]).then(async () => {
+const dataUpdatePromises = [
+  promotionStore.updateSchedule(),
+  promotionStore.updateGroupRank(),
+  promotionStore.updateRobotData()
+]
+Promise.all(dataUpdatePromises).then(async () => {
   await updateMpMatch()
   loading.value = false
   await graphRef.value.setJsonData(props.jsonData)
@@ -43,6 +46,7 @@ Promise.all([promise1, promise2]).then(async () => {
 function refresh() {
   promotionStore.updateSchedule()
   promotionStore.updateGroupRank()
+  promotionStore.updateRobotData()
   updateMpMatch()
 }
 

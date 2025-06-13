@@ -4,6 +4,17 @@ import axios, { AxiosResponse } from "axios";
 import { RankListItem } from "../types/rank";
 import { usePromotionStore } from "../stores/promotion";
 import { computed, ref } from "vue";
+import { RobotDisplay } from "../types/robot_data"
+
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { RadarChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from 'echarts/components';
+import VChart from 'vue-echarts';
 
 interface Props {
   zoneId: number,
@@ -19,6 +30,7 @@ const promotionStore = usePromotionStore();
 
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
+const robotData:RobotDisplay=promotionStore.robotDataMap.get(props.player.team.collegeName)
 
 axios({
   method: 'GET',
@@ -75,6 +87,67 @@ function convertToOrdinal(number: number): string {
     return number + "th";
   }
 }
+
+use([
+  CanvasRenderer,
+  RadarChart,
+  TitleComponent,
+  LegendComponent,
+]);
+
+
+const option = ref({
+  legend: {
+    data: ['平均值', '该队数据'],
+    bottom: "bottom",
+    textStyle:{
+      color: "white"
+    }
+  },
+  radar: {
+    indicator: [
+      { name: '英雄局均关键伤害', max: promotionStore.maxRobotData.heroKeyDamage },
+      { name: '工程局均兑换经济', max: promotionStore.maxRobotData.engineerEco },
+      { name: '步兵局均总伤害', max: promotionStore.maxRobotData.standardDamage },
+      { name: '无人机局均总伤害', max: promotionStore.maxRobotData.aerialDamage },
+      { name: '哨兵局均总伤害', max: promotionStore.maxRobotData.sentryDamage },
+      { name: '飞镖累计命中数', max: promotionStore.maxRobotData.dartHit },
+      { name: '雷达局均额外伤害', max: promotionStore.maxRobotData.radarDamage },
+    ]
+  },
+  series: [
+    {
+      name: '机器人关键数据',
+      type: 'radar',
+      data: [
+        {
+          value: [
+            promotionStore.avgRobotData.heroKeyDamage,
+            promotionStore.avgRobotData.engineerEco,
+            promotionStore.avgRobotData.standardDamage,
+            promotionStore.avgRobotData.aerialDamage,
+            promotionStore.avgRobotData.sentryDamage,
+            promotionStore.avgRobotData.dartHit,
+            promotionStore.avgRobotData.radarDamage,
+          ],
+          name: '平均值'
+        },
+        {
+          value: [
+            robotData.heroKeyDamage,
+             robotData.engineerEco,
+             robotData.standardDamage,
+             robotData.aerialDamage,
+             robotData.sentryDamage,
+             robotData.dartHit,
+             robotData.radarDamage,
+            ],
+          name: '该队数据'
+        }
+      ]
+    }
+  ]
+});
 </script>
 
 <template>
@@ -137,6 +210,16 @@ function convertToOrdinal(number: number): string {
               </div>
             </v-col>
 
+            <v-col md="6" cols="12">
+              <div>
+                <v-chip color="info" variant="flat" label>
+                  <h3>机器人关键数据</h3>
+                </v-chip>
+                最外圈为所有队伍中的最大值
+                <v-chart class="chart" :option="option" autoresize />
+              </div>
+            </v-col>
+          
             <v-col v-if="groupRank.length > 0" md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
@@ -210,6 +293,13 @@ function convertToOrdinal(number: number): string {
 </template>
 
 <style scoped lang="scss">
+.chart {
+  width: 80%;
+  aspect-ratio: 1/1;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .container {
   display: flex;
   width: 100%; /* 确保容器宽度 */
