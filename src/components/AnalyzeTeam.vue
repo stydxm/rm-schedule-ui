@@ -30,7 +30,7 @@ const promotionStore = usePromotionStore();
 
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
-const robotData:RobotDisplay=promotionStore.robotDataMap.get(props.player.team.collegeName)
+const robotData: RobotDisplay = promotionStore.robotDataMap.get(props.player.team.collegeName)
 
 axios({
   method: 'GET',
@@ -100,7 +100,7 @@ const option = ref({
   legend: {
     data: ['平均值', '该队数据'],
     bottom: "bottom",
-    textStyle:{
+    textStyle: {
       color: "white"
     }
   },
@@ -135,13 +135,13 @@ const option = ref({
         {
           value: [
             robotData.heroKeyDamage,
-             robotData.engineerEco,
-             robotData.standardDamage,
-             robotData.aerialDamage,
-             robotData.sentryDamage,
-             robotData.dartHit,
-             robotData.radarDamage,
-            ],
+            robotData.engineerEco,
+            robotData.standardDamage,
+            robotData.aerialDamage,
+            robotData.sentryDamage,
+            robotData.dartHit,
+            robotData.radarDamage,
+          ],
           name: '该队数据'
         }
       ]
@@ -151,18 +151,12 @@ const option = ref({
 </script>
 
 <template>
-  <v-card
-    v-if="player && player.team"
-    class="pa-2 pt-4"
-  >
+  <v-card v-if="player && player.team" class="pa-2 pt-4">
     <v-card-title>
       <div class="container">
         <div class="left-column">
           <v-avatar size="100">
-            <v-img
-              :src="player.team.collegeLogo"
-              color="white"
-            ></v-img>
+            <v-img :src="player.team.collegeLogo" color="white"></v-img>
           </v-avatar>
         </div>
 
@@ -191,20 +185,20 @@ const option = ref({
 
                 <v-table class="mt-2">
                   <thead>
-                  <tr>
-                    <th class="text-left"><b>场次</b></th>
-                    <th class="text-left"><b>红方</b></th>
-                    <th class="text-left"><b>蓝方</b></th>
-                    <th class="text-left"><b>比分</b></th>
-                  </tr>
+                    <tr>
+                      <th class="text-left"><b>场次</b></th>
+                      <th class="text-left"><b>红方</b></th>
+                      <th class="text-left"><b>蓝方</b></th>
+                      <th class="text-left"><b>比分</b></th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="n in matchList">
-                    <td>{{ n.orderNumber }}</td>
-                    <td>{{ n.redSide.player?.team?.collegeName }}</td>
-                    <td>{{ n.blueSide.player?.team?.collegeName }}</td>
-                    <td>{{ n.redSideWinGameCount }}:{{ n.blueSideWinGameCount }}</td>
-                  </tr>
+                    <tr v-for="n in matchList">
+                      <td>{{ n.orderNumber }}</td>
+                      <td>{{ n.redSide.player?.team?.collegeName }}</td>
+                      <td>{{ n.blueSide.player?.team?.collegeName }}</td>
+                      <td>{{ n.redSideWinGameCount }}:{{ n.blueSideWinGameCount }}</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </div>
@@ -219,7 +213,7 @@ const option = ref({
                 <v-chart class="chart" :option="option" autoresize />
               </div>
             </v-col>
-          
+
             <v-col v-if="groupRank.length > 0" md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
@@ -228,16 +222,16 @@ const option = ref({
 
                 <v-table class="mt-2">
                   <thead>
-                  <tr>
-                    <th class="text-left"><b>项目名称</b></th>
-                    <th class="text-left"><b>数值</b></th>
-                  </tr>
+                    <tr>
+                      <th class="text-left"><b>项目名称</b></th>
+                      <th class="text-left"><b>数值</b></th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="n in groupRank.slice(2)">
-                    <td>{{ n.itemName }}</td>
-                    <td>{{ n.itemValue }}</td>
-                  </tr>
+                    <tr v-for="n in groupRank.slice(2)">
+                      <td>{{ n.itemName }}</td>
+                      <td>{{ n.itemValue }}</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </div>
@@ -250,28 +244,28 @@ const option = ref({
                 </v-chip>
                 <v-table class="mt-2">
                   <thead>
-                  <tr>
-                    <th class="text-left"><b>项目名称</b></th>
-                    <th class="text-left"><b>数值</b></th>
-                  </tr>
+                    <tr>
+                      <th class="text-left"><b>项目名称</b></th>
+                      <th class="text-left"><b>数值</b></th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>分数</td>
-                    <td>{{ rank.completeForm.score }}</td>
-                  </tr>
-                  <tr>
-                    <td>初始金币-项目文档</td>
-                    <td>{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
-                  </tr>
-                  <tr>
-                    <td>初始金币-技术方案</td>
-                    <td>{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
-                  </tr>
-                  <tr>
-                    <td>总初始金币</td>
-                    <td>{{ rank.completeForm.initialCoinTotal }}</td>
-                  </tr>
+                    <tr>
+                      <td>分数</td>
+                      <td>{{ rank.completeForm.score }}</td>
+                    </tr>
+                    <tr>
+                      <td>初始金币-项目文档</td>
+                      <td>{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
+                    </tr>
+                    <tr>
+                      <td>初始金币-技术方案</td>
+                      <td>{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
+                    </tr>
+                    <tr>
+                      <td>总初始金币</td>
+                      <td>{{ rank.completeForm.initialCoinTotal }}</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </div>
@@ -279,10 +273,7 @@ const option = ref({
           </v-row>
         </div>
         <div v-else>
-          <v-alert
-            variant="tonal"
-            color="error"
-          >
+          <v-alert variant="tonal" color="error">
             <v-icon left>mdi-alert</v-icon>
             未找到该队伍的信息
           </v-alert>
@@ -302,17 +293,20 @@ const option = ref({
 
 .container {
   display: flex;
-  width: 100%; /* 确保容器宽度 */
+  width: 100%;
+  /* 确保容器宽度 */
 }
 
 .left-column {
   display: flex;
-  align-items: center; /* 垂直居中对齐 */
+  align-items: center;
+  /* 垂直居中对齐 */
   justify-content: center;
 }
 
 .right-column {
-  flex: 1; /* 占据剩余的空间 */
+  flex: 1;
+  /* 占据剩余的空间 */
   display: flex;
   justify-content: center;
   flex-direction: column;
