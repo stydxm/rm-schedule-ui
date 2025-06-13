@@ -11,7 +11,6 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { RadarChart } from 'echarts/charts';
 import {
   TitleComponent,
-  TooltipComponent,
   LegendComponent,
 } from 'echarts/components';
 import VChart from 'vue-echarts';
@@ -97,11 +96,17 @@ use([
 
 
 const option = ref({
+  textStyle: {
+    color: "white",
+    fontFamily: "MyFont"
+  },
   legend: {
     data: ['平均值', '该队数据'],
+    icon: "circle",
     bottom: "bottom",
     textStyle: {
-      color: "white"
+      color: "white",
+      fontFamily: "MyFont"
     }
   },
   radar: {
@@ -113,7 +118,10 @@ const option = ref({
       { name: '哨兵局均总伤害', max: promotionStore.maxRobotData.sentryDamage },
       { name: '飞镖累计命中数', max: promotionStore.maxRobotData.dartHit },
       { name: '雷达局均额外伤害', max: promotionStore.maxRobotData.radarDamage },
-    ]
+    ],
+    axisLabel: {
+      overflow: "break"
+    }
   },
   series: [
     {
