@@ -21,10 +21,9 @@ const promotionStore = usePromotionStore()
 
 const onlyCurrentZone = ref(false)
 const selected = ref<Player>()
-let zones
 const players = computed(() => {
   let ret: Player[] = []
-  zones = promotionStore.schedule.data.event.zones.nodes
+  let zones = promotionStore.schedule.data.event.zones.nodes
   if (onlyCurrentZone.value) {
     zones = zones.filter(zone => zone.id == props.zoneId.toString())
   }
@@ -56,15 +55,16 @@ function handleZoneChange() {
   }
   if (!inCurrentZone) {
     let latestZoneId = props.zoneId
+    let zones = promotionStore.schedule.data.event.zones.nodes
     for (let zone of zones) {
       for (let group of zone.groups.nodes) {
         if (group.players.nodes.some(p => p.id == promotionStore.selectedPlayer.id)) {
-          latestZoneId = zone.id
+          latestZoneId = Number(zone.id)
           // 此处故意不写break，目的是当一个队伍参加多个赛区（区域赛+国赛）时，取最晚的组
         }
       }
     }
-    if (latestZoneId != props.zoneId) promotionStore.zoneId = Number(latestZoneId)
+    if (latestZoneId != props.zoneId) promotionStore.zoneId = latestZoneId
   }
 }
 
