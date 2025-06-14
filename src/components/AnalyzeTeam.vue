@@ -12,6 +12,7 @@ import { RadarChart } from 'echarts/charts';
 import {
   TitleComponent,
   LegendComponent,
+  TooltipComponent
 } from 'echarts/components';
 import VChart from 'vue-echarts';
 
@@ -92,6 +93,7 @@ use([
   RadarChart,
   TitleComponent,
   LegendComponent,
+  TooltipComponent,
 ]);
 
 
@@ -109,6 +111,7 @@ const option = ref({
       fontFamily: "MyFont"
     }
   },
+  tooltip: {},
   radar: {
     indicator: [
       { name: '英雄局均关键伤害', max: promotionStore.maxRobotData.heroKeyDamage },
