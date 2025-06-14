@@ -43,14 +43,39 @@ function customFilter(value: string, query: string, item?: InternalItem<Player>)
     PinyinMatch.match(t.collegeName, query) || PinyinMatch.match(t.name, query)
 }
 
+function handleZoneChange() {
+  // 当选中队伍不在当前赛区时，自动跳转到该队伍参赛且编号最大的赛区
+  let inCurrentZone = false
+  const currenZone = promotionStore.getZone(props.zoneId)
+  for (let group of currenZone.groups.nodes) {
+    if (group.players.nodes.some(p => p.id == promotionStore.selectedPlayer.id)) {
+      inCurrentZone = true
+      break
+    }
+  }
+  if (!inCurrentZone) {
+    let latestZoneId = props.zoneId
+    let zones = promotionStore.schedule.data.event.zones.nodes
+    for (let zone of zones) {
+      for (let group of zone.groups.nodes) {
+        if (group.players.nodes.some(p => p.id == promotionStore.selectedPlayer.id)) {
+          latestZoneId = Number(zone.id)
+          // 此处故意不写break，目的是当一个队伍参加多个赛区（区域赛+国赛）时，取最晚的组
+        }
+      }
+    }
+    if (latestZoneId != props.zoneId) promotionStore.zoneId = latestZoneId
+  }
+}
+
 function confirm() {
   appStore.searchDialog = false
   promotionStore.selectedPlayer = selected.value
+  if (!onlyCurrentZone.value) handleZoneChange()
 }
 
 function analyze() {
-  appStore.searchDialog = false
-  promotionStore.selectedPlayer = selected.value
+  confirm()
   appStore.analysisDialog = true
 }
 </script>
