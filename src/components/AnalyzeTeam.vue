@@ -30,7 +30,7 @@ const promotionStore = usePromotionStore();
 
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
-const robotData: RobotDisplay | undefined = promotionStore.season === 2025 ? promotionStore.robotDataMap.get(props.player.team.collegeName) : undefined
+const robotData: RobotDisplay | undefined = promotionStore.season !== 2024 ? promotionStore.robotDataMap.get(props.player.team.collegeName) : undefined
 
 axios({
   method: 'GET',
