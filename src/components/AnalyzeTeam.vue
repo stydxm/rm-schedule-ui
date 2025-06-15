@@ -30,7 +30,7 @@ const promotionStore = usePromotionStore();
 
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
-const robotData: RobotDisplay = promotionStore.robotDataMap.get(props.player.team.collegeName)
+const robotData: RobotDisplay | undefined = promotionStore.season === 2025 ? promotionStore.robotDataMap.get(props.player.team.collegeName) : undefined
 
 axios({
   method: 'GET',
@@ -94,71 +94,73 @@ use([
   TitleComponent,
   LegendComponent,
   TooltipComponent,
-]);
+])
 
-
-const option = ref({
-  textStyle: {
-    color: "white",
-    fontFamily: "MyFont"
-  },
-  legend: {
-    data: ['平均值', '该队数据'],
-    icon: "circle",
-    bottom: "bottom",
+const option = ref()
+if (robotData) {
+  option.value = {
     textStyle: {
       color: "white",
       fontFamily: "MyFont"
-    }
-  },
-  tooltip: {},
-  radar: {
-    indicator: [
-      { name: '英雄局均关键伤害', max: promotionStore.maxRobotData.heroKeyDamage },
-      { name: '工程局均兑换经济', max: promotionStore.maxRobotData.engineerEco },
-      { name: '步兵局均总伤害', max: promotionStore.maxRobotData.standardDamage },
-      { name: '无人机局均总伤害', max: promotionStore.maxRobotData.aerialDamage },
-      { name: '哨兵局均总伤害', max: promotionStore.maxRobotData.sentryDamage },
-      { name: '飞镖累计命中数', max: promotionStore.maxRobotData.dartHit },
-      { name: '雷达局均额外伤害', max: promotionStore.maxRobotData.radarDamage },
-    ],
-    axisLabel: {
-      overflow: "break"
-    }
-  },
-  series: [
-    {
-      name: '机器人关键数据',
-      type: 'radar',
-      data: [
-        {
-          value: [
-            promotionStore.avgRobotData.heroKeyDamage,
-            promotionStore.avgRobotData.engineerEco,
-            promotionStore.avgRobotData.standardDamage,
-            promotionStore.avgRobotData.aerialDamage,
-            promotionStore.avgRobotData.sentryDamage,
-            promotionStore.avgRobotData.dartHit,
-            promotionStore.avgRobotData.radarDamage,
-          ],
-          name: '平均值'
-        },
-        {
-          value: [
-            robotData.heroKeyDamage,
-            robotData.engineerEco,
-            robotData.standardDamage,
-            robotData.aerialDamage,
-            robotData.sentryDamage,
-            robotData.dartHit,
-            robotData.radarDamage,
-          ],
-          name: '该队数据'
-        }
-      ]
-    }
-  ]
-});
+    },
+    legend: {
+      data: ['平均值', '该队数据'],
+      icon: "circle",
+      bottom: "bottom",
+      textStyle: {
+        color: "white",
+        fontFamily: "MyFont"
+      }
+    },
+    tooltip: {},
+    radar: {
+      indicator: [
+        { name: '英雄局均关键伤害', max: promotionStore.maxRobotData.heroKeyDamage },
+        { name: '工程局均兑换经济', max: promotionStore.maxRobotData.engineerEco },
+        { name: '步兵局均总伤害', max: promotionStore.maxRobotData.standardDamage },
+        { name: '无人机局均总伤害', max: promotionStore.maxRobotData.aerialDamage },
+        { name: '哨兵局均总伤害', max: promotionStore.maxRobotData.sentryDamage },
+        { name: '飞镖累计命中数', max: promotionStore.maxRobotData.dartHit },
+        { name: '雷达局均额外伤害', max: promotionStore.maxRobotData.radarDamage },
+      ],
+      axisLabel: {
+        overflow: "break"
+      }
+    },
+    series: [
+      {
+        name: '机器人关键数据',
+        type: 'radar',
+        data: [
+          {
+            value: [
+              promotionStore.avgRobotData.heroKeyDamage,
+              promotionStore.avgRobotData.engineerEco,
+              promotionStore.avgRobotData.standardDamage,
+              promotionStore.avgRobotData.aerialDamage,
+              promotionStore.avgRobotData.sentryDamage,
+              promotionStore.avgRobotData.dartHit,
+              promotionStore.avgRobotData.radarDamage,
+            ],
+            name: '平均值'
+          },
+          {
+            value: [
+              robotData.heroKeyDamage,
+              robotData.engineerEco,
+              robotData.standardDamage,
+              robotData.aerialDamage,
+              robotData.sentryDamage,
+              robotData.dartHit,
+              robotData.radarDamage,
+            ],
+            name: '该队数据'
+          }
+        ]
+      }
+    ]
+  }
+}
 </script>
 
 <template>
@@ -215,7 +217,7 @@ const option = ref({
               </div>
             </v-col>
 
-            <v-col md="6" cols="12">
+            <v-col v-if="robotData" md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
                   <h3>机器人关键数据</h3>
@@ -319,7 +321,6 @@ const option = ref({
   flex: 1;
   /* 占据剩余的空间 */
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  justify-content: center;flex-direction: column;
 }
 </style>
