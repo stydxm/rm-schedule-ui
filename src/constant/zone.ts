@@ -365,5 +365,84 @@ export const ZoneMap: { [key: number]: Zone[] } = {
         }
       ]
     },
+    {
+      id: 570, name: '复活赛第一赛段', disabled: false,
+      parts: [
+        {
+          name: 'A组',
+          type: 'group',
+          group: 'A',
+          jsonData: RevivalZoneGroupJsonData,
+          roundOrder: RevivalZoneRoundOrder
+        },
+        {
+          name: 'B组',
+          type: 'group',
+          group: 'B',
+          jsonData: RevivalZoneGroupJsonData,
+          roundOrder: RevivalZoneRoundOrder
+        }
+      ]
+    },
+    {
+      id: 571, name: '复活赛第二赛段', disabled: false,
+      parts: [
+        {
+          name: 'C组',
+          type: 'group',
+          group: 'C',
+          jsonData: RevivalZone2GroupJsonData,
+          roundOrder: RevivalZone2RoundOrder,
+          extraImageData: RevivalZone2ImageData,
+        },
+      ]
+    },
+    {
+      id: 572, name: '全国赛', disabled: false,
+      parts: [
+        {
+          name: 'A组前段',
+          type: 'group',
+          group: 'A',
+          jsonData: FinalZoneGroup1JsonData,
+          roundOrder: FinalZoneGroup1RoundOrder,
+        },
+        {
+          name: 'B组前段',
+          type: 'group',
+          group: 'B',
+          jsonData: FinalZoneGroup1JsonData,
+          roundOrder: FinalZoneGroup1RoundOrder,
+        },
+        {
+          name: 'A组后段',
+          type: 'group',
+          group: 'A',
+          jsonData: FinalZoneGroup2JsonData,
+          roundOrder: FinalZoneGroup2RoundOrder,
+        },
+        {
+          name: 'B组后段',
+          type: 'group',
+          group: 'B',
+          jsonData: FinalZoneGroup2JsonData,
+          roundOrder: FinalZoneGroup2RoundOrder
+        },
+        {
+          name: '淘汰赛败者组',
+          type: 'knockout',
+          group: 'Knockout',
+          jsonData: FinalZoneKnockoutLoserJsonData,
+          extraTitleData: FinalZoneKnockoutLoserTitleData,
+        },
+        {
+          name: '淘汰赛胜者组',
+          type: 'knockout',
+          group: 'Knockout',
+          jsonData: FinalZoneKnockoutJsonData,
+          extraTitleData: FinalZoneKnockoutTitleData,
+        },
+      ]
+    },
   ]
 }
