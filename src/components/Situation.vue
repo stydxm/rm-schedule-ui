@@ -69,59 +69,57 @@ function badgeTab(zoneId: number): boolean {
 
     <div class="container">
       <div class="content">
-        <div class="container2">
-          <v-tabs
-            v-if="!liveMode"
-            class="row"
-            height="55px"
-            v-model="promotionStore.zoneId"
-            bg-color="rgba(255, 255, 255, 0.1)"
-          >
-            <v-select
-              label="Season"
-              max-width="120px"
-              variant="filled"
-              :items="SeasonList"
-              v-model="promotionStore.season"
-              @update:model-value="(newSeason: number) => updateHref(newSeason)"
-            ></v-select>
-            <v-select
-              label="Zone"
-              max-width="260px"
-              variant="filled"
-              :item-props="true"
-              item-value="id"
-              item-title="name"
-              :disable="(item) => !item.disabled"
-              :items="ZoneMap[promotionStore.season]"
-              v-model="promotionStore.zoneId"
-              @update:model-value="updateQuery"
-            ></v-select>
-            <v-spacer/>
-
-            <v-switch
-              v-if="predict"
-              color="orange"
-              class="ml-2"
-              label="预测"
-              v-model="promotionStore.suggestionEnabled"
-            ></v-switch>
-
-            <div class="text-right ml-4 mr-2 mt-1">
-              RM Schedule
-              <v-btn
-                variant="flat"
-                color="transparent"
-                icon="mdi-magnify"
-                @click="appStore.searchDialog = true"
-              >
-              </v-btn>
-            </div>
-          </v-tabs>
-        </div>
-
         <v-row>
           <v-col cols="12">
+            <v-tabs
+              v-if="!liveMode"
+              class="row"
+              height="55px"
+              v-model="promotionStore.zoneId"
+              bg-color="rgba(255, 255, 255, 0.1)"
+            >
+              <v-select
+                label="Season"
+                max-width="120px"
+                variant="filled"
+                :items="SeasonList"
+                v-model="promotionStore.season"
+                @update:model-value="(newSeason: number) => updateHref(newSeason)"
+              ></v-select>
+              <v-select
+                label="Zone"
+                max-width="260px"
+                variant="filled"
+                :item-props="true"
+                item-value="id"
+                item-title="name"
+                :disable="(item) => !item.disabled"
+                :items="ZoneMap[promotionStore.season]"
+                v-model="promotionStore.zoneId"
+                @update:model-value="updateQuery"
+              ></v-select>
+              <v-spacer/>
+
+              <v-switch
+                v-if="predict"
+                color="orange"
+                class="ml-2"
+                label="预测"
+                v-model="promotionStore.suggestionEnabled"
+              ></v-switch>
+
+              <div class="text-right ml-4 mr-2 mt-1">
+                RM Schedule
+                <v-btn
+                  variant="flat"
+                  color="transparent"
+                  icon="mdi-magnify"
+                  @click="appStore.searchDialog = true"
+                >
+                </v-btn>
+              </div>
+            </v-tabs>
+
             <div
               v-for="zone in ZoneMap[promotionStore.season]"
               :key="zone.id"
