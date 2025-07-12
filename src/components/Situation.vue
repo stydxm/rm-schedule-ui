@@ -69,138 +69,134 @@ function badgeTab(zoneId: number): boolean {
 
     <div class="container">
       <div class="content">
-        <v-row>
-          <v-col cols="12">
-            <v-tabs
-              v-if="!liveMode"
-              class="row"
-              height="55px"
-              v-model="promotionStore.zoneId"
-              bg-color="rgba(255, 255, 255, 0.1)"
+        <v-tabs
+          v-if="!liveMode"
+          class="row"
+          height="55px"
+          v-model="promotionStore.zoneId"
+          bg-color="rgba(255, 255, 255, 0.1)"
+        >
+          <v-select
+            label="Season"
+            max-width="120px"
+            variant="filled"
+            :items="SeasonList"
+            v-model="promotionStore.season"
+            @update:model-value="(newSeason: number) => updateHref(newSeason)"
+          ></v-select>
+          <v-select
+            label="Zone"
+            max-width="260px"
+            variant="filled"
+            :item-props="true"
+            item-value="id"
+            item-title="name"
+            :disable="(item) => !item.disabled"
+            :items="ZoneMap[promotionStore.season]"
+            v-model="promotionStore.zoneId"
+            @update:model-value="updateQuery"
+          ></v-select>
+          <v-spacer/>
+
+          <v-switch
+            v-if="predict"
+            color="orange"
+            class="ml-2"
+            label="预测"
+            v-model="promotionStore.suggestionEnabled"
+          ></v-switch>
+
+          <div class="text-right ml-4 mr-2 mt-1">
+            RM Schedule
+            <v-btn
+              variant="flat"
+              color="transparent"
+              icon="mdi-magnify"
+              @click="appStore.searchDialog = true"
             >
-              <v-select
-                label="Season"
-                max-width="120px"
-                variant="filled"
-                :items="SeasonList"
-                v-model="promotionStore.season"
-                @update:model-value="(newSeason: number) => updateHref(newSeason)"
-              ></v-select>
-              <v-select
-                label="Zone"
-                max-width="260px"
-                variant="filled"
-                :item-props="true"
-                item-value="id"
-                item-title="name"
-                :disable="(item) => !item.disabled"
-                :items="ZoneMap[promotionStore.season]"
-                v-model="promotionStore.zoneId"
-                @update:model-value="updateQuery"
-              ></v-select>
-              <v-spacer/>
+            </v-btn>
+          </div>
+        </v-tabs>
 
-              <v-switch
-                v-if="predict"
-                color="orange"
-                class="ml-2"
-                label="预测"
-                v-model="promotionStore.suggestionEnabled"
-              ></v-switch>
-
-              <div class="text-right ml-4 mr-2 mt-1">
-                RM Schedule
-                <v-btn
-                  variant="flat"
-                  color="transparent"
-                  icon="mdi-magnify"
-                  @click="appStore.searchDialog = true"
-                >
-                </v-btn>
-              </div>
-            </v-tabs>
-
-            <div
-              v-for="zone in ZoneMap[promotionStore.season]"
-              :key="zone.id"
-            >
-              <div v-if="zoneId == zone.id">
-                <div v-if="!liveMode"
-                     class="mx-auto glass-sheet" style="background: rgba(255, 255, 255, 0.1)">
-                  <v-sheet
-                    class="mx-auto text-center bg-transparent"
-                  >
-                    <v-slide-group
-                      class="ml-2"
-                      v-model="selectedGroup"
-                      mandatory="force"
-                    >
-                      <v-slide-group-item
-                        v-for="n in zone.parts.map(p => p.name)"
-                        :key="n"
-                        v-slot="{ isSelected, toggle }"
-                      >
-                        <v-btn
-                          :color="isSelected ? 'primary' : undefined"
-                          class="mx-1 my-2"
-                          rounded
-                          variant="outlined"
-                          size="small"
-                          @click="toggle">
-                          {{ n }}
-                        </v-btn>
-                      </v-slide-group-item>
-
-                      <v-spacer/>
-
-                      <div class="text-right">
-                        <v-btn
-                          class="mx-1 my-2" variant="flat"
-                          color="info" size="small"
-                          :disabled="!promotionStore.selectedPlayer"
-                          @click="appStore.analysisDialog = true"
-                        >
-                          分析
-                        </v-btn>
-
-                        <v-btn
-                          class="mx-1 my-2" variant="flat"
-                          color="info" size="small"
-                          @click="appStore.aboutDialog = true"
-                        >
-                          关于
-                        </v-btn>
-                      </div>
-                    </v-slide-group>
-                  </v-sheet>
-                </div>
-
-                <v-carousel
-                  height="100vh - 100px"
-                  :disabled="true"
-                  hide-delimiters
-                  :show-arrows="false"
+        <div
+          v-for="zone in ZoneMap[promotionStore.season]"
+          :key="zone.id"
+        >
+          <div v-if="zoneId == zone.id">
+            <div v-if="!liveMode"
+                 class="mx-auto glass-sheet" style="background: rgba(255, 255, 255, 0.1)">
+              <v-sheet
+                class="mx-auto text-center bg-transparent"
+              >
+                <v-slide-group
+                  class="ml-2"
                   v-model="selectedGroup"
+                  mandatory="force"
                 >
-                  <v-carousel-item
-                    v-for="part in zone.parts"
-                    :key="part.name"
+                  <v-slide-group-item
+                    v-for="n in zone.parts.map(p => p.name)"
+                    :key="n"
+                    v-slot="{ isSelected, toggle }"
                   >
-                    <MatchGraph
-                      :zone-id="zoneId"
-                      :type="part.type"
-                      :group="part.group"
-                      :json-data="part.jsonData"
-                      :round-order="part.roundOrder"
-                      :extra-title-data="part.extraTitleData"
-                      :extra-image-data="part.extraImageData"
-                    ></MatchGraph>
-                  </v-carousel-item>
-                </v-carousel>
-              </div>
+                    <v-btn
+                      :color="isSelected ? 'primary' : undefined"
+                      class="mx-1 my-2"
+                      rounded
+                      variant="outlined"
+                      size="small"
+                      @click="toggle">
+                      {{ n }}
+                    </v-btn>
+                  </v-slide-group-item>
+
+                  <v-spacer/>
+
+                  <div class="text-right">
+                    <v-btn
+                      class="mx-1 my-2" variant="flat"
+                      color="info" size="small"
+                      :disabled="!promotionStore.selectedPlayer"
+                      @click="appStore.analysisDialog = true"
+                    >
+                      分析
+                    </v-btn>
+
+                    <v-btn
+                      class="mx-1 my-2" variant="flat"
+                      color="info" size="small"
+                      @click="appStore.aboutDialog = true"
+                    >
+                      关于
+                    </v-btn>
+                  </div>
+                </v-slide-group>
+              </v-sheet>
             </div>
-          </v-col>
-        </v-row>
+
+            <v-carousel
+              height="100vh - 100px"
+              :disabled="true"
+              hide-delimiters
+              :show-arrows="false"
+              v-model="selectedGroup"
+            >
+              <v-carousel-item
+                v-for="part in zone.parts"
+                :key="part.name"
+              >
+                <MatchGraph
+                  :zone-id="zoneId"
+                  :type="part.type"
+                  :group="part.group"
+                  :json-data="part.jsonData"
+                  :round-order="part.roundOrder"
+                  :extra-title-data="part.extraTitleData"
+                  :extra-image-data="part.extraImageData"
+                ></MatchGraph>
+              </v-carousel-item>
+            </v-carousel>
+          </div>
+        </div>
 
         <v-bottom-sheet v-model="appStore.analysisDialog">
           <AnalyzeTeam
