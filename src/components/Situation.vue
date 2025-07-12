@@ -69,107 +69,108 @@ function badgeTab(zoneId: number): boolean {
 
     <div class="container">
       <div class="content">
-        <v-tabs
-          v-if="!liveMode"
-          class="row"
-          height="55px"
-          v-model="promotionStore.zoneId"
-          bg-color="rgba(255, 255, 255, 0.1)"
-        >
-          <v-select
-            label="Season"
-            max-width="120px"
-            variant="filled"
-            :items="SeasonList"
-            v-model="promotionStore.season"
-            @update:model-value="(newSeason: number) => updateHref(newSeason)"
-          ></v-select>
-          <v-select
-            label="Zone"
-            max-width="260px"
-            variant="filled"
-            :item-props="true"
-            item-value="id"
-            item-title="name"
-            :disable="(item) => !item.disabled"
-            :items="ZoneMap[promotionStore.season]"
+        <div class="floating-container glass-sheet">
+          <v-tabs
+            v-if="!liveMode"
+            class="row bg-transparent"
+            height="55px"
             v-model="promotionStore.zoneId"
-            @update:model-value="updateQuery"
-          ></v-select>
-          <v-spacer/>
+          >
+            <v-select
+              label="Season"
+              max-width="120px"
+              variant="filled"
+              :items="SeasonList"
+              v-model="promotionStore.season"
+              @update:model-value="(newSeason: number) => updateHref(newSeason)"
+            ></v-select>
+            <v-select
+              label="Zone"
+              max-width="260px"
+              variant="filled"
+              :item-props="true"
+              item-value="id"
+              item-title="name"
+              :disable="(item) => !item.disabled"
+              :items="ZoneMap[promotionStore.season]"
+              v-model="promotionStore.zoneId"
+              @update:model-value="updateQuery"
+            ></v-select>
+            <v-spacer/>
 
-          <v-switch
-            v-if="predict"
-            color="orange"
-            class="ml-2"
-            label="预测"
-            v-model="promotionStore.suggestionEnabled"
-          ></v-switch>
+            <v-switch
+              v-if="predict"
+              color="orange"
+              class="ml-2"
+              label="预测"
+              v-model="promotionStore.suggestionEnabled"
+            ></v-switch>
 
-          <div class="text-right ml-4 mr-2 mt-1">
-            RM Schedule
-            <v-btn
-              variant="flat"
-              color="transparent"
-              icon="mdi-magnify"
-              @click="appStore.searchDialog = true"
-            >
-            </v-btn>
-          </div>
-        </v-tabs>
-
-        <div
-          v-for="zone in ZoneMap[promotionStore.season]"
-          :key="zone.id"
-        >
-          <div v-if="zoneId == zone.id">
-            <v-sheet
-              v-if="!liveMode"
-              class="mx-auto text-center bg-transparent glass-sheet"
-            >
-              <v-slide-group
-                class="ml-2"
-                v-model="selectedGroup"
-                mandatory="force"
+            <div class="text-right ml-4 mr-2 mt-1">
+              RM Schedule
+              <v-btn
+                variant="flat"
+                color="transparent"
+                icon="mdi-magnify"
+                @click="appStore.searchDialog = true"
               >
-                <v-slide-group-item
-                  v-for="n in zone.parts.map(p => p.name)"
-                  :key="n"
-                  v-slot="{ isSelected, toggle }"
+              </v-btn>
+            </div>
+          </v-tabs>
+
+          <div
+            v-for="zone in ZoneMap[promotionStore.season]"
+            :key="zone.id"
+          >
+            <div v-if="zoneId == zone.id">
+              <v-sheet
+                v-if="!liveMode"
+                class="mx-auto text-center bg-transparent"
+              >
+                <v-slide-group
+                  class="ml-2"
+                  v-model="selectedGroup"
+                  mandatory="force"
                 >
-                  <v-btn
-                    :color="isSelected ? 'primary' : undefined"
-                    class="mx-1 my-2"
-                    rounded
-                    variant="outlined"
-                    size="small"
-                    @click="toggle">
-                    {{ n }}
-                  </v-btn>
-                </v-slide-group-item>
-
-                <v-spacer/>
-
-                <div class="text-right">
-                  <v-btn
-                    class="mx-1 my-2" variant="flat"
-                    color="info" size="small"
-                    :disabled="!promotionStore.selectedPlayer"
-                    @click="appStore.analysisDialog = true"
+                  <v-slide-group-item
+                    v-for="n in zone.parts.map(p => p.name)"
+                    :key="n"
+                    v-slot="{ isSelected, toggle }"
                   >
-                    分析
-                  </v-btn>
+                    <v-btn
+                      :color="isSelected ? 'primary' : undefined"
+                      class="mx-1 my-2"
+                      rounded
+                      variant="outlined"
+                      size="small"
+                      @click="toggle">
+                      {{ n }}
+                    </v-btn>
+                  </v-slide-group-item>
 
-                  <v-btn
-                    class="mx-1 my-2" variant="flat"
-                    color="info" size="small"
-                    @click="appStore.aboutDialog = true"
-                  >
-                    关于
-                  </v-btn>
-                </div>
-              </v-slide-group>
-            </v-sheet>
+                  <v-spacer/>
+
+                  <div class="text-right">
+                    <v-btn
+                      class="mx-1 my-2" variant="flat"
+                      color="info" size="small"
+                      :disabled="!promotionStore.selectedPlayer"
+                      @click="appStore.analysisDialog = true"
+                    >
+                      分析
+                    </v-btn>
+
+                    <v-btn
+                      class="mx-1 my-2" variant="flat"
+                      color="info" size="small"
+                      @click="appStore.aboutDialog = true"
+                    >
+                      关于
+                    </v-btn>
+                  </div>
+                </v-slide-group>
+              </v-sheet>
+            </div>
           </div>
         </div>
 
@@ -258,11 +259,14 @@ function badgeTab(zoneId: number): boolean {
 }
 
 .glass-sheet {
+  background-color: rgba(255, 255, 255, 0.05); /* 半透明背景 */
+  backdrop-filter: blur(5px); /* 毛玻璃效果 */
+  -webkit-backdrop-filter: blur(5px); /* 兼容 Safari */
+}
+
+.floating-container {
   position: absolute; /* 绝对定位 */
   z-index: 4; /* 确保在 v-carousel 上方 */
-  background-color: rgba(255, 255, 255, 0.0); /* 半透明背景 */
-  backdrop-filter: blur(10px); /* 毛玻璃效果 */
-  -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
   width: 100%; /* 占满宽度 */
 }
 
