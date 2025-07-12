@@ -126,7 +126,7 @@ function badgeTab(zoneId: number): boolean {
             >
               <div v-if="zoneId == zone.id">
                 <div v-if="!liveMode"
-                     class="mx-auto" style="background: rgba(255, 255, 255, 0.1)">
+                     class="mx-auto glass-sheet" style="background: rgba(255, 255, 255, 0.1)">
                   <v-sheet
                     class="mx-auto text-center bg-transparent"
                   >
@@ -255,5 +255,18 @@ function badgeTab(zoneId: number): boolean {
 
 .my-font {
   font-family: 'MyFont', sans-serif;
+}
+
+.glass-sheet {
+  position: absolute; /* 绝对定位 */
+  z-index: 4; /* 确保在 v-carousel 上方 */
+  background-color: rgba(255, 255, 255, 0.0); /* 半透明背景 */
+  backdrop-filter: blur(10px); /* 毛玻璃效果 */
+  -webkit-backdrop-filter: blur(10px); /* 兼容 Safari */
+  width: 100%; /* 占满宽度 */
+}
+
+.v-carousel {
+  position: relative; /* 确保 v-carousel 作为定位参考 */
 }
 </style>
