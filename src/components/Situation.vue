@@ -127,29 +127,6 @@ function badgeTab(zoneId: number): boolean {
               :key="zone.id"
             >
               <div v-if="zoneId == zone.id">
-                <v-carousel
-                  height="100vh - 100px"
-                  :disabled="true"
-                  hide-delimiters
-                  :show-arrows="false"
-                  v-model="selectedGroup"
-                >
-                  <v-carousel-item
-                    v-for="part in zone.parts"
-                    :key="part.name"
-                  >
-                    <MatchGraph
-                      :zone-id="zoneId"
-                      :type="part.type"
-                      :group="part.group"
-                      :json-data="part.jsonData"
-                      :round-order="part.roundOrder"
-                      :extra-title-data="part.extraTitleData"
-                      :extra-image-data="part.extraImageData"
-                    ></MatchGraph>
-                  </v-carousel-item>
-                </v-carousel>
-
                 <div v-if="!liveMode"
                      class="mx-auto" style="background: rgba(255, 255, 255, 0.1)">
                   <v-sheet
@@ -199,6 +176,29 @@ function badgeTab(zoneId: number): boolean {
                     </v-slide-group>
                   </v-sheet>
                 </div>
+
+                <v-carousel
+                  height="100vh - 100px"
+                  :disabled="true"
+                  hide-delimiters
+                  :show-arrows="false"
+                  v-model="selectedGroup"
+                >
+                  <v-carousel-item
+                    v-for="part in zone.parts"
+                    :key="part.name"
+                  >
+                    <MatchGraph
+                      :zone-id="zoneId"
+                      :type="part.type"
+                      :group="part.group"
+                      :json-data="part.jsonData"
+                      :round-order="part.roundOrder"
+                      :extra-title-data="part.extraTitleData"
+                      :extra-image-data="part.extraImageData"
+                    ></MatchGraph>
+                  </v-carousel-item>
+                </v-carousel>
               </div>
             </div>
           </v-col>
