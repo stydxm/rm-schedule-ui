@@ -211,6 +211,7 @@ export const usePromotionStore = defineStore("promotion", {
       });
     },
     async updateMpMatch(matchIds: number[]) {
+      if (matchIds.length === 0) return;
       axios({
         method: "GET",
         url: "/api/mp/match",
