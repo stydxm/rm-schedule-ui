@@ -123,79 +123,83 @@ function badgeTab(zoneId: number): boolean {
           :key="zone.id"
         >
           <div v-if="zoneId == zone.id">
-            <div v-if="!liveMode"
-                 class="mx-auto glass-sheet" style="background: rgba(255, 255, 255, 0.1)">
-              <v-sheet
-                class="mx-auto text-center bg-transparent"
-              >
-                <v-slide-group
-                  class="ml-2"
-                  v-model="selectedGroup"
-                  mandatory="force"
-                >
-                  <v-slide-group-item
-                    v-for="n in zone.parts.map(p => p.name)"
-                    :key="n"
-                    v-slot="{ isSelected, toggle }"
-                  >
-                    <v-btn
-                      :color="isSelected ? 'primary' : undefined"
-                      class="mx-1 my-2"
-                      rounded
-                      variant="outlined"
-                      size="small"
-                      @click="toggle">
-                      {{ n }}
-                    </v-btn>
-                  </v-slide-group-item>
-
-                  <v-spacer/>
-
-                  <div class="text-right">
-                    <v-btn
-                      class="mx-1 my-2" variant="flat"
-                      color="info" size="small"
-                      :disabled="!promotionStore.selectedPlayer"
-                      @click="appStore.analysisDialog = true"
-                    >
-                      分析
-                    </v-btn>
-
-                    <v-btn
-                      class="mx-1 my-2" variant="flat"
-                      color="info" size="small"
-                      @click="appStore.aboutDialog = true"
-                    >
-                      关于
-                    </v-btn>
-                  </div>
-                </v-slide-group>
-              </v-sheet>
-            </div>
-
-            <v-carousel
-              height="100vh - 100px"
-              :disabled="true"
-              hide-delimiters
-              :show-arrows="false"
-              v-model="selectedGroup"
+            <v-sheet
+              v-if="!liveMode"
+              class="mx-auto text-center bg-transparent glass-sheet"
             >
-              <v-carousel-item
-                v-for="part in zone.parts"
-                :key="part.name"
+              <v-slide-group
+                class="ml-2"
+                v-model="selectedGroup"
+                mandatory="force"
               >
-                <MatchGraph
-                  :zone-id="zoneId"
-                  :type="part.type"
-                  :group="part.group"
-                  :json-data="part.jsonData"
-                  :round-order="part.roundOrder"
-                  :extra-title-data="part.extraTitleData"
-                  :extra-image-data="part.extraImageData"
-                ></MatchGraph>
-              </v-carousel-item>
-            </v-carousel>
+                <v-slide-group-item
+                  v-for="n in zone.parts.map(p => p.name)"
+                  :key="n"
+                  v-slot="{ isSelected, toggle }"
+                >
+                  <v-btn
+                    :color="isSelected ? 'primary' : undefined"
+                    class="mx-1 my-2"
+                    rounded
+                    variant="outlined"
+                    size="small"
+                    @click="toggle">
+                    {{ n }}
+                  </v-btn>
+                </v-slide-group-item>
+
+                <v-spacer/>
+
+                <div class="text-right">
+                  <v-btn
+                    class="mx-1 my-2" variant="flat"
+                    color="info" size="small"
+                    :disabled="!promotionStore.selectedPlayer"
+                    @click="appStore.analysisDialog = true"
+                  >
+                    分析
+                  </v-btn>
+
+                  <v-btn
+                    class="mx-1 my-2" variant="flat"
+                    color="info" size="small"
+                    @click="appStore.aboutDialog = true"
+                  >
+                    关于
+                  </v-btn>
+                </div>
+              </v-slide-group>
+            </v-sheet>
           </div>
+        </div>
+
+        <div
+          v-for="zone in ZoneMap[promotionStore.season]"
+          :key="zone.id"
+        >
+          <v-carousel
+            v-if="zoneId == zone.id"
+            height="100vh - 100px"
+            :disabled="true"
+            hide-delimiters
+            :show-arrows="false"
+            v-model="selectedGroup"
+          >
+            <v-carousel-item
+              v-for="part in zone.parts"
+              :key="part.name"
+            >
+              <MatchGraph
+                :zone-id="zoneId"
+                :type="part.type"
+                :group="part.group"
+                :json-data="part.jsonData"
+                :round-order="part.roundOrder"
+                :extra-title-data="part.extraTitleData"
+                :extra-image-data="part.extraImageData"
+              ></MatchGraph>
+            </v-carousel-item>
+          </v-carousel>
         </div>
 
         <v-bottom-sheet v-model="appStore.analysisDialog">
