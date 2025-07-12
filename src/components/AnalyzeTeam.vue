@@ -179,11 +179,13 @@ function convertToOrdinal(number: number): string {
                   </tr>
                   <tr>
                     <td>初始金币-项目文档</td>
-                    <td>{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
+                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
+                    <td v-else>{{ rank.completeForm.initialCoinDocument }}</td>
                   </tr>
                   <tr>
                     <td>初始金币-技术方案</td>
-                    <td>{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
+                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
+                    <td v-else>{{ rank.completeForm.initialCoinTechnology }}</td>
                   </tr>
                   <tr>
                     <td>总初始金币</td>
