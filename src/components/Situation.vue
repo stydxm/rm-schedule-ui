@@ -145,6 +145,7 @@ const MenuItems = ref(
             <div class="text-right ml-4 mr-2 mt-1">
               RM Schedule
               <v-btn
+                class="mx-1"
                 variant="flat"
                 color="transparent"
                 icon="mdi-magnify"
@@ -155,6 +156,8 @@ const MenuItems = ref(
               <v-menu>
                 <template v-slot:activator="{ props }">
                   <v-btn
+                    variant="flat"
+                    color="transparent"
                     icon="mdi-more"
                     v-bind="props"
                   ></v-btn>
