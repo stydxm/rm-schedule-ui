@@ -17,6 +17,7 @@ export const usePromotionStore = defineStore("promotion", {
     groupRank: {} as GroupRankInfo,
     mpMatchMap: new Map<string, MpMatch>(),
     selectedPlayer: null as Player | null,
+    selectedMatch: null as MatchNode | null,
     suggestionEnabled: false as boolean,
   }),
   getters: {

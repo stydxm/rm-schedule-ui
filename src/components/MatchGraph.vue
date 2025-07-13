@@ -235,6 +235,22 @@ function playerSelected(player: Player): boolean {
   return promotionStore.selectedPlayer.id == player.id
 }
 
+function selectPlayerMatch(match: MatchNode, player: Player) {
+  if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
+    promotionStore.selectedPlayer = null
+    promotionStore.selectedMatch = null
+  } else {
+    promotionStore.selectedPlayer = player
+    promotionStore.selectedMatch = match
+  }
+}
+
+function matchSelected(match: MatchNode): boolean {
+  if (!promotionStore.selectedMatch) return false
+  if (!match) return false
+  return promotionStore.selectedMatch.id == match.id
+}
+
 function winnerSuggestion(match: MatchNode): "RED" | "BLUE" | "NONE" {
   if (promotionStore.zoneId != 567) return "NONE"
   let redRank = CompleteForm.find((e) => e.school == match.redSide.player?.team.collegeName)
@@ -483,6 +499,7 @@ const round = computed(() => {
                           class="container ml-2"
                           :class="{
                             'mt-2': type == 'group',
+                            'selected-match': matchSelected(match(v)),
                           }"
                         >
                           <div class="left-column order-image-container">
@@ -498,7 +515,7 @@ const round = computed(() => {
                               :class="{
                                 'selected-player': playerSelected(match(v).redSide.player),
                               }"
-                              @click="selectPlayer(match(v).redSide.player)"
+                              @click="selectPlayerMatch(match(v), match(v).redSide.player)"
                             >
                               <div class="school-image-container">
                                 <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
@@ -547,7 +564,7 @@ const round = computed(() => {
                               :class="{
                               'selected-player': playerSelected(match(v).blueSide.player),
                             }"
-                              @click="selectPlayer(match(v).blueSide.player)"
+                              @click="selectPlayerMatch(match(v), match(v).blueSide.player)"
                             >
                               <div class="school-image-container">
                                 <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
@@ -908,6 +925,14 @@ const round = computed(() => {
   padding: 4px 18px 4px 4px;
   border-radius: 4px; /* 添加圆角边框 */
   box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.5); /* 添加阴影效果 */
+  transition: all 0.5s ease; /* 添加过渡效果，使变化更平滑 */
+}
+
+.selected-match {
+  background: rgba(255, 215, 0, 0.5); /* 选中内容的背景色 */
+  padding: 4px 0;
+  border-radius: 4px; /* 添加圆角边框 */
+  box-shadow: 0 0 8px 4px rgba(255, 215, 0, 0.25); /* 添加阴影效果 */
   transition: all 0.5s ease; /* 添加过渡效果，使变化更平滑 */
 }
 
