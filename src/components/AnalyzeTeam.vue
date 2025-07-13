@@ -296,7 +296,7 @@ function progressColor(value: number): string {
                 <div v-for="robot in robotData.robots"
                      :key="robot.robotNumber">
                   <div v-if="RobotDataMap[robot.type]" class="mt-2">
-                    <v-table class="robot-data-table" density="compact">
+                    <v-table density="compact">
                       <thead>
                       <tr>
                         <v-chip color="info" variant="tonal" label size="small">
@@ -307,10 +307,10 @@ function progressColor(value: number): string {
                       <tbody>
                       <tr v-for="field in RobotDataMap[robot.type].dataFields"
                           :key="field.td">
-                        <td><span>{{ field.th }}</span></td>
-                        <td><span>{{ robot[field.td] }}</span></td>
-                        <td>
-                          <span v-if="width < 960">
+                        <td style="width: 25%"><span>{{ field.th }}</span></td>
+                        <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
+                        <td style="width: 60%">
+                          <span v-if="width < 500">
                             {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
                           </span>
                           <v-progress-linear
@@ -365,12 +365,5 @@ function progressColor(value: number): string {
   display: flex;
   justify-content: center;
   flex-direction: column;
-}
-
-.robot-data-table {
-  th, td {
-    width: 33%; /* 让表格的列各占一半宽度 */
-    box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
-  }
 }
 </style>
