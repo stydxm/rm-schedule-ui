@@ -315,7 +315,7 @@ function progressColor(value: number): string {
                             striped
                           >
                             <template v-slot:default="{ value }">
-                              <strong>{{ Math.ceil(value) }}%</strong>
+                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}%</strong>
                             </template>
                           </v-progress-linear>
                         </td>
