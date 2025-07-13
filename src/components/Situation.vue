@@ -76,9 +76,9 @@ function badgeTab(zoneId: number): boolean {
 
     <div class="container">
       <div class="content">
-        <div class="floating-container glass-sheet">
+        <div v-if="!liveMode"
+             class="floating-container glass-sheet">
           <v-tabs
-            v-if="!liveMode"
             class="row bg-transparent"
             height="55px"
             v-model="promotionStore.zoneId"
@@ -125,10 +125,7 @@ function badgeTab(zoneId: number): boolean {
             </div>
           </v-tabs>
 
-          <v-sheet
-            v-if="!liveMode"
-            class="mx-auto text-center bg-transparent"
-          >
+          <v-sheet class="mx-auto text-center bg-transparent">
             <v-slide-group
               class="ml-2"
               v-model="selectedGroup"
