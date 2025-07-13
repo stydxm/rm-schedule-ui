@@ -89,6 +89,7 @@ function isForecast(node: any): boolean {
 
 function winner(orderNumber: number): Player | null {
   const m = match(orderNumber)
+  if (!m) return null
   if (m.status != 'DONE') return null
   if (m.redSideWinGameCount > m.blueSideWinGameCount) return m.redSide.player
   if (m.redSideWinGameCount < m.blueSideWinGameCount) return m.blueSide.player
@@ -97,6 +98,7 @@ function winner(orderNumber: number): Player | null {
 
 function loser(orderNumber: number): Player | null {
   const m = match(orderNumber)
+  if (!m) return null
   if (m.status != 'DONE') return null
   if (m.redSideWinGameCount < m.blueSideWinGameCount) return m.redSide.player
   if (m.redSideWinGameCount > m.blueSideWinGameCount) return m.blueSide.player
@@ -192,7 +194,8 @@ async function updateMpMatch() {
   if (props.type == 'group') {
     const groupMatchNodes = promotionStore.getZone(props.zoneId).groupMatches.nodes
     groupMatchNodes.sort((a: any, b: any) => Number(a.id) - Number(b.id))
-    firstId = Number(groupMatchNodes[0].id)
+    firstId = Number(groupMatchNodes[0]?.id)
+    if (!firstId) return
     if (props.group == 'C') firstId -= 22 // TODO: 临时解决方案
     const idList = []
     props.jsonData.nodes.forEach((e: any) => {
@@ -202,8 +205,9 @@ async function updateMpMatch() {
     })
     await promotionStore.updateMpMatch(idList)
   } else if (props.type == 'knockout') {
-    firstId = Number(promotionStore.getZone(props.zoneId).knockoutMatches.nodes[0].id)
-    lastId = Number(promotionStore.getZone(props.zoneId).knockoutMatches.nodes[promotionStore.getZone(props.zoneId).knockoutMatches.nodes.length - 1].id)
+    firstId = Number(promotionStore.getZone(props.zoneId).knockoutMatches.nodes[0]?.id)
+    lastId = Number(promotionStore.getZone(props.zoneId).knockoutMatches.nodes[promotionStore.getZone(props.zoneId).knockoutMatches.nodes.length - 1]?.id)
+    if (!firstId || !lastId) return
     await promotionStore.updateMpMatch(generateNumberArray(firstId, lastId - firstId + 1))
   }
 }
@@ -362,7 +366,7 @@ const round = computed(() => {
 
 <template>
   <div class="my-graph pt-2 my-font">
-    <div :style="liveMode ? 'height: calc(100vh - 0px);' : 'height: calc(100vh - 100px);'">
+    <div :style="liveMode ? 'height: calc(100vh - 0px);' : 'height: calc(100vh - 0px);'">
       <!--      <div class="text-center mb-4">-->
       <!--        <h1 class="font-weight-bold">{{ title }}</h1>-->
       <!--      </div>-->
