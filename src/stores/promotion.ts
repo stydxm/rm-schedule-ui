@@ -3,7 +3,8 @@ import { ScheduleData, MatchNode, ZoneNode, Player } from "../types/schedule";
 import axios, { AxiosResponse } from "axios";
 import { GroupRankInfo } from "../types/group_rank_info";
 import { MpMatch, MpMatchRoot } from "../types/mp_match";
-import { RobotDisplay, RobotData } from "../types/robot_data";
+import { RobotDisplay, RobotData, Robot } from "../types/robot_data";
+import { ro } from "vuetify/locale";
 
 export interface Schedule {
   data: ScheduleData;
@@ -16,9 +17,11 @@ export const usePromotionStore = defineStore("promotion", {
     schedule: {} as Schedule,
     groupRank: {} as GroupRankInfo,
     robotData: {} as RobotData,
-    robotDataMap: new Map<string, RobotDisplay>(),
-    avgRobotData: {} as RobotDisplay,
-    maxRobotData: {
+    avgRobotData: [] as Robot[],
+    maxRobotData: [] as Robot[],
+    robotDisplayMap: new Map<string, RobotDisplay>(),
+    avgRobotDisplay: {} as RobotDisplay,
+    maxRobotDisplay: {
       heroKeyDamage: 0,
       engineerEco: 0,
       standardDamage: 0,
@@ -96,6 +99,9 @@ export const usePromotionStore = defineStore("promotion", {
         url: "/api/robot_data",
       }).then((response: AxiosResponse<any>) => {
         const newRobotData: RobotData = response.data;
+        const newSumRobotData: Robot[] = [];
+        const newMaxRobotData: Robot[] = [];
+        const IgnoredKeys = ["id", "type", "robotNumber"] // 计算时忽略的键
         this.robotData = newRobotData;
         let teamCount = 0;
         let heroKeyDamageSum = 0;
@@ -108,7 +114,7 @@ export const usePromotionStore = defineStore("promotion", {
         for (const zone of newRobotData.zones) {
           for (const team of zone.teams) {
             teamCount++;
-            const currentTeamRobotData: RobotDisplay = {
+            const currentTeamRobotDisplay: RobotDisplay = {
               heroKeyDamage: 0,
               engineerEco: 0,
               standardDamage: 0,
@@ -118,63 +124,87 @@ export const usePromotionStore = defineStore("promotion", {
               radarDamage: 0,
             };
             for (const robot of team.robots) {
+              robot.eaKDA = this.fixKDA(robot.eaKDA);
+              newSumRobotData.find((r: Robot, index: number) => {
+                if (r.type === robot.type) {
+                  Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
+                    if (typeof robot[key] === "number") {
+                      newSumRobotData[index][key] += robot[key];
+                    }
+                  })
+                  return r;
+                }
+              }) || newSumRobotData.push({ ...robot });
+              newMaxRobotData.find((r: Robot, index: number) => {
+                if (r.type === robot.type) {
+                  Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
+                    if (typeof robot[key] === "number") {
+                      newMaxRobotData[index][key] = Math.max(
+                        newMaxRobotData[index][key],
+                        robot[key]
+                      );
+                    }
+                  })
+                  return r;
+                }
+              }) || newMaxRobotData.push({ ...robot });
               switch (robot.robotNumber) {
                 case 1: {
                   const heroData = robot.gkDamage;
-                  currentTeamRobotData.heroKeyDamage = heroData;
+                  currentTeamRobotDisplay.heroKeyDamage = heroData;
                   heroKeyDamageSum += heroData;
-                  this.maxRobotData.heroKeyDamage = Math.max(
-                    this.maxRobotData.heroKeyDamage,
+                  this.maxRobotDisplay.heroKeyDamage = Math.max(
+                    this.maxRobotDisplay.heroKeyDamage,
                     heroData
                   );
                   break;
                 }
                 case 2: {
                   const engineerData = robot.eaExchangeEcon;
-                  currentTeamRobotData.engineerEco = engineerData;
+                  currentTeamRobotDisplay.engineerEco = engineerData;
                   engineerEcoSum += engineerData;
-                  this.maxRobotData.engineerEco = Math.max(
-                    this.maxRobotData.engineerEco,
+                  this.maxRobotDisplay.engineerEco = Math.max(
+                    this.maxRobotDisplay.engineerEco,
                     engineerData
                   );
                   break;
                 }
                 case 3: {
                   const standardData = robot.eagHurt;
-                  currentTeamRobotData.standardDamage = standardData;
+                  currentTeamRobotDisplay.standardDamage = standardData;
                   standardDamageSum += standardData;
-                  this.maxRobotData.standardDamage = Math.max(
-                    this.maxRobotData.standardDamage,
+                  this.maxRobotDisplay.standardDamage = Math.max(
+                    this.maxRobotDisplay.standardDamage,
                     standardData
                   );
                   break;
                 }
                 case 6: {
                   const aerialData = robot.eagHurt;
-                  currentTeamRobotData.aerialDamage = aerialData;
+                  currentTeamRobotDisplay.aerialDamage = aerialData;
                   aerialDamageSum += aerialData;
-                  this.maxRobotData.aerialDamage = Math.max(
-                    this.maxRobotData.aerialDamage,
+                  this.maxRobotDisplay.aerialDamage = Math.max(
+                    this.maxRobotDisplay.aerialDamage,
                     aerialData
                   );
                   break;
                 }
                 case 7: {
                   const sentryData = robot.eagHurt;
-                  currentTeamRobotData.sentryDamage = sentryData;
+                  currentTeamRobotDisplay.sentryDamage = sentryData;
                   sentryDamageSum += sentryData;
-                  this.maxRobotData.sentryDamage = Math.max(
-                    this.maxRobotData.sentryDamage,
+                  this.maxRobotDisplay.sentryDamage = Math.max(
+                    this.maxRobotDisplay.sentryDamage,
                     sentryData
                   );
                   break;
                 }
                 case 11: {
                   const radarData = robot.eaRadarDebuffDmg;
-                  currentTeamRobotData.radarDamage = radarData;
+                  currentTeamRobotDisplay.radarDamage = radarData;
                   radarDamageSum += radarData;
-                  this.maxRobotData.radarDamage = Math.max(
-                    this.maxRobotData.radarDamage,
+                  this.maxRobotDisplay.radarDamage = Math.max(
+                    this.maxRobotDisplay.radarDamage,
                     radarData
                   );
                   break;
@@ -185,20 +215,38 @@ export const usePromotionStore = defineStore("promotion", {
                     robot.etDartFixedCnt +
                     robot.etDartRDFixCnt +
                     robot.etDartRDMoveCnt;
-                  currentTeamRobotData.dartHit = dartData;
+                  currentTeamRobotDisplay.dartHit = dartData;
                   dartHitSum += dartData;
-                  this.maxRobotData.dartHit = Math.max(
-                    this.maxRobotData.dartHit,
+                  this.maxRobotDisplay.dartHit = Math.max(
+                    this.maxRobotDisplay.dartHit,
                     dartData
                   );
                   break;
                 }
               }
             }
-            this.robotDataMap.set(team.collegeName, currentTeamRobotData);
+            this.robotDisplayMap.set(team.collegeName, currentTeamRobotDisplay);
           }
         }
-        this.avgRobotData = {
+        const newAvgRobotData: Robot[] = [];
+        newSumRobotData.forEach((r: Robot) => {
+          const avgRobot: Robot = {
+            id: r.id,
+            type: r.type,
+            robotNumber: r.robotNumber,
+          } as Robot;
+          Object.keys(r).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
+            if (typeof r[key] === "number") {
+              avgRobot[key] = Math.round((100 * r[key]) / teamCount) / 100;
+            } else {
+              avgRobot[key] = r[key];
+            }
+          })
+          newAvgRobotData.push(avgRobot);
+        })
+        this.avgRobotData = newAvgRobotData;
+        this.maxRobotData = newMaxRobotData;
+        this.avgRobotDisplay = {
           heroKeyDamage: Math.round((100 * heroKeyDamageSum) / teamCount) / 100,
           engineerEco: Math.round((100 * engineerEcoSum) / teamCount) / 100,
           standardDamage:
@@ -251,5 +299,11 @@ export const usePromotionStore = defineStore("promotion", {
     getMpMatch(matchId: string): MpMatch {
       return this.mpMatchMap.get(matchId) as MpMatch;
     },
+    fixKDA(kda: string): string {
+      const [kills, deaths, assists] = kda.split('/').map(part =>
+        Number(parseFloat(part).toFixed(1))
+      );
+      return `${kills}/${deaths}/${assists}`;
+    }
   },
 });

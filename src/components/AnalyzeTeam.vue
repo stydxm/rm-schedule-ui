@@ -75,6 +75,91 @@ function convertToOrdinal(number: number): string {
     return number + "th";
   }
 }
+
+const robotData = computed(() => {
+  return promotionStore.robotData.zones.find((zone) => {
+    return Number(zone.zoneId) == props.zoneId
+  }).teams.find((team) => {
+    return team.collegeName == props.player.team.collegeName
+  })
+})
+
+const RobotDataMap = ref({
+  "Hero": {
+    type: "英雄",
+    dataFields: [
+      { th: "局均42mm弹丸命中率(%)", td: "eaBigHitRate", },
+      { th: "局均部署命中数", td: "eaSnipeCnt", },
+      { th: "局均伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Infantry": {
+    type: "步兵",
+    dataFields: [
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
+      { th: "局均总伤害", td: "eagHurt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Sapper": {
+    type: "工程",
+    dataFields: [
+      { th: "局均兑换难度", td: "avgMineDiff", },
+      { th: "局均兑换时间", td: "avgMineTime", },
+      { th: "局均兑换经济", td: "eaExchangeEcon", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Airplane": {
+    type: "无人机",
+    dataFields: [
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
+      { th: "局均发弹量", td: "avgShootNum", },
+      { th: "局均总伤害", td: "eagHurt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Guard": {
+    type: "哨兵",
+    dataFields: [
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
+      { th: "局均总伤害", td: "eagHurt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Dart": {
+    type: "飞镖",
+    dataFields: [
+      { th: "累计命中前哨站数", td: "etDartOutpostCnt", },
+      { th: "累计命中基地固定目标数", td: "etDartFixedCnt", },
+      { th: "累计命中基地随机固定目标数", td: "etDartRDFixCnt", },
+      { th: "累计命中基地随机移动目标数", td: "etDartRDMoveCnt", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Radar": {
+    type: "雷达",
+    dataFields: [
+      { th: "局均额外伤害", td: "eaRadarDebuffDmg", },
+      { th: "局均易伤时间", td: "eaRadarMarkerTime", },
+    ]
+  }
+})
+
+function maxRobotData(type: string, field: string): number {
+  return promotionStore.maxRobotData.find((n) => n.type === type)[field]
+}
+
+function progressColor(value: number): string {
+  if (value >= 75) return "red";
+  if (value >= 50) return "orange";
+  if (value >= 25) return "blue";
+  return "green";
+}
 </script>
 
 <template>
@@ -179,12 +264,16 @@ function convertToOrdinal(number: number): string {
                   </tr>
                   <tr>
                     <td>初始金币-项目文档</td>
-                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
+                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinDocument }}
+                      ({{ rank.completeForm.levelDocument }})
+                    </td>
                     <td v-else>{{ rank.completeForm.initialCoinDocument }}</td>
                   </tr>
                   <tr>
                     <td>初始金币-技术方案</td>
-                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
+                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinTechnology }}
+                      ({{ rank.completeForm.levelTechnology }})
+                    </td>
                     <td v-else>{{ rank.completeForm.initialCoinTechnology }}</td>
                   </tr>
                   <tr>
@@ -193,6 +282,48 @@ function convertToOrdinal(number: number): string {
                   </tr>
                   </tbody>
                 </v-table>
+              </div>
+            </v-col>
+
+            <v-col md="6" cols="12">
+              <div>
+                <v-chip class="mb-2" color="info" variant="flat" label>
+                  <h3>机器人数据</h3>
+                </v-chip>
+
+                <div v-for="robot in robotData.robots"
+                     :key="robot.robotNumber">
+                  <div v-if="RobotDataMap[robot.type]" class="mt-2">
+                    <v-table class="robot-data-table" density="compact">
+                      <thead>
+                      <tr>
+                        <v-chip color="info" variant="tonal" label size="small">
+                          <h3>{{ RobotDataMap[robot.type].type }}</h3>
+                        </v-chip>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="field in RobotDataMap[robot.type].dataFields"
+                          :key="field.td">
+                        <td><span>{{ field.th }}</span></td>
+                        <td><span>{{ robot[field.td] }}</span></td>
+                        <td>
+                          <v-progress-linear
+                            :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
+                            height="20"
+                            :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
+                            striped
+                          >
+                            <template v-slot:default="{ value }">
+                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}%</strong>
+                            </template>
+                          </v-progress-linear>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </v-table>
+                  </div>
+                </div>
               </div>
             </v-col>
           </v-row>
@@ -228,5 +359,12 @@ function convertToOrdinal(number: number): string {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.robot-data-table {
+  th, td {
+    width: 33%; /* 让表格的列各占一半宽度 */
+    box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
+  }
 }
 </style>
