@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { GroupRankInfo } from "../types/group_rank_info";
 import { MpMatch, MpMatchRoot } from "../types/mp_match";
 import { RobotDisplay, RobotData, Robot } from "../types/robot_data";
+import { ro } from "vuetify/locale";
 
 export interface Schedule {
   data: ScheduleData;
@@ -123,6 +124,7 @@ export const usePromotionStore = defineStore("promotion", {
               radarDamage: 0,
             };
             for (const robot of team.robots) {
+              robot.eaKDA = this.fixKDA(robot.eaKDA);
               newSumRobotData.find((r: Robot, index: number) => {
                 if (r.type === robot.type) {
                   Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
@@ -297,5 +299,11 @@ export const usePromotionStore = defineStore("promotion", {
     getMpMatch(matchId: string): MpMatch {
       return this.mpMatchMap.get(matchId) as MpMatch;
     },
+    fixKDA(kda: string): string {
+      const [kills, deaths, assists] = kda.split('/').map(part =>
+        Number(parseFloat(part).toFixed(1))
+      );
+      return `${kills}/${deaths}/${assists}`;
+    }
   },
 });
