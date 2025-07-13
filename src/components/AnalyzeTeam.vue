@@ -195,7 +195,7 @@ console.log(robotData.value)
                 <div v-for="robot in robotData.robots"
                      :key="robot.robotNumber">
                   <div v-if="RobotDataMap[robot.type]" class="mt-2">
-                    <v-table density="compact">
+                    <v-table class="robot-data-table" density="compact">
                       <thead>
                       <tr>
                         <v-chip color="info" variant="tonal" label size="small">
@@ -338,5 +338,12 @@ console.log(robotData.value)
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.robot-data-table {
+  th, td {
+    width: 50%; /* 让表格的列各占一半宽度 */
+    box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
+  }
 }
 </style>
