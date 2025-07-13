@@ -825,16 +825,6 @@ const round = computed(() => {
         华南理工大学华南虎
       </p>
 
-      <v-btn
-        v-if="!liveMode"
-        class="legend"
-        variant="text"
-        density="compact"
-        @click="appStore.commentDialog = true"
-      >
-        查看图注
-      </v-btn>
-
       <GraphComment/>
     </div>
   </div>

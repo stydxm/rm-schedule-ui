@@ -72,6 +72,14 @@ const MenuItems = ref(
       },
     },
     {
+      title: '查看注释',
+      icon: 'mdi-comment-text',
+      disabled: () => false,
+      action: () => {
+        appStore.commentDialog = true
+      },
+    },
+    {
       title: '关于软件',
       icon: 'mdi-information',
       disabled: () => false,
