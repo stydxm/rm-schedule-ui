@@ -3,7 +3,7 @@ import { ScheduleData, MatchNode, ZoneNode, Player } from "../types/schedule";
 import axios, { AxiosResponse } from "axios";
 import { GroupRankInfo } from "../types/group_rank_info";
 import { MpMatch, MpMatchRoot } from "../types/mp_match";
-import { RobotDisplay, RobotData } from "../types/robot_data";
+import { RobotDisplay, RobotData, Robot } from "../types/robot_data";
 
 export interface Schedule {
   data: ScheduleData;
@@ -16,6 +16,8 @@ export const usePromotionStore = defineStore("promotion", {
     schedule: {} as Schedule,
     groupRank: {} as GroupRankInfo,
     robotData: {} as RobotData,
+    avgRobotData: [] as Robot[],
+    maxRobotData: [] as Robot[],
     robotDisplayMap: new Map<string, RobotDisplay>(),
     avgRobotDisplay: {} as RobotDisplay,
     maxRobotDisplay: {
@@ -96,6 +98,9 @@ export const usePromotionStore = defineStore("promotion", {
         url: "/api/robot_data",
       }).then((response: AxiosResponse<any>) => {
         const newRobotData: RobotData = response.data;
+        const newSumRobotData: Robot[] = [];
+        const newMaxRobotData: Robot[] = [];
+        const IgnoredKeys = ["id", "type", "robotNumber"] // 计算时忽略的键
         this.robotData = newRobotData;
         let teamCount = 0;
         let heroKeyDamageSum = 0;
@@ -118,6 +123,29 @@ export const usePromotionStore = defineStore("promotion", {
               radarDamage: 0,
             };
             for (const robot of team.robots) {
+              newSumRobotData.find((r: Robot, index: number) => {
+                if (r.type === robot.type) {
+                  Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
+                    if (typeof robot[key] === "number") {
+                      newSumRobotData[index][key] += robot[key];
+                    }
+                  })
+                  return r;
+                }
+              }) || newSumRobotData.push({ ...robot });
+              newMaxRobotData.find((r: Robot, index: number) => {
+                if (r.type === robot.type) {
+                  Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
+                    if (typeof robot[key] === "number") {
+                      newMaxRobotData[index][key] = Math.max(
+                        newMaxRobotData[index][key],
+                        robot[key]
+                      );
+                    }
+                  })
+                  return r;
+                }
+              }) || newMaxRobotData.push({ ...robot });
               switch (robot.robotNumber) {
                 case 1: {
                   const heroData = robot.gkDamage;
@@ -198,6 +226,24 @@ export const usePromotionStore = defineStore("promotion", {
             this.robotDisplayMap.set(team.collegeName, currentTeamRobotDisplay);
           }
         }
+        const newAvgRobotData: Robot[] = [];
+        newSumRobotData.forEach((r: Robot) => {
+          const avgRobot: Robot = {
+            id: r.id,
+            type: r.type,
+            robotNumber: r.robotNumber,
+          } as Robot;
+          Object.keys(r).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
+            if (typeof r[key] === "number") {
+              avgRobot[key] = Math.round((100 * r[key]) / teamCount) / 100;
+            } else {
+              avgRobot[key] = r[key];
+            }
+          })
+          newAvgRobotData.push(avgRobot);
+        })
+        this.avgRobotData = newAvgRobotData;
+        this.maxRobotData = newMaxRobotData;
         this.avgRobotDisplay = {
           heroKeyDamage: Math.round((100 * heroKeyDamageSum) / teamCount) / 100,
           engineerEco: Math.round((100 * engineerEcoSum) / teamCount) / 100,
