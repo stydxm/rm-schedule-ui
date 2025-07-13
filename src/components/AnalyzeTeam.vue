@@ -150,7 +150,16 @@ const RobotDataMap = ref({
   }
 })
 
-console.log(robotData.value)
+function maxRobotData(type: string, field: string): number {
+  return promotionStore.maxRobotData.find((n) => n.type === type)[field]
+}
+
+function progressColor(value: number): string {
+  if (value >= 75) return "red";
+  if (value >= 50) return "orange";
+  if (value >= 25) return "blue";
+  return "green";
+}
 </script>
 
 <template>
@@ -298,6 +307,18 @@ console.log(robotData.value)
                           :key="field.td">
                         <td><span>{{ field.th }}</span></td>
                         <td><span>{{ robot[field.td] }}</span></td>
+                        <td>
+                          <v-progress-linear
+                            :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
+                            height="20"
+                            :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
+                            striped
+                          >
+                            <template v-slot:default="{ value }">
+                              <strong>{{ Math.ceil(value) }}%</strong>
+                            </template>
+                          </v-progress-linear>
+                        </td>
                       </tr>
                       </tbody>
                     </v-table>
@@ -342,7 +363,7 @@ console.log(robotData.value)
 
 .robot-data-table {
   th, td {
-    width: 50%; /* 让表格的列各占一半宽度 */
+    width: 33%; /* 让表格的列各占一半宽度 */
     box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
   }
 }
