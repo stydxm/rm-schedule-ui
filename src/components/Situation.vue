@@ -19,6 +19,9 @@ const promotionStore = usePromotionStore();
 const zoneId = computed(() => promotionStore.zoneId)
 promotionStore.season = Number(route.params.season)
 promotionStore.zoneId = Number(route.params.zoneId)
+const season = computed(() => promotionStore.season)
+const zone = computed(() => ZoneMap[season.value].find((zone) => zone.id == zoneId.value))
+
 // 如果 Season 不存在，则自动选择最后一个可用的 Season
 if (!Object.keys(ZoneMap).includes(String(promotionStore.season))) {
   promotionStore.season = Number(Object.keys(ZoneMap).slice(-1)[0])
@@ -30,9 +33,6 @@ if (!ZoneMap[promotionStore.season].find((zone) => zone.id == zoneId.value)) {
   promotionStore.zoneId = DefaultZoneMap[promotionStore.season]
   updateQuery()
 }
-
-const season = computed(() => promotionStore.season)
-const zone = computed(() => ZoneMap[season.value].find((zone) => zone.id == zoneId.value))
 
 function updateQuery() {
   // 如果选中的组不存在，则重置为第一个组
