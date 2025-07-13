@@ -61,6 +61,10 @@ function badgeTab(zoneId: number): boolean {
   return false
 }
 
+const width = computed(() => {
+  return window.innerWidth
+})
+
 const MenuItems = ref(
   [
     {
@@ -143,7 +147,10 @@ const MenuItems = ref(
             ></v-switch>
 
             <div class="text-right ml-4 mr-2 mt-1">
-              RM Schedule
+              <span v-if="width >= 800">
+                RM Schedule
+              </span>
+
               <v-btn
                 class="mx-1"
                 variant="flat"
