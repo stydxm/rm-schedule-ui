@@ -64,8 +64,17 @@ function badgeTab(zoneId: number): boolean {
 const MenuItems = ref(
   [
     {
+      title: '分析队伍',
+      icon: 'mdi-google-analytics',
+      disabled: () => !promotionStore.selectedPlayer,
+      action: () => {
+        appStore.analysisDialog = true
+      },
+    },
+    {
       title: '关于软件',
       icon: 'mdi-information',
+      disabled: () => false,
       action: () => {
         appStore.aboutDialog = true
       },
@@ -149,6 +158,7 @@ const MenuItems = ref(
                     :value="index"
                     :prepend-icon="item.icon"
                     :title="item.title"
+                    :disabled="item.disabled()"
                     @click="item.action"
                   >
                   </v-list-item>
@@ -182,14 +192,6 @@ const MenuItems = ref(
               <v-spacer/>
 
               <div class="text-right">
-                <v-btn
-                  class="mx-1 my-2" variant="flat"
-                  color="info" size="small"
-                  :disabled="!promotionStore.selectedPlayer"
-                  @click="appStore.analysisDialog = true"
-                >
-                  分析
-                </v-btn>
               </div>
             </v-slide-group>
           </v-sheet>
