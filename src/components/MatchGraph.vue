@@ -423,7 +423,7 @@ const round = computed(() => {
                           v-if="v"
                           class="top-row row-content mt-1"
                           :class="{
-                            'selected-content': playerSelected(v.player),
+                            'selected-player': playerSelected(v.player),
                           }"
                           @click="selectPlayer(v.player)"
                         >
@@ -496,7 +496,7 @@ const round = computed(() => {
                             <div
                               class="top-row row-content mb-1"
                               :class="{
-                                'selected-content': playerSelected(match(v).redSide.player),
+                                'selected-player': playerSelected(match(v).redSide.player),
                               }"
                               @click="selectPlayer(match(v).redSide.player)"
                             >
@@ -545,7 +545,7 @@ const round = computed(() => {
                             <div
                               class="row-content"
                               :class="{
-                              'selected-content': playerSelected(match(v).blueSide.player),
+                              'selected-player': playerSelected(match(v).blueSide.player),
                             }"
                               @click="selectPlayer(match(v).blueSide.player)"
                             >
@@ -712,7 +712,7 @@ const round = computed(() => {
                         v-if="v"
                         class="top-row row-content mt-2"
                         :class="{
-                        'selected-content': playerSelected(v.player),
+                        'selected-player': playerSelected(v.player),
                       }"
                         @click="selectPlayer(v.player)"
                       >
@@ -903,7 +903,7 @@ const round = computed(() => {
   padding: 0 0;
 }
 
-.selected-content {
+.selected-player {
   background: rgba(223, 223, 223, 0.75); /* 选中内容的背景色 */
   padding: 4px 18px 4px 4px;
   border-radius: 4px; /* 添加圆角边框 */
