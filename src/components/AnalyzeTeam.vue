@@ -307,12 +307,15 @@ function progressColor(value: number): string {
                       <tbody>
                       <tr v-for="field in RobotDataMap[robot.type].dataFields"
                           :key="field.td">
-                        <td style="width: 25%"><span>{{ field.th }}</span></td>
+                        <td style="width: 35%"><span>{{ field.th }}</span></td>
                         <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
-                        <td style="width: 60%">
-                          <span v-if="width < 500">
-                            {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
-                          </span>
+                        <td style="width: 50%">
+                          <div v-if="width < 500">
+                            <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
+                              {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
+                            </span>
+                            <span v-else>-</span>
+                          </div>
                           <v-progress-linear
                             v-else
                             :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
