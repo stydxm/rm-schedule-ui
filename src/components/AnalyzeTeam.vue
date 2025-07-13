@@ -195,26 +195,19 @@ console.log(robotData.value)
                 <div v-for="robot in robotData.robots"
                      :key="robot.robotNumber">
                   <div v-if="RobotDataMap[robot.type]" class="mt-2">
-                    <v-chip color="info" variant="tonal" label size="small">
-                      <h3>{{ RobotDataMap[robot.type].type }}</h3>
-                    </v-chip>
-
                     <v-table density="compact">
                       <thead>
                       <tr>
-                        <th v-for="field in RobotDataMap[robot.type].dataFields"
-                            :key="field.th"
-                            class="text-left">
-                          <span>{{ field.th }}</span>
-                        </th>
+                        <v-chip color="info" variant="tonal" label size="small">
+                          <h3>{{ RobotDataMap[robot.type].type }}</h3>
+                        </v-chip>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr>
-                        <td v-for="field in RobotDataMap[robot.type].dataFields"
-                            :key="field.td">
-                          <span>{{ robot[field.td] }}</span>
-                        </td>
+                      <tr v-for="field in RobotDataMap[robot.type].dataFields"
+                          :key="field.td">
+                        <td><span>{{ field.th }}</span></td>
+                        <td><span>{{ robot[field.td] }}</span></td>
                       </tr>
                       </tbody>
                     </v-table>
