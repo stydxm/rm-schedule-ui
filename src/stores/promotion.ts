@@ -118,6 +118,16 @@ export const usePromotionStore = defineStore("promotion", {
               dartHit: 0,
               radarDamage: 0,
             };
+
+            // 国赛复活赛与区域赛分开计算，这里是临时解决方案，避免未开赛时全0数据覆盖了区域赛数据
+            let avgHurtSum=0
+            for (const robot of team.robots) {
+              avgHurtSum+=robot.eagHurt
+            }
+            if (avgHurtSum===0) {
+              continue
+            }
+
             for (const robot of team.robots) {
               switch (robot.robotNumber) {
                 case 1: {
@@ -195,8 +205,6 @@ export const usePromotionStore = defineStore("promotion", {
                   break;
                 }
               }
-            }
-            if (!this.robotDataMap.has(team.collegeName)||currentTeamRobotData.standardDamage>0) {
               this.robotDataMap.set(team.collegeName, currentTeamRobotData);
             }
           }
