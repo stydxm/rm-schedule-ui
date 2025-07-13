@@ -20,6 +20,8 @@ const promotionStore = usePromotionStore();
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
 
+const width = ref(window.innerWidth)
+
 axios({
   method: 'GET',
   url: '/api/rank',
@@ -308,14 +310,18 @@ function progressColor(value: number): string {
                         <td><span>{{ field.th }}</span></td>
                         <td><span>{{ robot[field.td] }}</span></td>
                         <td>
+                          <span v-if="width < 960">
+                            {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
+                          </span>
                           <v-progress-linear
+                            v-else
                             :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
                             height="20"
                             :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
                             striped
                           >
                             <template v-slot:default="{ value }">
-                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}%</strong>
+                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
                             </template>
                           </v-progress-linear>
                         </td>
