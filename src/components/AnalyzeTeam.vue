@@ -20,6 +20,8 @@ const promotionStore = usePromotionStore();
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
 
+const width = ref(window.innerWidth)
+
 axios({
   method: 'GET',
   url: '/api/rank',
@@ -294,7 +296,7 @@ function progressColor(value: number): string {
                 <div v-for="robot in robotData.robots"
                      :key="robot.robotNumber">
                   <div v-if="RobotDataMap[robot.type]" class="mt-2">
-                    <v-table class="robot-data-table" density="compact">
+                    <v-table density="compact">
                       <thead>
                       <tr>
                         <v-chip color="info" variant="tonal" label size="small">
@@ -305,17 +307,24 @@ function progressColor(value: number): string {
                       <tbody>
                       <tr v-for="field in RobotDataMap[robot.type].dataFields"
                           :key="field.td">
-                        <td><span>{{ field.th }}</span></td>
-                        <td><span>{{ robot[field.td] }}</span></td>
-                        <td>
+                        <td style="width: 35%"><span>{{ field.th }}</span></td>
+                        <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
+                        <td style="width: 50%">
+                          <div v-if="width < 500">
+                            <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
+                              {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
+                            </span>
+                            <span v-else>-</span>
+                          </div>
                           <v-progress-linear
+                            v-else
                             :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
                             height="20"
                             :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
                             striped
                           >
                             <template v-slot:default="{ value }">
-                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}%</strong>
+                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
                             </template>
                           </v-progress-linear>
                         </td>
@@ -359,12 +368,5 @@ function progressColor(value: number): string {
   display: flex;
   justify-content: center;
   flex-direction: column;
-}
-
-.robot-data-table {
-  th, td {
-    width: 33%; /* 让表格的列各占一半宽度 */
-    box-sizing: border-box; /* 确保边框和内边距包含在宽度内 */
-  }
 }
 </style>
