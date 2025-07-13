@@ -904,9 +904,11 @@ const round = computed(() => {
 }
 
 .selected-content {
-  background: #ECEFF166;
-  color: whitesmoke;
-  padding: 2px 4px;
+  background: rgba(223, 223, 223, 0.75); /* 选中内容的背景色 */
+  padding: 4px 18px 4px 4px;
+  border-radius: 4px; /* 添加圆角边框 */
+  box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.5); /* 添加阴影效果 */
+  transition: all 0.5s ease; /* 添加过渡效果，使变化更平滑 */
 }
 
 .one-line-text {
