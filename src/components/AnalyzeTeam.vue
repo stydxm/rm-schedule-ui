@@ -188,36 +188,6 @@ console.log(robotData.value)
           <v-row>
             <v-col md="6" cols="12">
               <div>
-                <v-chip class="mb-2" color="info" variant="flat" label>
-                  <h3>机器人数据</h3>
-                </v-chip>
-
-                <div v-for="robot in robotData.robots"
-                     :key="robot.robotNumber">
-                  <div v-if="RobotDataMap[robot.type]" class="mt-2">
-                    <v-table class="robot-data-table" density="compact">
-                      <thead>
-                      <tr>
-                        <v-chip color="info" variant="tonal" label size="small">
-                          <h3>{{ RobotDataMap[robot.type].type }}</h3>
-                        </v-chip>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr v-for="field in RobotDataMap[robot.type].dataFields"
-                          :key="field.td">
-                        <td><span>{{ field.th }}</span></td>
-                        <td><span>{{ robot[field.td] }}</span></td>
-                      </tr>
-                      </tbody>
-                    </v-table>
-                  </div>
-                </div>
-              </div>
-            </v-col>
-
-            <v-col md="6" cols="12">
-              <div>
                 <v-chip color="info" variant="flat" label>
                   <h3>比赛战绩</h3>
                 </v-chip>
@@ -303,6 +273,36 @@ console.log(robotData.value)
                   </tr>
                   </tbody>
                 </v-table>
+              </div>
+            </v-col>
+
+            <v-col md="6" cols="12">
+              <div>
+                <v-chip class="mb-2" color="info" variant="flat" label>
+                  <h3>机器人数据</h3>
+                </v-chip>
+
+                <div v-for="robot in robotData.robots"
+                     :key="robot.robotNumber">
+                  <div v-if="RobotDataMap[robot.type]" class="mt-2">
+                    <v-table class="robot-data-table" density="compact">
+                      <thead>
+                      <tr>
+                        <v-chip color="info" variant="tonal" label size="small">
+                          <h3>{{ RobotDataMap[robot.type].type }}</h3>
+                        </v-chip>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="field in RobotDataMap[robot.type].dataFields"
+                          :key="field.td">
+                        <td><span>{{ field.th }}</span></td>
+                        <td><span>{{ robot[field.td] }}</span></td>
+                      </tr>
+                      </tbody>
+                    </v-table>
+                  </div>
+                </div>
               </div>
             </v-col>
           </v-row>
