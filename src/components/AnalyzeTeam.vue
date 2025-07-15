@@ -12,6 +12,7 @@ import { RadarChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
+  VisualMapComponent,
   LegendComponent,
 } from 'echarts/components';
 import VChart from 'vue-echarts';
@@ -179,17 +180,23 @@ use([
   RadarChart,
   TitleComponent,
   LegendComponent,
+  TooltipComponent,
+  VisualMapComponent,
 ]);
 
 const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option = ref({
   legend: {
+    type: 'scroll',
     data: ['平均值', '该队数据'],
     bottom: "bottom",
     textStyle: {
       color: "white"
     }
+  },
+  tooltip: {
+    trigger: 'item'
   },
   radar: {
     indicator: [
@@ -206,6 +213,9 @@ const option = ref({
     {
       name: '机器人关键数据',
       type: 'radar',
+      emphasis: {
+        areaStyle: {}
+      },
       data: [
         {
           value: [
