@@ -188,6 +188,12 @@ use([
 const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option: echarts.EChartsOption = {
+  title: {
+    subtext: '取所有队伍的最大值为 100%',
+    subtextStyle: {
+      color: "white"
+    }
+  },
   legend: {
     type: 'scroll',
     bottom: "bottom",
@@ -422,9 +428,8 @@ const option: echarts.EChartsOption = {
             <v-col md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
-                  <h3>机器人关键数据</h3>
+                  <h3>雷达图</h3>
                 </v-chip>
-                <h5><br>*取所有队伍的最大值为 100%</h5>
                 <v-chart class="chart" :option="option" autoresize/>
               </div>
             </v-col>
