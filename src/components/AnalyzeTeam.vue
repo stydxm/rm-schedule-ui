@@ -181,13 +181,13 @@ use([
   LegendComponent,
 ]);
 
-const currentTeamDisplay=promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
+const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option = ref({
   legend: {
     data: ['平均值', '该队数据'],
     bottom: "bottom",
-    textStyle:{
+    textStyle: {
       color: "white"
     }
   },
@@ -296,7 +296,7 @@ const option = ref({
                 </v-table>
               </div>
             </v-col>
-          
+
             <v-col v-if="groupRank.length > 0" md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
@@ -415,7 +415,7 @@ const option = ref({
                   <h3>机器人关键数据</h3>
                 </v-chip>
                 最外圈为所有队伍中的最大值
-                <v-chart class="chart" :option="option" autoresize />
+                <v-chart class="chart" :option="option" autoresize/>
               </div>
             </v-col>
           </v-row>
