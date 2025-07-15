@@ -4,6 +4,17 @@ import axios, { AxiosResponse } from "axios";
 import { RankListItem } from "../types/rank";
 import { usePromotionStore } from "../stores/promotion";
 import { computed, ref } from "vue";
+import { RobotDisplay } from "../types/robot_data"
+
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { RadarChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from 'echarts/components';
+import VChart from 'vue-echarts';
 
 interface Props {
   zoneId: number,
@@ -92,7 +103,7 @@ const RobotDataMap = ref({
     dataFields: [
       { th: "局均42mm弹丸命中率(%)", td: "eaBigHitRate", },
       { th: "局均部署命中数", td: "eaSnipeCnt", },
-      { th: "局均伤害", td: "gkDamage", },
+      { th: "局均关键伤害", td: "gkDamage", },
       { th: "局均KDA", td: "eaKDA", },
     ]
   },
@@ -153,7 +164,7 @@ const RobotDataMap = ref({
 })
 
 function maxRobotData(type: string, field: string): number {
-  return promotionStore.maxRobotData.find((n) => n.type === type)[field]
+  return promotionStore.maxRobotData.find((n) => n.type === type)![field]
 }
 
 function progressColor(value: number): string {
@@ -162,11 +173,73 @@ function progressColor(value: number): string {
   if (value >= 25) return "blue";
   return "green";
 }
+
+use([
+  CanvasRenderer,
+  RadarChart,
+  TitleComponent,
+  LegendComponent,
+]);
+
+const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
+// ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
+const option = ref({
+  legend: {
+    data: ['平均值', '该队数据'],
+    bottom: "bottom",
+    textStyle: {
+      color: "white"
+    }
+  },
+  radar: {
+    indicator: [
+      { name: '英雄局均关键伤害', max: promotionStore.maxRobotDisplay.heroKeyDamage },
+      { name: '工程局均兑换经济', max: promotionStore.maxRobotDisplay.engineerEco },
+      { name: '步兵局均总伤害', max: promotionStore.maxRobotDisplay.standardDamage },
+      { name: '无人机局均总伤害', max: promotionStore.maxRobotDisplay.aerialDamage },
+      { name: '哨兵局均总伤害', max: promotionStore.maxRobotDisplay.sentryDamage },
+      { name: '飞镖累计命中数', max: promotionStore.maxRobotDisplay.dartHit },
+      { name: '雷达局均易伤时间', max: promotionStore.maxRobotDisplay.radarMarkDuration },
+    ]
+  },
+  series: [
+    {
+      name: '机器人关键数据',
+      type: 'radar',
+      data: [
+        {
+          value: [
+            promotionStore.avgRobotDisplay.heroKeyDamage,
+            promotionStore.avgRobotDisplay.engineerEco,
+            promotionStore.avgRobotDisplay.standardDamage,
+            promotionStore.avgRobotDisplay.aerialDamage,
+            promotionStore.avgRobotDisplay.sentryDamage,
+            promotionStore.avgRobotDisplay.dartHit,
+            promotionStore.avgRobotDisplay.radarMarkDuration,
+          ],
+          name: '平均值'
+        },
+        {
+          value: [
+            currentTeamDisplay.heroKeyDamage,
+            currentTeamDisplay.engineerEco,
+            currentTeamDisplay.standardDamage,
+            currentTeamDisplay.aerialDamage,
+            currentTeamDisplay.sentryDamage,
+            currentTeamDisplay.dartHit,
+            currentTeamDisplay.radarMarkDuration,
+          ],
+          name: '该队数据'
+        }
+      ]
+    }
+  ]
+});
 </script>
 
 <template>
   <v-card
-    v-if="player && player.team"
+    v-if="props.player && props.player.team"
     class="pa-2 pt-4"
   >
     <v-card-title>
@@ -174,15 +247,15 @@ function progressColor(value: number): string {
         <div class="left-column">
           <v-avatar size="100">
             <v-img
-              :src="player.team.collegeLogo"
+              :src="props.player.team.collegeLogo"
               color="white"
             ></v-img>
           </v-avatar>
         </div>
 
         <div class="right-column ml-4">
-          <h3>{{ player.team.collegeName }}</h3>
-          <h4>{{ player.team.name }}</h4>
+          <h3>{{ props.player.team.collegeName }}</h3>
+          <h4>{{ props.player.team.name }}</h4>
           <h6 v-if="rank">RoboMaster 高校积分榜第 {{ rank.rankScoreItem.rank }} 名
             ({{ rank.rankScoreItem.score }})</h6>
         </div>
@@ -335,6 +408,16 @@ function progressColor(value: number): string {
                 </div>
               </div>
             </v-col>
+
+            <v-col md="6" cols="12">
+              <div>
+                <v-chip color="info" variant="flat" label>
+                  <h3>机器人关键数据</h3>
+                </v-chip>
+                <h5><br>*取所有队伍的最大值为 100%</h5>
+                <v-chart class="chart" :option="option" autoresize/>
+              </div>
+            </v-col>
           </v-row>
         </div>
         <div v-else>
@@ -352,6 +435,11 @@ function progressColor(value: number): string {
 </template>
 
 <style scoped lang="scss">
+.chart {
+  width: 100%;
+  aspect-ratio: 1.2/1;
+}
+
 .container {
   display: flex;
   width: 100%; /* 确保容器宽度 */

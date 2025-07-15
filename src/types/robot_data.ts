@@ -46,5 +46,5 @@ export interface RobotDisplay {
   aerialDamage: number
   sentryDamage: number
   dartHit: number
-  radarDamage: number
+  radarMarkDuration: number
 }
