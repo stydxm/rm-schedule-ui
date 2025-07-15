@@ -5,10 +5,10 @@ export interface RobotData {
 export interface RobotDataZone {
   zoneName: string
   zoneId: string
-  teams: Team[]
+  teams: TeamRobotData[]
 }
 
-export interface Team {
+export interface TeamRobotData {
   id: number
   collegeName: string
   collegeLogo: string

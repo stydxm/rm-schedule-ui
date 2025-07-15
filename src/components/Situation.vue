@@ -49,18 +49,6 @@ function updateHref(newSeason: number) {
 watch(zoneId, updateQuery)
 watch(selectedGroup, updateQuery)
 
-function badgeTab(zoneId: number): boolean {
-  if (!promotionStore.selectedPlayer) return false
-  const zone = promotionStore.getZone(zoneId)
-  if (!zone) return false
-  for (let group of zone.groups.nodes) {
-    for (let player of group.players.nodes) {
-      if (promotionStore.selectedPlayer.id == player.id) return true
-    }
-  }
-  return false
-}
-
 const width = computed(() => {
   return window.innerWidth
 })

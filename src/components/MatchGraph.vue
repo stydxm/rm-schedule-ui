@@ -3,7 +3,6 @@ import RelationGraph, { RGOptions } from 'relation-graph-vue3';
 import { usePromotionStore } from "../stores/promotion";
 import { MatchNode, Player, PlayerWithMatch } from "../types/schedule";
 import { computed, ref } from "vue";
-import { useAppStore } from "../stores/app";
 import { useRoute } from "vue-router";
 import { RoundOrder } from "../types/round_order";
 import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from "../types/zone";
@@ -29,7 +28,6 @@ const loading = ref(true)
 const route = useRoute()
 const liveMode = ref(route.query.live == "1")
 
-const appStore = useAppStore();
 const promotionStore = usePromotionStore();
 const dataUpdatePromises = [
   promotionStore.updateSchedule(),
@@ -39,8 +37,8 @@ const dataUpdatePromises = [
 Promise.all(dataUpdatePromises).then(async () => {
   await updateMpMatch()
   loading.value = false
-  await graphRef.value.setJsonData(props.jsonData)
-  await graphRef.value.getInstance().zoomToFit()
+  await graphRef.value!.setJsonData(props.jsonData)
+  await graphRef.value!.getInstance().zoomToFit()
 })
 
 function refresh() {
@@ -77,10 +75,10 @@ const options = ref<RGOptions>({
   // graphOffset_y: props.type == 'knockout' ? 0 : -40,
 })
 
-function match(orderNumber: number): MatchNode | undefined {
+function match(orderNumber: number): MatchNode {
   let planGameCount = 3
   if (props.group == 'QW') planGameCount = 2
-  return promotionStore.getMatchByOrder(props.zoneId, orderNumber, planGameCount)
+  return promotionStore.getMatchByOrder(props.zoneId, orderNumber, planGameCount)!
 }
 
 function isForecast(node: any): boolean {
@@ -91,8 +89,8 @@ function winner(orderNumber: number): Player | null {
   const m = match(orderNumber)
   if (!m) return null
   if (m.status != 'DONE') return null
-  if (m.redSideWinGameCount > m.blueSideWinGameCount) return m.redSide.player
-  if (m.redSideWinGameCount < m.blueSideWinGameCount) return m.blueSide.player
+  if (m.redSideWinGameCount > m.blueSideWinGameCount) return m.redSide.player!
+  if (m.redSideWinGameCount < m.blueSideWinGameCount) return m.blueSide.player!
   return null
 }
 
@@ -100,8 +98,8 @@ function loser(orderNumber: number): Player | null {
   const m = match(orderNumber)
   if (!m) return null
   if (m.status != 'DONE') return null
-  if (m.redSideWinGameCount < m.blueSideWinGameCount) return m.redSide.player
-  if (m.redSideWinGameCount > m.blueSideWinGameCount) return m.blueSide.player
+  if (m.redSideWinGameCount < m.blueSideWinGameCount) return m.redSide.player!
+  if (m.redSideWinGameCount > m.blueSideWinGameCount) return m.blueSide.player!
   return null
 }
 
@@ -111,11 +109,12 @@ function matchRank(player: Player): number {
     const group = zone.groups.nodes[i]
     for (let j = 0; j < group.players.nodes.length; j++) {
       const p = group.players.nodes[j]
-      if (p.team.id == player.team?.id) {
+      if (p.team!.id == player.team?.id) {
         return p.rank
       }
     }
   }
+  return 0
 }
 
 function rankList(zone: any): PlayerWithMatch[] {
@@ -142,15 +141,14 @@ function rankList(zone: any): PlayerWithMatch[] {
 
 function groupRank(groupName: string, rank: number): Player {
   const zone = promotionStore.getZone(props.zoneId)
-  let group = zone.groups.nodes.find((g) => g.name == groupName)
-  if (!group) return null
-  return group.players.nodes.find((p) => p.rank == rank)
+  let group = zone.groups.nodes.find((g) => g.name == groupName)!
+  return group.players.nodes.find((p) => p.rank == rank)!
 }
 
-function groupTrulyRank(groupName: string, rank: number): number {
+function groupTrulyRank(groupName: string, rank: number): number|undefined {
   const zone = promotionStore.getZone(props.zoneId)
   let group = zone.groups.nodes.find((g) => g.name == groupName)
-  if (!group) return null
+  if (!group) return undefined
   let allZero = true
   for (let i = 0; i < group.players.nodes.length; i++) {
     if (group.players.nodes[i].score != 0) {
@@ -166,7 +164,8 @@ function padNumber(num: number): string {
   return num.toString().padStart(2, '0');
 }
 
-function convertToOrdinal(number: number): string {
+function convertToOrdinal(number: number|undefined): string {
+  if (!number) return "NaN"
   const lastDigit = number % 10;
   const lastTwoDigits = number % 100;
 
@@ -197,7 +196,7 @@ async function updateMpMatch() {
     firstId = Number(groupMatchNodes[0]?.id)
     if (!firstId) return
     if (props.group == 'C') firstId -= 22 // TODO: 临时解决方案
-    const idList = []
+    const idList:number[] = []
     props.jsonData.nodes.forEach((e: any) => {
       e.data.zones[groupIndex.value].matches.forEach((order: number, i: number) => {
         idList.push(firstId + order - 1)
@@ -212,24 +211,17 @@ async function updateMpMatch() {
   }
 }
 
-function colorfulNode(node: any): boolean {
-  if (liveMode.value) return false; // 直播模式不闪烁
-  if (props.type != 'knockout') return false;
-  if (node.data.type != 'match') return false;
-  const _match = match(node.data.zones[0].matches[0])
-  if (!_match) return false;
-  return _match.status == 'STARTED';
-}
-
-function selectPlayer(player: Player) {
-  if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
-    promotionStore.selectedPlayer = null
-  } else {
-    promotionStore.selectedPlayer = player
+function selectPlayer(player: Player|undefined) :undefined{
+  if (player) {
+    if (promotionStore.selectedPlayer && promotionStore.selectedPlayer.id == player.id) {
+      promotionStore.selectedPlayer = null
+    } else {
+      promotionStore.selectedPlayer = player
+    }
   }
 }
 
-function playerSelected(player: Player): boolean {
+function playerSelected(player: Player|undefined): boolean {
   if (!promotionStore.selectedPlayer) return false
   if (!player) return false
   return promotionStore.selectedPlayer.id == player.id
@@ -237,21 +229,23 @@ function playerSelected(player: Player): boolean {
 
 function winnerSuggestion(match: MatchNode): "RED" | "BLUE" | "NONE" {
   if (promotionStore.zoneId != 567) return "NONE"
-  let redRank = CompleteForm.find((e) => e.school == match.redSide.player?.team.collegeName)
-  let blueRank = CompleteForm.find((e) => e.school == match.blueSide.player?.team.collegeName)
+  let redRank = CompleteForm.find((e) => e.school == match.redSide.player?.team!.collegeName)
+  let blueRank = CompleteForm.find((e) => e.school == match.blueSide.player?.team!.collegeName)
   if (!redRank || !blueRank) return "NONE"
   if (redRank.rank < blueRank.rank) return "RED"
   if (redRank.rank > blueRank.rank) return "BLUE"
   return "NONE"
 }
 
-function matchTooltip(match: MatchNode): string {
+function matchTooltip(match: MatchNode|undefined): string {
   if (!match) return ""
   const time = moment.parseZone(match.planStartedAt).utcOffset(8)
   return `预计 ${time.format('M月D日 HH:mm')} 开始`
 }
 
-function logoCDN(url: string): string {
+function logoCDN(url: string|undefined): string {
+  // 回落到R标
+  if (!url) url="https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com/b2a076471c6c4b72b574a977334d3e05/9bd10b8b-06b1-41ae-b29f-7a685bb72e49"
   url = url.replace("https://rm-static.djicdn.com", "/api/static/rm-static_djicdn_com")
   url = url.replace("https://terra-cn-oss-cdn-public-pro.oss-cn-hangzhou.aliyuncs.com", "/api/static/terra-cn-oss-cdn-public-pro_oss-cn-hangzhou_aliyuncs_com")
   url = url.replace("https://pro-robomasters-hz-n5i3.oss-cn-hangzhou.aliyuncs.com", "/api/static/pro-robomasters-hz-n5i3_oss-cn-hangzhou_aliyuncs_com")
@@ -274,7 +268,7 @@ const canvasStart = ref({ x: 0, y: 0 });
 const onDragStart = (x: number, y: number) => {
   isDragging.value = true;
   nodeStart.value = { x: x, y: y };
-  const canvasOffset = graphRef.value.getInstance().options.canvasOffset
+  const canvasOffset = graphRef.value!.getInstance().options.canvasOffset
   canvasStart.value = { x: canvasOffset.x, y: canvasOffset.y };
 };
 
@@ -300,9 +294,11 @@ const onDragging = (x: number, y: number) => {
   if (isDragging.value) {
     const offsetX = x - nodeStart.value.x;
     const offsetY = y - nodeStart.value.y;
-    graphRef.value.getInstance().options.canvasOffset = {
+    graphRef.value!.getInstance().options.canvasOffset = {
       x: canvasStart.value.x + offsetX,
-      y: canvasStart.value.y + offsetY
+      y: canvasStart.value.y + offsetY,
+      zoom_buff_x: 0,
+      zoom_buff_y: 0
     };
   }
 };
@@ -330,26 +326,19 @@ const groupIndex = computed(() => {
 })
 
 const round = computed(() => {
-  // return 0;
-  // return 1;
-  // return 2;
-  // return 3;
-  // return 4;
-  // return 5;
-  // return 6;
   let orderList: number[]
   switch (props.group) {
     case 'A':
-      orderList = props.roundOrder.A
+      orderList = props.roundOrder!.A!
       break
     case 'B':
-      orderList = props.roundOrder.B
+      orderList = props.roundOrder!.B!
       break
     case 'C':
-      orderList = props.roundOrder.C
+      orderList = props.roundOrder!.C!
       break
     case "QW":
-      orderList = props.roundOrder.QW
+      orderList = props.roundOrder!.QW!
       break
     default:
       return -1
@@ -437,9 +426,9 @@ const round = computed(() => {
                                 <h4 class="px-1" style="width: 2.5rem"> 待定 </h4>
                               </div>
                               <v-avatar class="mx-1 avatar-center" color="white" size="x-small">
-                                <v-img :src="logoCDN(v.player.team.collegeLogo)"/>
+                                <v-img :src="logoCDN(v.player.team?v.player.team.collegeLogo:undefined)"/>
                               </v-avatar>
-                              <span class="one-line-text">{{ v.player.team.collegeName }}</span>
+                              <span class="one-line-text">{{ v.player.team?v.player.team.collegeName:"未知学校" }}</span>
                             </div>
                           </div>
                         </div>
@@ -523,7 +512,7 @@ const round = computed(() => {
                                   </div>
                                   <v-avatar v-if="match(v).redSide.player?.team" class="mx-1" color="white"
                                             size="x-small">
-                                    <v-img :src="logoCDN(match(v).redSide.player?.team.collegeLogo)"></v-img>
+                                    <v-img :src="logoCDN(match(v).redSide.player?.team!.collegeLogo)"></v-img>
                                   </v-avatar>
                                   <v-avatar v-else class="mx-1" size="x-small">
                                     <v-img src="@/assets/school_red.png"></v-img>
@@ -531,7 +520,7 @@ const round = computed(() => {
                                   <span v-if="match(v).redSide.player?.team"
                                         :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
                                         :class="{'color-gray': loser(v) == match(v).redSide.player }"
-                                        class="one-line-text">{{ match(v).redSide.player?.team.collegeName }}</span>
+                                        class="one-line-text">{{ match(v).redSide.player?.team!.collegeName }}</span>
                                   <span v-else :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
                                         class="one-line-text">{{ node.data.zones[groupIndex].text[2 * i] }}</span>
                                   <v-icon
@@ -572,7 +561,7 @@ const round = computed(() => {
                                   </div>
                                   <v-avatar v-if="match(v).blueSide.player?.team" class="mx-1" color="white"
                                             size="x-small">
-                                    <v-img :src="logoCDN(match(v).blueSide.player?.team.collegeLogo)"></v-img>
+                                    <v-img :src="logoCDN(match(v).blueSide.player?.team!.collegeLogo)"></v-img>
                                   </v-avatar>
                                   <v-avatar v-else class="mx-1" size="x-small">
                                     <v-img src="@/assets/school_blue.png"></v-img>
@@ -580,7 +569,7 @@ const round = computed(() => {
                                   <span v-if="match(v).blueSide.player?.team"
                                         :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
                                         :class="{'color-gray': loser(v) == match(v).blueSide.player }"
-                                        class="one-line-text">{{ match(v).blueSide.player?.team.collegeName }}</span>
+                                        class="one-line-text">{{ match(v).blueSide.player?.team!.collegeName }}</span>
                                   <span v-else :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
                                         class="one-line-text">{{ node.data.zones[groupIndex].text[2 * i + 1] }}</span>
                                   <v-icon
@@ -729,10 +718,10 @@ const round = computed(() => {
                               <h4 class="px-1" style="width: 2.5rem; color: white"> 待定 </h4>
                             </div>
                             <v-avatar class="mx-1 avatar-center" color="white" size="x-small">
-                              <v-img :src="logoCDN(v.player.team.collegeLogo)"/>
+                              <v-img :src="logoCDN(v.player.team?v.player.team.collegeLogo:undefined)"/>
                             </v-avatar>
                             <span :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
-                                  class="one-line-text">{{ v.player.team.collegeName }}</span>
+                                  class="one-line-text">{{ v.player.team?v.player.team.collegeName:"未知学校" }}</span>
                           </div>
                         </div>
                       </div>

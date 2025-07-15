@@ -3,15 +3,14 @@ import { MatchNode, Player } from "../types/schedule";
 import axios, { AxiosResponse } from "axios";
 import { RankListItem } from "../types/rank";
 import { usePromotionStore } from "../stores/promotion";
-import { computed, ref } from "vue";
-import { RobotDisplay } from "../types/robot_data"
+import { computed, ComputedRef, ref } from "vue";
+import { RobotDisplay, TeamRobotData } from "../types/robot_data"
 
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { RadarChart } from 'echarts/charts';
 import {
   TitleComponent,
-  TooltipComponent,
   LegendComponent,
 } from 'echarts/components';
 import VChart from 'vue-echarts';
@@ -65,7 +64,7 @@ const groupRank = computed(() => {
   for (const zone of promotionStore.groupRank.zones) {
     for (const group of zone.groups) {
       for (const players of group.groupPlayers) {
-        if (players[1].itemValue['collegeName'] == props.player.team.collegeName) {
+        if (players[1].itemValue['collegeName'] == props.player.team!.collegeName) {
           return players
         }
       }
@@ -74,28 +73,13 @@ const groupRank = computed(() => {
   return []
 })
 
-function convertToOrdinal(number: number): string {
-  const lastDigit = number % 10;
-  const lastTwoDigits = number % 100;
-
-  if (lastDigit === 1 && lastTwoDigits !== 11) {
-    return number + "st";
-  } else if (lastDigit === 2 && lastTwoDigits !== 12) {
-    return number + "nd";
-  } else if (lastDigit === 3 && lastTwoDigits !== 13) {
-    return number + "rd";
-  } else {
-    return number + "th";
-  }
-}
-
 const robotData = computed(() => {
   return promotionStore.robotData.zones.find((zone) => {
     return Number(zone.zoneId) == props.zoneId
-  }).teams.find((team) => {
-    return team.collegeName == props.player.team.collegeName
+  })!.teams.find((team) => {
+    return team.collegeName == props.player.team!.collegeName
   })
-})
+}) as ComputedRef<TeamRobotData>
 
 const RobotDataMap = ref({
   "Hero": {
@@ -181,13 +165,13 @@ use([
   LegendComponent,
 ]);
 
-const currentTeamDisplay=promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
+const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option = ref({
   legend: {
     data: ['平均值', '该队数据'],
     bottom: "bottom",
-    textStyle:{
+    textStyle: {
       color: "white"
     }
   },
@@ -238,18 +222,12 @@ const option = ref({
 </script>
 
 <template>
-  <v-card
-    v-if="props.player && props.player.team"
-    class="pa-2 pt-4"
-  >
+  <v-card v-if="props.player && props.player.team" class="pa-2 pt-4">
     <v-card-title>
       <div class="container">
         <div class="left-column">
           <v-avatar size="100">
-            <v-img
-              :src="props.player.team.collegeLogo"
-              color="white"
-            ></v-img>
+            <v-img :src="props.player.team.collegeLogo" color="white"></v-img>
           </v-avatar>
         </div>
 
@@ -278,25 +256,25 @@ const option = ref({
 
                 <v-table class="mt-2">
                   <thead>
-                  <tr>
-                    <th class="text-left"><b>场次</b></th>
-                    <th class="text-left"><b>红方</b></th>
-                    <th class="text-left"><b>蓝方</b></th>
-                    <th class="text-left"><b>比分</b></th>
-                  </tr>
+                    <tr>
+                      <th class="text-left"><b>场次</b></th>
+                      <th class="text-left"><b>红方</b></th>
+                      <th class="text-left"><b>蓝方</b></th>
+                      <th class="text-left"><b>比分</b></th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="n in matchList">
-                    <td>{{ n.orderNumber }}</td>
-                    <td>{{ n.redSide.player?.team?.collegeName }}</td>
-                    <td>{{ n.blueSide.player?.team?.collegeName }}</td>
-                    <td>{{ n.redSideWinGameCount }}:{{ n.blueSideWinGameCount }}</td>
-                  </tr>
+                    <tr v-for="n in matchList">
+                      <td>{{ n.orderNumber }}</td>
+                      <td>{{ n.redSide.player?.team?.collegeName }}</td>
+                      <td>{{ n.blueSide.player?.team?.collegeName }}</td>
+                      <td>{{ n.redSideWinGameCount }}:{{ n.blueSideWinGameCount }}</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </div>
             </v-col>
-          
+
             <v-col v-if="groupRank.length > 0" md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
@@ -305,16 +283,16 @@ const option = ref({
 
                 <v-table class="mt-2">
                   <thead>
-                  <tr>
-                    <th class="text-left"><b>项目名称</b></th>
-                    <th class="text-left"><b>数值</b></th>
-                  </tr>
+                    <tr>
+                      <th class="text-left"><b>项目名称</b></th>
+                      <th class="text-left"><b>数值</b></th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="n in groupRank.slice(2)">
-                    <td>{{ n.itemName }}</td>
-                    <td>{{ n.itemValue }}</td>
-                  </tr>
+                    <tr v-for="n in groupRank.slice(2)">
+                      <td>{{ n.itemName }}</td>
+                      <td>{{ n.itemValue }}</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </div>
@@ -327,34 +305,34 @@ const option = ref({
                 </v-chip>
                 <v-table class="mt-2">
                   <thead>
-                  <tr>
-                    <th class="text-left"><b>项目名称</b></th>
-                    <th class="text-left"><b>数值</b></th>
-                  </tr>
+                    <tr>
+                      <th class="text-left"><b>项目名称</b></th>
+                      <th class="text-left"><b>数值</b></th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>分数</td>
-                    <td>{{ rank.completeForm.score }}</td>
-                  </tr>
-                  <tr>
-                    <td>初始金币-项目文档</td>
-                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinDocument }}
-                      ({{ rank.completeForm.levelDocument }})
-                    </td>
-                    <td v-else>{{ rank.completeForm.initialCoinDocument }}</td>
-                  </tr>
-                  <tr>
-                    <td>初始金币-技术方案</td>
-                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinTechnology }}
-                      ({{ rank.completeForm.levelTechnology }})
-                    </td>
-                    <td v-else>{{ rank.completeForm.initialCoinTechnology }}</td>
-                  </tr>
-                  <tr>
-                    <td>总初始金币</td>
-                    <td>{{ rank.completeForm.initialCoinTotal }}</td>
-                  </tr>
+                    <tr>
+                      <td>分数</td>
+                      <td>{{ rank.completeForm.score }}</td>
+                    </tr>
+                    <tr>
+                      <td>初始金币-项目文档</td>
+                      <td v-if="promotionStore.season !== 2024">{{ rank.completeForm.initialCoinDocument }}
+                        ({{ rank.completeForm.levelDocument }})
+                      </td>
+                      <td v-else>{{ rank.completeForm.initialCoinDocument }}</td>
+                    </tr>
+                    <tr>
+                      <td>初始金币-技术方案</td>
+                      <td v-if="promotionStore.season !== 2024">{{ rank.completeForm.initialCoinTechnology }}
+                        ({{ rank.completeForm.levelTechnology }})
+                      </td>
+                      <td v-else>{{ rank.completeForm.initialCoinTechnology }}</td>
+                    </tr>
+                    <tr>
+                      <td>总初始金币</td>
+                      <td>{{ rank.completeForm.initialCoinTotal }}</td>
+                    </tr>
                   </tbody>
                 </v-table>
               </div>
@@ -366,42 +344,37 @@ const option = ref({
                   <h3>机器人数据</h3>
                 </v-chip>
 
-                <div v-for="robot in robotData.robots"
-                     :key="robot.robotNumber">
+                <div v-for="robot in robotData.robots" :key="robot.robotNumber">
                   <div v-if="RobotDataMap[robot.type]" class="mt-2">
                     <v-table density="compact">
                       <thead>
-                      <tr>
-                        <v-chip color="info" variant="tonal" label size="small">
-                          <h3>{{ RobotDataMap[robot.type].type }}</h3>
-                        </v-chip>
-                      </tr>
+                        <tr>
+                          <v-chip color="info" variant="tonal" label size="small">
+                            <h3>{{ RobotDataMap[robot.type].type }}</h3>
+                          </v-chip>
+                        </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="field in RobotDataMap[robot.type].dataFields"
-                          :key="field.td">
-                        <td style="width: 35%"><span>{{ field.th }}</span></td>
-                        <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
-                        <td style="width: 50%">
-                          <div v-if="width < 500">
-                            <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
-                              {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
-                            </span>
-                            <span v-else>-</span>
-                          </div>
-                          <v-progress-linear
-                            v-else
-                            :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
-                            height="20"
-                            :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
-                            striped
-                          >
-                            <template v-slot:default="{ value }">
-                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
-                            </template>
-                          </v-progress-linear>
-                        </td>
-                      </tr>
+                        <tr v-for="field in RobotDataMap[robot.type].dataFields" :key="field.td">
+                          <td style="width: 35%"><span>{{ field.th }}</span></td>
+                          <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
+                          <td style="width: 50%">
+                            <div v-if="width < 500">
+                              <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
+                                {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
+                              </span>
+                              <span v-else>-</span>
+                            </div>
+                            <v-progress-linear v-else
+                              :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
+                              height="20" :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
+                              striped>
+                              <template v-slot:default="{ value }">
+                                <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
+                              </template>
+                            </v-progress-linear>
+                          </td>
+                        </tr>
                       </tbody>
                     </v-table>
                   </div>
@@ -421,10 +394,7 @@ const option = ref({
           </v-row>
         </div>
         <div v-else>
-          <v-alert
-            variant="tonal"
-            color="error"
-          >
+          <v-alert variant="tonal" color="error">
             <v-icon left>mdi-alert</v-icon>
             未找到该队伍的信息
           </v-alert>
@@ -444,17 +414,20 @@ const option = ref({
 
 .container {
   display: flex;
-  width: 100%; /* 确保容器宽度 */
+  width: 100%;
+  /* 确保容器宽度 */
 }
 
 .left-column {
   display: flex;
-  align-items: center; /* 垂直居中对齐 */
+  align-items: center;
+  /* 垂直居中对齐 */
   justify-content: center;
 }
 
 .right-column {
-  flex: 1; /* 占据剩余的空间 */
+  flex: 1;
+  /* 占据剩余的空间 */
   display: flex;
   justify-content: center;
   flex-direction: column;

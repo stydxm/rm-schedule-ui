@@ -12,12 +12,6 @@
   </v-footer>
 </template>
 
-<script setup lang="ts">
-import {useAppStore} from "../stores/app";
-
-const appStore = useAppStore()
-</script>
-
 <style scoped lang="sass">
 .social-link :deep(.v-icon)
   color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity))

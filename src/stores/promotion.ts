@@ -4,10 +4,9 @@ import axios, { AxiosResponse } from "axios";
 import { GroupRankInfo } from "../types/group_rank_info";
 import { MpMatch, MpMatchRoot } from "../types/mp_match";
 import { RobotDisplay, RobotData, Robot } from "../types/robot_data";
-import { ro } from "vuetify/locale";
 
 function extractDisplayData(robots: Robot[]): RobotDisplay {
-  let result: RobotDisplay = {
+  const result: RobotDisplay = {
     heroKeyDamage: 0,
     engineerEco: 0,
     standardDamage: 0,
