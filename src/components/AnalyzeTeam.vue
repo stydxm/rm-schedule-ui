@@ -190,7 +190,6 @@ const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.
 const option: echarts.EChartsOption = {
   legend: {
     type: 'scroll',
-    data: ['平均值', '该队数据'],
     bottom: "bottom",
     textStyle: {
       color: "white"
@@ -240,7 +239,7 @@ const option: echarts.EChartsOption = {
             currentTeamDisplay.dartHit,
             currentTeamDisplay.radarMarkDuration,
           ],
-          name: '该队数据'
+          name: props.player.team.collegeName,
         }
       ]
     }
