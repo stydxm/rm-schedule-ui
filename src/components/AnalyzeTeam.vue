@@ -6,6 +6,7 @@ import { usePromotionStore } from "../stores/promotion";
 import { computed, ref } from "vue";
 import { RobotDisplay } from "../types/robot_data"
 
+import * as echarts from 'echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { RadarChart } from 'echarts/charts';
@@ -186,7 +187,7 @@ use([
 
 const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
-const option = ref({
+const option: echarts.EChartsOption = {
   legend: {
     type: 'scroll',
     data: ['平均值', '该队数据'],
@@ -244,7 +245,7 @@ const option = ref({
       ]
     }
   ]
-});
+};
 </script>
 
 <template>
