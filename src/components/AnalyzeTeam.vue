@@ -414,7 +414,7 @@ const option = ref({
                 <v-chip color="info" variant="flat" label>
                   <h3>机器人关键数据</h3>
                 </v-chip>
-                最外圈为所有队伍中的最大值
+                <h5><br>*取所有队伍的最大值为 100%</h5>
                 <v-chart class="chart" :option="option" autoresize/>
               </div>
             </v-col>
