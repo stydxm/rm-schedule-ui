@@ -436,10 +436,8 @@ const option = ref({
 
 <style scoped lang="scss">
 .chart {
-  width: 80%;
-  aspect-ratio: 1/1;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  aspect-ratio: 1.2/1;
 }
 
 .container {
