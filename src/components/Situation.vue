@@ -60,6 +60,39 @@ function badgeTab(zoneId: number): boolean {
   }
   return false
 }
+
+const width = computed(() => {
+  return window.innerWidth
+})
+
+const MenuItems = ref(
+  [
+    {
+      title: '分析队伍',
+      icon: 'mdi-google-analytics',
+      disabled: () => !promotionStore.selectedPlayer,
+      action: () => {
+        appStore.analysisDialog = true
+      },
+    },
+    {
+      title: '查看注释',
+      icon: 'mdi-comment-text',
+      disabled: () => false,
+      action: () => {
+        appStore.commentDialog = true
+      },
+    },
+    {
+      title: '关于软件',
+      icon: 'mdi-information',
+      disabled: () => false,
+      action: () => {
+        appStore.aboutDialog = true
+      },
+    },
+  ]
+)
 </script>
 
 <template>
@@ -114,14 +147,41 @@ function badgeTab(zoneId: number): boolean {
             ></v-switch>
 
             <div class="text-right ml-4 mr-2 mt-1">
-              RM Schedule
+              <span v-if="width >= 800">
+                RM Schedule
+              </span>
+
               <v-btn
+                class="mx-1"
                 variant="flat"
                 color="transparent"
                 icon="mdi-magnify"
                 @click="appStore.searchDialog = true"
               >
               </v-btn>
+
+              <v-menu>
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    variant="flat"
+                    color="transparent"
+                    icon="mdi-more"
+                    v-bind="props"
+                  ></v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in MenuItems"
+                    :key="index"
+                    :value="index"
+                    :prepend-icon="item.icon"
+                    :title="item.title"
+                    :disabled="item.disabled()"
+                    @click="item.action"
+                  >
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </div>
           </v-tabs>
 
@@ -150,22 +210,6 @@ function badgeTab(zoneId: number): boolean {
               <v-spacer/>
 
               <div class="text-right">
-                <v-btn
-                  class="mx-1 my-2" variant="flat"
-                  color="info" size="small"
-                  :disabled="!promotionStore.selectedPlayer"
-                  @click="appStore.analysisDialog = true"
-                >
-                  分析
-                </v-btn>
-
-                <v-btn
-                  class="mx-1 my-2" variant="flat"
-                  color="info" size="small"
-                  @click="appStore.aboutDialog = true"
-                >
-                  关于
-                </v-btn>
               </div>
             </v-slide-group>
           </v-sheet>

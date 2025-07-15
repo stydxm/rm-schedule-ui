@@ -30,7 +30,8 @@ const promotionStore = usePromotionStore();
 
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
-const robotData:RobotDisplay=promotionStore.robotDataMap.get(props.player.team.collegeName)
+
+const width = ref(window.innerWidth)
 
 axios({
   method: 'GET',
@@ -88,6 +89,91 @@ function convertToOrdinal(number: number): string {
   }
 }
 
+const robotData = computed(() => {
+  return promotionStore.robotData.zones.find((zone) => {
+    return Number(zone.zoneId) == props.zoneId
+  }).teams.find((team) => {
+    return team.collegeName == props.player.team.collegeName
+  })
+})
+
+const RobotDataMap = ref({
+  "Hero": {
+    type: "英雄",
+    dataFields: [
+      { th: "局均42mm弹丸命中率(%)", td: "eaBigHitRate", },
+      { th: "局均部署命中数", td: "eaSnipeCnt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Infantry": {
+    type: "步兵",
+    dataFields: [
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
+      { th: "局均总伤害", td: "eagHurt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Sapper": {
+    type: "工程",
+    dataFields: [
+      { th: "局均兑换难度", td: "avgMineDiff", },
+      { th: "局均兑换时间", td: "avgMineTime", },
+      { th: "局均兑换经济", td: "eaExchangeEcon", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Airplane": {
+    type: "无人机",
+    dataFields: [
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
+      { th: "局均发弹量", td: "avgShootNum", },
+      { th: "局均总伤害", td: "eagHurt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Guard": {
+    type: "哨兵",
+    dataFields: [
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
+      { th: "局均总伤害", td: "eagHurt", },
+      { th: "局均关键伤害", td: "gkDamage", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Dart": {
+    type: "飞镖",
+    dataFields: [
+      { th: "累计命中前哨站数", td: "etDartOutpostCnt", },
+      { th: "累计命中基地固定目标数", td: "etDartFixedCnt", },
+      { th: "累计命中基地随机固定目标数", td: "etDartRDFixCnt", },
+      { th: "累计命中基地随机移动目标数", td: "etDartRDMoveCnt", },
+      { th: "局均KDA", td: "eaKDA", },
+    ]
+  },
+  "Radar": {
+    type: "雷达",
+    dataFields: [
+      { th: "局均额外伤害", td: "eaRadarDebuffDmg", },
+      { th: "局均易伤时间", td: "eaRadarMarkerTime", },
+    ]
+  }
+})
+
+function maxRobotData(type: string, field: string): number {
+  return promotionStore.maxRobotData.find((n) => n.type === type)![field]
+}
+
+function progressColor(value: number): string {
+  if (value >= 75) return "red";
+  if (value >= 50) return "orange";
+  if (value >= 25) return "blue";
+  return "green";
+}
+
 use([
   CanvasRenderer,
   RadarChart,
@@ -95,7 +181,8 @@ use([
   LegendComponent,
 ]);
 
-
+const currentTeamDisplay=promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
+// ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option = ref({
   legend: {
     data: ['平均值', '该队数据'],
@@ -106,13 +193,13 @@ const option = ref({
   },
   radar: {
     indicator: [
-      { name: '英雄局均关键伤害', max: promotionStore.maxRobotData.heroKeyDamage },
-      { name: '工程局均兑换经济', max: promotionStore.maxRobotData.engineerEco },
-      { name: '步兵局均总伤害', max: promotionStore.maxRobotData.standardDamage },
-      { name: '无人机局均总伤害', max: promotionStore.maxRobotData.aerialDamage },
-      { name: '哨兵局均总伤害', max: promotionStore.maxRobotData.sentryDamage },
-      { name: '飞镖累计命中数', max: promotionStore.maxRobotData.dartHit },
-      { name: '雷达局均额外伤害', max: promotionStore.maxRobotData.radarDamage },
+      { name: '英雄局均关键伤害', max: promotionStore.maxRobotDisplay.heroKeyDamage },
+      { name: '工程局均兑换经济', max: promotionStore.maxRobotDisplay.engineerEco },
+      { name: '步兵局均总伤害', max: promotionStore.maxRobotDisplay.standardDamage },
+      { name: '无人机局均总伤害', max: promotionStore.maxRobotDisplay.aerialDamage },
+      { name: '哨兵局均总伤害', max: promotionStore.maxRobotDisplay.sentryDamage },
+      { name: '飞镖累计命中数', max: promotionStore.maxRobotDisplay.dartHit },
+      { name: '雷达局均易伤时间', max: promotionStore.maxRobotDisplay.radarMarkDuration },
     ]
   },
   series: [
@@ -122,25 +209,25 @@ const option = ref({
       data: [
         {
           value: [
-            promotionStore.avgRobotData.heroKeyDamage,
-            promotionStore.avgRobotData.engineerEco,
-            promotionStore.avgRobotData.standardDamage,
-            promotionStore.avgRobotData.aerialDamage,
-            promotionStore.avgRobotData.sentryDamage,
-            promotionStore.avgRobotData.dartHit,
-            promotionStore.avgRobotData.radarDamage,
+            promotionStore.avgRobotDisplay.heroKeyDamage,
+            promotionStore.avgRobotDisplay.engineerEco,
+            promotionStore.avgRobotDisplay.standardDamage,
+            promotionStore.avgRobotDisplay.aerialDamage,
+            promotionStore.avgRobotDisplay.sentryDamage,
+            promotionStore.avgRobotDisplay.dartHit,
+            promotionStore.avgRobotDisplay.radarMarkDuration,
           ],
           name: '平均值'
         },
         {
           value: [
-            robotData.heroKeyDamage,
-            robotData.engineerEco,
-            robotData.standardDamage,
-            robotData.aerialDamage,
-            robotData.sentryDamage,
-            robotData.dartHit,
-            robotData.radarDamage,
+            currentTeamDisplay.heroKeyDamage,
+            currentTeamDisplay.engineerEco,
+            currentTeamDisplay.standardDamage,
+            currentTeamDisplay.aerialDamage,
+            currentTeamDisplay.sentryDamage,
+            currentTeamDisplay.dartHit,
+            currentTeamDisplay.radarMarkDuration,
           ],
           name: '该队数据'
         }
@@ -152,7 +239,7 @@ const option = ref({
 
 <template>
   <v-card
-    v-if="player && player.team"
+    v-if="props.player && props.player.team"
     class="pa-2 pt-4"
   >
     <v-card-title>
@@ -160,15 +247,15 @@ const option = ref({
         <div class="left-column">
           <v-avatar size="100">
             <v-img
-              :src="player.team.collegeLogo"
+              :src="props.player.team.collegeLogo"
               color="white"
             ></v-img>
           </v-avatar>
         </div>
 
         <div class="right-column ml-4">
-          <h3>{{ player.team.collegeName }}</h3>
-          <h4>{{ player.team.name }}</h4>
+          <h3>{{ props.player.team.collegeName }}</h3>
+          <h4>{{ props.player.team.name }}</h4>
           <h6 v-if="rank">RoboMaster 高校积分榜第 {{ rank.rankScoreItem.rank }} 名
             ({{ rank.rankScoreItem.score }})</h6>
         </div>
@@ -207,16 +294,6 @@ const option = ref({
                   </tr>
                   </tbody>
                 </v-table>
-              </div>
-            </v-col>
-
-            <v-col md="6" cols="12">
-              <div>
-                <v-chip color="info" variant="flat" label>
-                  <h3>机器人关键数据</h3>
-                </v-chip>
-                最外圈为所有队伍中的最大值
-                <v-chart class="chart" :option="option" autoresize />
               </div>
             </v-col>
           
@@ -262,12 +339,16 @@ const option = ref({
                   </tr>
                   <tr>
                     <td>初始金币-项目文档</td>
-                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinDocument }} ({{ rank.completeForm.levelDocument }})</td>
+                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinDocument }}
+                      ({{ rank.completeForm.levelDocument }})
+                    </td>
                     <td v-else>{{ rank.completeForm.initialCoinDocument }}</td>
                   </tr>
                   <tr>
                     <td>初始金币-技术方案</td>
-                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinTechnology }} ({{ rank.completeForm.levelTechnology }})</td>
+                    <td v-if="promotionStore.season!==2024">{{ rank.completeForm.initialCoinTechnology }}
+                      ({{ rank.completeForm.levelTechnology }})
+                    </td>
                     <td v-else>{{ rank.completeForm.initialCoinTechnology }}</td>
                   </tr>
                   <tr>
@@ -276,6 +357,65 @@ const option = ref({
                   </tr>
                   </tbody>
                 </v-table>
+              </div>
+            </v-col>
+
+            <v-col md="6" cols="12">
+              <div>
+                <v-chip class="mb-2" color="info" variant="flat" label>
+                  <h3>机器人数据</h3>
+                </v-chip>
+
+                <div v-for="robot in robotData.robots"
+                     :key="robot.robotNumber">
+                  <div v-if="RobotDataMap[robot.type]" class="mt-2">
+                    <v-table density="compact">
+                      <thead>
+                      <tr>
+                        <v-chip color="info" variant="tonal" label size="small">
+                          <h3>{{ RobotDataMap[robot.type].type }}</h3>
+                        </v-chip>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="field in RobotDataMap[robot.type].dataFields"
+                          :key="field.td">
+                        <td style="width: 35%"><span>{{ field.th }}</span></td>
+                        <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
+                        <td style="width: 50%">
+                          <div v-if="width < 500">
+                            <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
+                              {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
+                            </span>
+                            <span v-else>-</span>
+                          </div>
+                          <v-progress-linear
+                            v-else
+                            :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
+                            height="20"
+                            :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
+                            striped
+                          >
+                            <template v-slot:default="{ value }">
+                              <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
+                            </template>
+                          </v-progress-linear>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </v-table>
+                  </div>
+                </div>
+              </div>
+            </v-col>
+
+            <v-col md="6" cols="12">
+              <div>
+                <v-chip color="info" variant="flat" label>
+                  <h3>机器人关键数据</h3>
+                </v-chip>
+                最外圈为所有队伍中的最大值
+                <v-chart class="chart" :option="option" autoresize />
               </div>
             </v-col>
           </v-row>
