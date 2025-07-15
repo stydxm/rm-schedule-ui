@@ -31,6 +31,7 @@ export interface Robot {
   etDartFixedCnt: number //累计命中基地固定目标数
   etDartRDFixCnt: number //累计命中基地随机固定目标数
   etDartRDMoveCnt: number //累计命中基地随机移动目标数
+  _etDartCnt: number //累计命中数
   eaRadarMarkerTime: number //局均易伤时间
   eaRadarDebuffDmg: number //局均额外伤害
   eaExchangeEcon: number //局均兑换经济
