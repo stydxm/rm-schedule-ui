@@ -6,12 +6,14 @@ import { usePromotionStore } from "../stores/promotion";
 import { computed, ref } from "vue";
 import { RobotDisplay } from "../types/robot_data"
 
+import * as echarts from 'echarts';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { RadarChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
+  VisualMapComponent,
   LegendComponent,
 } from 'echarts/components';
 import VChart from 'vue-echarts';
@@ -179,17 +181,28 @@ use([
   RadarChart,
   TitleComponent,
   LegendComponent,
+  TooltipComponent,
+  VisualMapComponent,
 ]);
 
 const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
-const option = ref({
+const option: echarts.EChartsOption = {
+  title: {
+    subtext: '取所有队伍的最大值为 100%',
+    subtextStyle: {
+      color: "white"
+    }
+  },
   legend: {
-    data: ['平均值', '该队数据'],
+    type: 'scroll',
     bottom: "bottom",
     textStyle: {
       color: "white"
     }
+  },
+  tooltip: {
+    trigger: 'item'
   },
   radar: {
     indicator: [
@@ -206,6 +219,9 @@ const option = ref({
     {
       name: '机器人关键数据',
       type: 'radar',
+      emphasis: {
+        areaStyle: {}
+      },
       data: [
         {
           value: [
@@ -229,12 +245,12 @@ const option = ref({
             currentTeamDisplay.dartHit,
             currentTeamDisplay.radarMarkDuration,
           ],
-          name: '该队数据'
+          name: props.player.team.collegeName,
         }
       ]
     }
   ]
-});
+};
 </script>
 
 <template>
@@ -412,9 +428,8 @@ const option = ref({
             <v-col md="6" cols="12">
               <div>
                 <v-chip color="info" variant="flat" label>
-                  <h3>机器人关键数据</h3>
+                  <h3>雷达图</h3>
                 </v-chip>
-                <h5><br>*取所有队伍的最大值为 100%</h5>
                 <v-chart class="chart" :option="option" autoresize/>
               </div>
             </v-col>

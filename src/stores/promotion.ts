@@ -7,7 +7,7 @@ import { RobotDisplay, RobotData, Robot } from "../types/robot_data";
 import { ro } from "vuetify/locale";
 
 function extractDisplayData(robots: Robot[]): RobotDisplay {
-  let result: RobotDisplay = {
+  const result: RobotDisplay = {
     heroKeyDamage: 0,
     engineerEco: 0,
     standardDamage: 0,
@@ -34,7 +34,7 @@ function extractDisplayData(robots: Robot[]): RobotDisplay {
         result.sentryDamage = robot.eagHurt
         break
       case "Dart":
-        result.dartHit = robot.etDartFixedCnt + robot.etDartOutpostCnt + robot.etDartRDFixCnt + robot.etDartRDMoveCnt
+        result.dartHit = robot._etDartCnt
         break
       case "Radar":
         result.radarMarkDuration = robot.eaRadarMarkerTime
@@ -157,6 +157,7 @@ export const usePromotionStore = defineStore("promotion", {
             teamCount++;
             for (const robot of team.robots) {
               robot.eaKDA = this.fixKDA(robot.eaKDA);
+              robot._etDartCnt = this.getDartHitCnt(robot);
               newSumRobotData.find((r: Robot, index: number) => {
                 if (r.type === robot.type) {
                   Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
@@ -252,6 +253,9 @@ export const usePromotionStore = defineStore("promotion", {
         Number(parseFloat(part).toFixed(1))
       );
       return `${kills}/${deaths}/${assists}`;
-    }
+    },
+    getDartHitCnt(robot: Robot): number {
+      return robot.etDartOutpostCnt + robot.etDartFixedCnt + robot.etDartRDFixCnt + robot.etDartRDMoveCnt;
+    },
   },
 });
