@@ -10,6 +10,7 @@ import GroupMatchData from "./GroupMatchData.vue";
 import CompleteFormRank from "./CompleteFormRank.vue";
 import RobotDataTable from "./RobotDataTable.vue";
 import RobotDataRadar from "./RobotDataRadar.vue";
+import { useRobotDataStore } from "../stores/robot_data";
 
 interface Props {
   zoneId: number,
@@ -22,6 +23,7 @@ if (!props.player || !props.player.team) {
 }
 
 const promotionStore = usePromotionStore();
+const robotDataStore = useRobotDataStore();
 
 const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
@@ -53,7 +55,7 @@ const groupRank = computed(() => {
 })
 
 const robotData = computed(() => {
-  return promotionStore.robotData.zones.find((zone) => {
+  return robotDataStore.robotData.zones.find((zone) => {
     return Number(zone.zoneId) == props.zoneId
   })?.teams.find((team) => {
     return team.collegeName == props.player.team.collegeName

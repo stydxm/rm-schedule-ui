@@ -3,13 +3,14 @@
 import { computed, ref } from "vue";
 import { Team } from "../types/robot_data";
 import { usePromotionStore } from "../stores/promotion";
+import { useRobotDataStore } from "../stores/robot_data";
 
 interface Props {
   robotData: Team
 }
 
 const props = defineProps<Props>()
-const promotionStore = usePromotionStore();
+const robotDataStore = useRobotDataStore();
 const robotData = computed(() => props.robotData)
 
 const width = ref(window.innerWidth)
@@ -81,7 +82,7 @@ const RobotDataMap = ref({
 })
 
 function maxRobotData(type: string, field: string): number {
-  return promotionStore.maxRobotData.find((n) => n.type === type)![field]
+  return robotDataStore.maxRobotData.find((n) => n.type === type)![field]
 }
 
 function progressColor(value: number): string {
