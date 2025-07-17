@@ -13,7 +13,7 @@ function extractDisplayData(robots: Robot[]): RobotDisplay {
     standardDamage: 0,
     aerialDamage: 0,
     sentryDamage: 0,
-    dartHit: 0,
+    dartWeightedScore: 0,
     radarMarkDuration: 0,
   }
   for (const robot of robots) {
@@ -34,7 +34,7 @@ function extractDisplayData(robots: Robot[]): RobotDisplay {
         result.sentryDamage = robot.eagHurt
         break
       case "Dart":
-        result.dartHit = robot._etDartCnt
+        result.dartWeightedScore = robot._etDartWeightedScore
         break
       case "Radar":
         result.radarMarkDuration = robot.eaRadarMarkerTime
@@ -65,7 +65,7 @@ export const usePromotionStore = defineStore("promotion", {
       standardDamage: 0,
       aerialDamage: 0,
       sentryDamage: 0,
-      dartHit: 0,
+      dartWeightedScore: 0,
       radarMarkDuration: 0
     } as RobotDisplay,
     mpMatchMap: new Map<string, MpMatch>(),
@@ -158,6 +158,7 @@ export const usePromotionStore = defineStore("promotion", {
             for (const robot of team.robots) {
               robot.eaKDA = this.fixKDA(robot.eaKDA);
               robot._etDartCnt = this.getDartHitCnt(robot);
+              robot._etDartWeightedScore = this.getDartWeightedScore(robot);
               newSumRobotData.find((r: Robot, index: number) => {
                 if (r.type === robot.type) {
                   Object.keys(robot).filter(key => !IgnoredKeys.includes(key)).forEach(key => {
@@ -257,5 +258,11 @@ export const usePromotionStore = defineStore("promotion", {
     getDartHitCnt(robot: Robot): number {
       return robot.etDartOutpostCnt + robot.etDartFixedCnt + robot.etDartRDFixCnt + robot.etDartRDMoveCnt;
     },
+    getDartWeightedScore(robot: Robot): number {
+      return robot.etDartOutpostCnt +
+        5 * robot.etDartFixedCnt +
+        10 * robot.etDartRDFixCnt +
+        25 * robot.etDartRDMoveCnt;
+    }
   },
 });
