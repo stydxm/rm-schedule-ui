@@ -18,6 +18,7 @@ import {
 } from 'echarts/components';
 import VChart from 'vue-echarts';
 import MatchRecord from "./MatchRecord.vue";
+import GroupMatchData from "./GroupMatchData.vue";
 
 interface Props {
   zoneId: number,
@@ -276,27 +277,9 @@ const option: echarts.EChartsOption = {
               <MatchRecord :player="props.player"/>
             </v-col>
 
-            <v-col v-if="groupRank.length > 0" md="6" cols="12">
-              <div>
-                <v-chip color="info" variant="flat" label>
-                  <h3>区域赛小组赛排名 {{ groupRank[0].itemValue }}/16</h3>
-                </v-chip>
-
-                <v-table class="mt-2">
-                  <thead>
-                  <tr>
-                    <th class="text-left"><b>项目名称</b></th>
-                    <th class="text-left"><b>数值</b></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="n in groupRank.slice(2)">
-                    <td>{{ n.itemName }}</td>
-                    <td>{{ n.itemValue }}</td>
-                  </tr>
-                  </tbody>
-                </v-table>
-              </div>
+            <v-col v-if="groupRank.length > 0"
+                   md="6" cols="12">
+              <GroupMatchData group-rank="groupRank"/>
             </v-col>
 
             <v-col md="6" cols="12">

@@ -11,6 +11,7 @@ declare module 'vue' {
     AnalyzeTeam: typeof import('./components/AnalyzeTeam.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     GraphComment: typeof import('./components/GraphComment.vue')['default']
+    GroupMatchData: typeof import('./components/GroupMatchData.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
     MatchRecord: typeof import('./components/MatchRecord.vue')['default']
