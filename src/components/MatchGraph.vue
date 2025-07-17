@@ -3,7 +3,6 @@ import RelationGraph, { RGOptions } from 'relation-graph-vue3';
 import { usePromotionStore } from "../stores/promotion";
 import { MatchNode, Player, PlayerWithMatch } from "../types/schedule";
 import { computed, ref } from "vue";
-import { useAppStore } from "../stores/app";
 import { useRoute } from "vue-router";
 import { RoundOrder } from "../types/round_order";
 import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from "../types/zone";

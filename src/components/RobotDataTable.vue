@@ -10,7 +10,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const promotionStore = usePromotionStore();
 const robotDataStore = useRobotDataStore();
 const robotData = computed(() => props.robotData)
 
