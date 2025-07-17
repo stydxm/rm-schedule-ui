@@ -80,7 +80,7 @@ function convertToOrdinal(number: number): string {
 const robotData = computed(() => {
   return promotionStore.robotData.zones.find((zone) => {
     return Number(zone.zoneId) == props.zoneId
-  }).teams.find((team) => {
+  })?.teams.find((team) => {
     return team.collegeName == props.player.team.collegeName
   })
 })
@@ -340,7 +340,7 @@ const option: echarts.EChartsOption = {
             </v-col>
 
             <v-col md="6" cols="12">
-              <div>
+              <div v-if="robotData">
                 <v-chip class="mb-2" color="info" variant="flat" label>
                   <h3>机器人数据</h3>
                 </v-chip>
