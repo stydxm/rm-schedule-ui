@@ -1,22 +1,10 @@
 <script setup lang="ts">
-import { MatchNode, Player } from "../types/schedule";
+import { Player } from "../types/schedule";
 import axios, { AxiosResponse } from "axios";
 import { RankListItem } from "../types/rank";
 import { usePromotionStore } from "../stores/promotion";
 import { computed, ref } from "vue";
-import { RobotDisplay } from "../types/robot_data"
 
-import * as echarts from 'echarts';
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { RadarChart } from 'echarts/charts';
-import {
-  TitleComponent,
-  TooltipComponent,
-  VisualMapComponent,
-  LegendComponent,
-} from 'echarts/components';
-import VChart from 'vue-echarts';
 import MatchRecord from "./MatchRecord.vue";
 import GroupMatchData from "./GroupMatchData.vue";
 import CompleteFormRank from "./CompleteFormRank.vue";
@@ -63,21 +51,6 @@ const groupRank = computed(() => {
   }
   return []
 })
-
-function convertToOrdinal(number: number): string {
-  const lastDigit = number % 10;
-  const lastTwoDigits = number % 100;
-
-  if (lastDigit === 1 && lastTwoDigits !== 11) {
-    return number + "st";
-  } else if (lastDigit === 2 && lastTwoDigits !== 12) {
-    return number + "nd";
-  } else if (lastDigit === 3 && lastTwoDigits !== 13) {
-    return number + "rd";
-  } else {
-    return number + "th";
-  }
-}
 
 const robotData = computed(() => {
   return promotionStore.robotData.zones.find((zone) => {
