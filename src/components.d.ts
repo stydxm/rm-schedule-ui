@@ -16,6 +16,7 @@ declare module 'vue' {
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
     MatchRecord: typeof import('./components/MatchRecord.vue')['default']
+    RobotDataRadar: typeof import('./components/RobotDataRadar.vue')['default']
     RobotDataTable: typeof import('./components/RobotDataTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
