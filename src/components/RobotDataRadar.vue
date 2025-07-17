@@ -29,7 +29,8 @@ const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option: echarts.EChartsOption = {
   title: {
-    subtext: '取所有队伍的最大值为 100%',
+    subtext: '* 取所有队伍的最大值为 100%\n' +
+        '** 飞镖加权命中分数 = 1*前哨站数 + 5*基地固定 + 10*基地随机固定 + 25*基地随机移动',
     subtextStyle: {
       color: "white"
     }
@@ -51,7 +52,7 @@ const option: echarts.EChartsOption = {
       { name: '步兵局均总伤害', max: promotionStore.maxRobotDisplay.standardDamage },
       { name: '无人机局均总伤害', max: promotionStore.maxRobotDisplay.aerialDamage },
       { name: '哨兵局均总伤害', max: promotionStore.maxRobotDisplay.sentryDamage },
-      { name: '飞镖累计命中数', max: promotionStore.maxRobotDisplay.dartHit },
+      { name: '飞镖加权命中分数', max: promotionStore.maxRobotDisplay.dartWeightedScore },
       { name: '雷达局均易伤时间', max: promotionStore.maxRobotDisplay.radarMarkDuration },
     ]
   },
@@ -70,7 +71,7 @@ const option: echarts.EChartsOption = {
             promotionStore.avgRobotDisplay.standardDamage,
             promotionStore.avgRobotDisplay.aerialDamage,
             promotionStore.avgRobotDisplay.sentryDamage,
-            promotionStore.avgRobotDisplay.dartHit,
+            promotionStore.avgRobotDisplay.dartWeightedScore,
             promotionStore.avgRobotDisplay.radarMarkDuration,
           ],
           name: '平均值'
@@ -82,7 +83,7 @@ const option: echarts.EChartsOption = {
             currentTeamDisplay.standardDamage,
             currentTeamDisplay.aerialDamage,
             currentTeamDisplay.sentryDamage,
-            currentTeamDisplay.dartHit,
+            currentTeamDisplay.dartWeightedScore,
             currentTeamDisplay.radarMarkDuration,
           ],
           name: props.player.team.collegeName,
