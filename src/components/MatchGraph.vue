@@ -222,6 +222,7 @@ function colorfulNode(node: any): boolean {
 }
 
 function selectPlayer(player: Player) {
+  promotionStore.selectedMatch = null
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
   } else {
