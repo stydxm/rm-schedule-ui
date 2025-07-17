@@ -9,6 +9,7 @@ import { RoundOrder } from "../types/round_order";
 import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from "../types/zone";
 import moment from "moment";
 import { CompleteForm } from "../constant/complete_form";
+import { useRobotDataStore } from "../stores/robot_data";
 
 interface Props {
   zoneId: number,
@@ -29,12 +30,12 @@ const loading = ref(true)
 const route = useRoute()
 const liveMode = ref(route.query.live == "1")
 
-const appStore = useAppStore();
 const promotionStore = usePromotionStore();
+const robotDataStore = useRobotDataStore();
 const dataUpdatePromises = [
   promotionStore.updateSchedule(),
   promotionStore.updateGroupRank(),
-  promotionStore.updateRobotData()
+  robotDataStore.updateRobotData()
 ]
 Promise.all(dataUpdatePromises).then(async () => {
   await updateMpMatch()
@@ -46,7 +47,7 @@ Promise.all(dataUpdatePromises).then(async () => {
 function refresh() {
   promotionStore.updateSchedule()
   promotionStore.updateGroupRank()
-  promotionStore.updateRobotData()
+  robotDataStore.updateRobotData()
   updateMpMatch()
 }
 

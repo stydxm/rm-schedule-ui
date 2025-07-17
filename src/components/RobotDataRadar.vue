@@ -2,19 +2,19 @@
 import VChart from "vue-echarts";
 import { RobotDisplay } from "../types/robot_data";
 import * as echarts from "echarts";
-import { usePromotionStore } from "../stores/promotion";
 import { Player } from "../types/schedule";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { RadarChart } from "echarts/charts";
 import { LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
+import { useRobotDataStore } from "../stores/robot_data";
 
 interface Props {
   player: Player,
 }
 
 const props = defineProps<Props>()
-const promotionStore = usePromotionStore();
+const robotDataStore = useRobotDataStore();
 
 use([
   CanvasRenderer,
@@ -25,7 +25,7 @@ use([
   VisualMapComponent,
 ]);
 
-const currentTeamDisplay = promotionStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
+const currentTeamDisplay = robotDataStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option: echarts.EChartsOption = {
   title: {
@@ -47,13 +47,13 @@ const option: echarts.EChartsOption = {
   },
   radar: {
     indicator: [
-      { name: '英雄局均关键伤害', max: promotionStore.maxRobotDisplay.heroKeyDamage },
-      { name: '工程局均兑换经济', max: promotionStore.maxRobotDisplay.engineerEco },
-      { name: '步兵局均总伤害', max: promotionStore.maxRobotDisplay.standardDamage },
-      { name: '无人机局均总伤害', max: promotionStore.maxRobotDisplay.aerialDamage },
-      { name: '哨兵局均总伤害', max: promotionStore.maxRobotDisplay.sentryDamage },
-      { name: '飞镖加权命中分数', max: promotionStore.maxRobotDisplay.dartWeightedScore },
-      { name: '雷达局均易伤时间', max: promotionStore.maxRobotDisplay.radarMarkDuration },
+      { name: '英雄局均关键伤害', max: robotDataStore.maxRobotDisplay.heroKeyDamage },
+      { name: '工程局均兑换经济', max: robotDataStore.maxRobotDisplay.engineerEco },
+      { name: '步兵局均总伤害', max: robotDataStore.maxRobotDisplay.standardDamage },
+      { name: '无人机局均总伤害', max: robotDataStore.maxRobotDisplay.aerialDamage },
+      { name: '哨兵局均总伤害', max: robotDataStore.maxRobotDisplay.sentryDamage },
+      { name: '飞镖加权命中分数', max: robotDataStore.maxRobotDisplay.dartWeightedScore },
+      { name: '雷达局均易伤时间', max: robotDataStore.maxRobotDisplay.radarMarkDuration },
     ]
   },
   series: [
@@ -66,13 +66,13 @@ const option: echarts.EChartsOption = {
       data: [
         {
           value: [
-            promotionStore.avgRobotDisplay.heroKeyDamage,
-            promotionStore.avgRobotDisplay.engineerEco,
-            promotionStore.avgRobotDisplay.standardDamage,
-            promotionStore.avgRobotDisplay.aerialDamage,
-            promotionStore.avgRobotDisplay.sentryDamage,
-            promotionStore.avgRobotDisplay.dartWeightedScore,
-            promotionStore.avgRobotDisplay.radarMarkDuration,
+            robotDataStore.avgRobotDisplay.heroKeyDamage,
+            robotDataStore.avgRobotDisplay.engineerEco,
+            robotDataStore.avgRobotDisplay.standardDamage,
+            robotDataStore.avgRobotDisplay.aerialDamage,
+            robotDataStore.avgRobotDisplay.sentryDamage,
+            robotDataStore.avgRobotDisplay.dartWeightedScore,
+            robotDataStore.avgRobotDisplay.radarMarkDuration,
           ],
           name: '平均值'
         },
