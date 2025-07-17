@@ -17,6 +17,7 @@ import {
   LegendComponent,
 } from 'echarts/components';
 import VChart from 'vue-echarts';
+import MatchRecord from "./MatchRecord.vue";
 
 interface Props {
   zoneId: number,
@@ -46,21 +47,6 @@ axios({
   rank.value = resp.data
 }).finally(() => {
   loading.value = false
-})
-
-const matchList = computed(() => {
-  const ret: MatchNode[] = []
-  for (const zone of promotionStore.schedule.data.event.zones.nodes) {
-    zone.groupMatches.nodes.forEach((match) => {
-      if (match.redSide.playerId == props.player.id) ret.push(match)
-      else if (match.blueSide.playerId == props.player.id) ret.push(match)
-    })
-    zone.knockoutMatches.nodes.forEach((match) => {
-      if (match.redSide.playerId == props.player.id) ret.push(match)
-      else if (match.blueSide.playerId == props.player.id) ret.push(match)
-    })
-  }
-  return ret
 })
 
 const groupRank = computed(() => {
@@ -287,30 +273,7 @@ const option: echarts.EChartsOption = {
         <div v-if="rank">
           <v-row>
             <v-col md="6" cols="12">
-              <div>
-                <v-chip color="info" variant="flat" label>
-                  <h3>比赛战绩</h3>
-                </v-chip>
-
-                <v-table class="mt-2">
-                  <thead>
-                  <tr>
-                    <th class="text-left"><b>场次</b></th>
-                    <th class="text-left"><b>红方</b></th>
-                    <th class="text-left"><b>蓝方</b></th>
-                    <th class="text-left"><b>比分</b></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="n in matchList">
-                    <td>{{ n.orderNumber }}</td>
-                    <td>{{ n.redSide.player?.team?.collegeName }}</td>
-                    <td>{{ n.blueSide.player?.team?.collegeName }}</td>
-                    <td>{{ n.redSideWinGameCount }}:{{ n.blueSideWinGameCount }}</td>
-                  </tr>
-                  </tbody>
-                </v-table>
-              </div>
+              <MatchRecord :player="props.player"/>
             </v-col>
 
             <v-col v-if="groupRank.length > 0" md="6" cols="12">

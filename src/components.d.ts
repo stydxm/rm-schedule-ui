@@ -13,6 +13,7 @@ declare module 'vue' {
     GraphComment: typeof import('./components/GraphComment.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
+    MatchRecord: typeof import('./components/MatchRecord.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchPlayer: typeof import('./components/SearchPlayer.vue')['default']
