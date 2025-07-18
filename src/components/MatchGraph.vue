@@ -10,6 +10,9 @@ import moment from "moment";
 import { CompleteForm } from "../constant/complete_form";
 import { useRobotDataStore } from "../stores/robot_data";
 import { useAppStore } from "../stores/app";
+import axios, { AxiosResponse } from "axios";
+import { BilibiliReplay } from "../types/bilibili_replay";
+import { BilibiliEmbedRenderer } from "vue-bilibili-embed-renderer";
 
 interface Props {
   zoneId: number,
@@ -245,6 +248,21 @@ function selectPlayerMatch(match: MatchNode, player: Player) {
   } else {
     promotionStore.selectedPlayer = player
     promotionStore.selectedMatch = match
+
+    // 获取B站回放
+    axios({
+      method: "GET",
+      url: "/api/match_order_to_video",
+      params: {
+        season: promotionStore.season,
+        zone: promotionStore.getZone(props.zoneId).name,
+        order_number: match.orderNumber,
+      },
+    }).then(async (response: AxiosResponse<BilibiliReplay>) => {
+      promotionStore.bilibiliReplay = response.data;
+    }).catch(err => {
+      promotionStore.bilibiliReplay = null;
+    })
   }
 }
 
@@ -617,7 +635,7 @@ const round = computed(() => {
                       <v-card
                         class="mx-auto"
                         prepend-icon="mdi-sword-cross"
-                        width="360"
+                        width="320"
                       >
                         <template v-slot:title>
                           <span class="font-weight-black">
@@ -632,6 +650,13 @@ const round = computed(() => {
                             {{ match(v).blueSide.player?.team.collegeName }}
                           </span>
                         </template>
+
+                        <BilibiliEmbedRenderer
+                          v-if="promotionStore.bilibiliReplay"
+                          width="320"
+                          height="180"
+                          :bvid="promotionStore.bilibiliReplay.bvid">
+                        </BilibiliEmbedRenderer>
 
                         <v-list>
                           <v-list-item @click="appStore.analysisDialog = true">

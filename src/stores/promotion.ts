@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { GroupRankInfo } from "../types/group_rank_info";
 import { MpMatch, MpMatchRoot } from "../types/mp_match";
 import { RobotData, Robot } from "../types/robot_data";
+import { BilibiliReplay } from "../types/bilibili_replay";
 
 export interface Schedule {
   data: ScheduleData;
@@ -19,6 +20,7 @@ export const usePromotionStore = defineStore("promotion", {
     selectedPlayer: null as Player | null,
     selectedMatch: null as MatchNode | null,
     suggestionEnabled: false as boolean,
+    bilibiliReplay: null as BilibiliReplay | null,
   }),
   getters: {
     backgroundImageOpacity(state): number {
