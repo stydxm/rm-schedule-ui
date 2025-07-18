@@ -9,6 +9,10 @@ import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from 
 import moment from "moment";
 import { CompleteForm } from "../constant/complete_form";
 import { useRobotDataStore } from "../stores/robot_data";
+import { useAppStore } from "../stores/app";
+import axios, { AxiosResponse } from "axios";
+import { BilibiliReplay } from "../types/bilibili_replay";
+import { BilibiliEmbedRenderer } from "vue-bilibili-embed-renderer";
 
 interface Props {
   zoneId: number,
@@ -29,6 +33,7 @@ const loading = ref(true)
 const route = useRoute()
 const liveMode = ref(route.query.live == "1")
 
+const appStore = useAppStore()
 const promotionStore = usePromotionStore();
 const robotDataStore = useRobotDataStore();
 const dataUpdatePromises = [
@@ -222,6 +227,7 @@ function colorfulNode(node: any): boolean {
 }
 
 function selectPlayer(player: Player) {
+  promotionStore.selectedMatch = null
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
   } else {
@@ -233,6 +239,37 @@ function playerSelected(player: Player): boolean {
   if (!promotionStore.selectedPlayer) return false
   if (!player) return false
   return promotionStore.selectedPlayer.id == player.id
+}
+
+function selectPlayerMatch(match: MatchNode, player: Player) {
+  if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
+    promotionStore.selectedPlayer = null
+    promotionStore.selectedMatch = null
+  } else {
+    promotionStore.selectedPlayer = player
+    promotionStore.selectedMatch = match
+
+    // 获取B站回放
+    axios({
+      method: "GET",
+      url: "/api/match_order_to_video",
+      params: {
+        season: promotionStore.season,
+        zone: promotionStore.getZone(props.zoneId).name,
+        order_number: match.orderNumber,
+      },
+    }).then(async (response: AxiosResponse<BilibiliReplay>) => {
+      promotionStore.bilibiliReplay = response.data;
+    }).catch(err => {
+      promotionStore.bilibiliReplay = null;
+    })
+  }
+}
+
+function matchSelected(match: MatchNode): boolean {
+  if (!promotionStore.selectedMatch) return false
+  if (!match) return false
+  return promotionStore.selectedMatch.id == match.id
 }
 
 function winnerSuggestion(match: MatchNode): "RED" | "BLUE" | "NONE" {
@@ -423,7 +460,7 @@ const round = computed(() => {
                           v-if="v"
                           class="top-row row-content mt-1"
                           :class="{
-                            'selected-content': playerSelected(v.player),
+                            'selected-player': playerSelected(v.player),
                           }"
                           @click="selectPlayer(v.player)"
                         >
@@ -476,13 +513,14 @@ const round = computed(() => {
 
                   <!--已确认的赛程-->
                   <div v-if="round + 1 > node.data.round && match(v)" class="container">
-                    <v-tooltip :text="matchTooltip(match(v))">
-                      <template v-slot:activator="{ props }">
+                    <v-menu>
+                      <template v-slot:activator="{ isActive, props }">
                         <div
                           v-bind="props"
                           class="container ml-2"
                           :class="{
                             'mt-2': type == 'group',
+                            'selected-match': isActive,
                           }"
                         >
                           <div class="left-column order-image-container">
@@ -496,9 +534,9 @@ const round = computed(() => {
                             <div
                               class="top-row row-content mb-1"
                               :class="{
-                                'selected-content': playerSelected(match(v).redSide.player),
+                                'selected-player': playerSelected(match(v).redSide.player),
                               }"
-                              @click="selectPlayer(match(v).redSide.player)"
+                              @click="selectPlayerMatch(match(v), match(v).redSide.player)"
                             >
                               <div class="school-image-container">
                                 <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
@@ -545,9 +583,9 @@ const round = computed(() => {
                             <div
                               class="row-content"
                               :class="{
-                              'selected-content': playerSelected(match(v).blueSide.player),
+                              'selected-player': playerSelected(match(v).blueSide.player),
                             }"
-                              @click="selectPlayer(match(v).blueSide.player)"
+                              @click="selectPlayerMatch(match(v), match(v).blueSide.player)"
                             >
                               <div class="school-image-container">
                                 <img src="@/assets/school_bg.png" style="width: 320px" alt="Image"/>
@@ -593,7 +631,40 @@ const round = computed(() => {
                           </div>
                         </div>
                       </template>
-                    </v-tooltip>
+
+                      <v-card
+                        class="mx-auto"
+                        prepend-icon="mdi-sword-cross"
+                        width="320"
+                      >
+                        <template v-slot:title>
+                          <span class="font-weight-black">
+                            {{ matchTooltip(match(v)) }}
+                          </span>
+                        </template>
+
+                        <template v-slot:subtitle>
+                          <span class="font-weight-black">
+                            {{ match(v).redSide.player?.team.collegeName }}
+                            vs
+                            {{ match(v).blueSide.player?.team.collegeName }}
+                          </span>
+                        </template>
+
+                        <BilibiliEmbedRenderer
+                          v-if="promotionStore.bilibiliReplay"
+                          width="320"
+                          height="180"
+                          :bvid="promotionStore.bilibiliReplay.bvid">
+                        </BilibiliEmbedRenderer>
+
+                        <v-list>
+                          <v-list-item @click="appStore.analysisDialog = true">
+                            分析队伍{{ promotionStore.selectedPlayer?.team?.collegeName }}
+                          </v-list-item>
+                        </v-list>
+                      </v-card>
+                    </v-menu>
                   </div>
 
                   <!--纯文字+红蓝R标 A-1-->
@@ -712,7 +783,7 @@ const round = computed(() => {
                         v-if="v"
                         class="top-row row-content mt-2"
                         :class="{
-                        'selected-content': playerSelected(v.player),
+                        'selected-player': playerSelected(v.player),
                       }"
                         @click="selectPlayer(v.player)"
                       >
@@ -903,11 +974,19 @@ const round = computed(() => {
   padding: 0 0;
 }
 
-.selected-content {
+.selected-player {
   background: rgba(223, 223, 223, 0.75); /* 选中内容的背景色 */
   padding: 4px 18px 4px 4px;
   border-radius: 4px; /* 添加圆角边框 */
   box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.5); /* 添加阴影效果 */
+  transition: all 0.5s ease; /* 添加过渡效果，使变化更平滑 */
+}
+
+.selected-match {
+  background: rgba(255, 215, 0, 0.5); /* 选中内容的背景色 */
+  padding: 4px 0;
+  border-radius: 4px; /* 添加圆角边框 */
+  box-shadow: 0 0 8px 4px rgba(255, 215, 0, 0.25); /* 添加阴影效果 */
   transition: all 0.5s ease; /* 添加过渡效果，使变化更平滑 */
 }
 
