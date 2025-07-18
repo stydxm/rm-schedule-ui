@@ -9,6 +9,7 @@ import { GroupType, ImageData, TitleData, ZoneJsonData, ZoneNodeJsonData } from 
 import moment from "moment";
 import { CompleteForm } from "../constant/complete_form";
 import { useRobotDataStore } from "../stores/robot_data";
+import { useAppStore } from "../stores/app";
 
 interface Props {
   zoneId: number,
@@ -29,6 +30,7 @@ const loading = ref(true)
 const route = useRoute()
 const liveMode = ref(route.query.live == "1")
 
+const appStore = useAppStore()
 const promotionStore = usePromotionStore();
 const robotDataStore = useRobotDataStore();
 const dataUpdatePromises = [
@@ -493,14 +495,14 @@ const round = computed(() => {
 
                   <!--已确认的赛程-->
                   <div v-if="round + 1 > node.data.round && match(v)" class="container">
-                    <v-tooltip :text="matchTooltip(match(v))">
-                      <template v-slot:activator="{ props }">
+                    <v-menu>
+                      <template v-slot:activator="{ isActive, props }">
                         <div
                           v-bind="props"
                           class="container ml-2"
                           :class="{
                             'mt-2': type == 'group',
-                            'selected-match': matchSelected(match(v)),
+                            'selected-match': isActive,
                           }"
                         >
                           <div class="left-column order-image-container">
@@ -611,7 +613,33 @@ const round = computed(() => {
                           </div>
                         </div>
                       </template>
-                    </v-tooltip>
+
+                      <v-card
+                        class="mx-auto"
+                        prepend-icon="mdi-sword-cross"
+                        width="360"
+                      >
+                        <template v-slot:title>
+                          <span class="font-weight-black">
+                            {{ matchTooltip(match(v)) }}
+                          </span>
+                        </template>
+
+                        <template v-slot:subtitle>
+                          <span class="font-weight-black">
+                            {{ match(v).redSide.player?.team.collegeName }}
+                            vs
+                            {{ match(v).blueSide.player?.team.collegeName }}
+                          </span>
+                        </template>
+
+                        <v-list>
+                          <v-list-item @click="appStore.analysisDialog = true">
+                            分析队伍{{ promotionStore.selectedPlayer?.team?.collegeName }}
+                          </v-list-item>
+                        </v-list>
+                      </v-card>
+                    </v-menu>
                   </div>
 
                   <!--纯文字+红蓝R标 A-1-->
