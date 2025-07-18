@@ -24,5 +24,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SearchPlayer: typeof import('./components/SearchPlayer.vue')['default']
     Situation: typeof import('./components/Situation.vue')['default']
+    TeamHeader: typeof import('./components/TeamHeader.vue')['default']
   }
 }
