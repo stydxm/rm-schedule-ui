@@ -289,6 +289,14 @@ function openBilibiliSpace(uid: number) {
   window.open(`https://space.bilibili.com/${uid}`, '_blank')
 }
 
+function onMatchMenuModelValue(on: boolean) {
+  if (!on) {
+    promotionStore.selectedMatch = null
+    promotionStore.bilibiliReplay = null
+    promotionStore.teamInfo = null
+  }
+}
+
 function matchSelected(match: MatchNode): boolean {
   if (!promotionStore.selectedMatch) return false
   if (!match) return false
@@ -536,7 +544,7 @@ const round = computed(() => {
 
                   <!--已确认的赛程-->
                   <div v-if="round + 1 > node.data.round && match(v)" class="container">
-                    <v-menu>
+                    <v-menu @update:model-value="onMatchMenuModelValue">
                       <template v-slot:activator="{ isActive, props }">
                         <div
                           v-bind="props"
@@ -691,7 +699,7 @@ const round = computed(() => {
                             :disabled="!promotionStore.teamInfo || !promotionStore.teamInfo.bilibiliUid"
                             @click="openBilibiliSpace(promotionStore.teamInfo?.bilibiliUid)"
                           >
-                            访问战队 bilibili 账号
+                            前往战队 bilibili 账号
                           </v-list-item>
                         </v-list>
                       </v-card>
