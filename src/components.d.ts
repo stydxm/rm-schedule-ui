@@ -15,6 +15,7 @@ declare module 'vue' {
     GroupMatchData: typeof import('./components/GroupMatchData.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
+    MatchMenu: typeof import('./components/MatchMenu.vue')['default']
     MatchRecord: typeof import('./components/MatchRecord.vue')['default']
     RobotDataRadar: typeof import('./components/RobotDataRadar.vue')['default']
     RobotDataTable: typeof import('./components/RobotDataTable.vue')['default']

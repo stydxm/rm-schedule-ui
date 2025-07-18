@@ -12,7 +12,8 @@ import { useRobotDataStore } from "../stores/robot_data";
 import { useAppStore } from "../stores/app";
 import axios, { AxiosResponse } from "axios";
 import { BilibiliReplay } from "../types/bilibili_replay";
-import { BilibiliEmbedRenderer } from "vue-bilibili-embed-renderer";
+import { TeamInfo } from "../types/team_info";
+import MatchMenu from "./MatchMenu.vue";
 
 interface Props {
   zoneId: number,
@@ -241,6 +242,36 @@ function playerSelected(player: Player): boolean {
   return promotionStore.selectedPlayer.id == player.id
 }
 
+function updateBilibiliReplay(orderNumber: number) {
+  axios({
+    method: "GET",
+    url: "/api/match_order_to_video",
+    params: {
+      season: promotionStore.season,
+      zone: promotionStore.getZone(props.zoneId).name,
+      order_number: orderNumber,
+    },
+  }).then(async (response: AxiosResponse<BilibiliReplay>) => {
+    promotionStore.bilibiliReplay = response.data;
+  }).catch(err => {
+    promotionStore.bilibiliReplay = null;
+  })
+}
+
+function updateTeamInfo(collegeName: string) {
+  axios({
+    method: "GET",
+    url: "/api/team_info",
+    params: {
+      college_name: collegeName,
+    },
+  }).then(async (response: AxiosResponse<TeamInfo>) => {
+    promotionStore.teamInfo = response.data;
+  }).catch(err => {
+    promotionStore.teamInfo = null;
+  })
+}
+
 function selectPlayerMatch(match: MatchNode, player: Player) {
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
@@ -249,20 +280,20 @@ function selectPlayerMatch(match: MatchNode, player: Player) {
     promotionStore.selectedPlayer = player
     promotionStore.selectedMatch = match
 
-    // 获取B站回放
-    axios({
-      method: "GET",
-      url: "/api/match_order_to_video",
-      params: {
-        season: promotionStore.season,
-        zone: promotionStore.getZone(props.zoneId).name,
-        order_number: match.orderNumber,
-      },
-    }).then(async (response: AxiosResponse<BilibiliReplay>) => {
-      promotionStore.bilibiliReplay = response.data;
-    }).catch(err => {
-      promotionStore.bilibiliReplay = null;
-    })
+    updateBilibiliReplay(match.orderNumber)
+    updateTeamInfo(player.team.collegeName)
+  }
+}
+
+function openBilibiliSpace(uid: number) {
+  window.open(`https://space.bilibili.com/${uid}`, '_blank')
+}
+
+function onMatchMenuModelValue(on: boolean) {
+  if (!on) {
+    promotionStore.selectedMatch = null
+    promotionStore.bilibiliReplay = null
+    promotionStore.teamInfo = null
   }
 }
 
@@ -513,7 +544,7 @@ const round = computed(() => {
 
                   <!--已确认的赛程-->
                   <div v-if="round + 1 > node.data.round && match(v)" class="container">
-                    <v-menu>
+                    <v-menu @update:model-value="onMatchMenuModelValue">
                       <template v-slot:activator="{ isActive, props }">
                         <div
                           v-bind="props"
@@ -631,39 +662,7 @@ const round = computed(() => {
                           </div>
                         </div>
                       </template>
-
-                      <v-card
-                        class="mx-auto"
-                        prepend-icon="mdi-sword-cross"
-                        width="320"
-                      >
-                        <template v-slot:title>
-                          <span class="font-weight-black">
-                            {{ matchTooltip(match(v)) }}
-                          </span>
-                        </template>
-
-                        <template v-slot:subtitle>
-                          <span class="font-weight-black">
-                            {{ match(v).redSide.player?.team.collegeName }}
-                            vs
-                            {{ match(v).blueSide.player?.team.collegeName }}
-                          </span>
-                        </template>
-
-                        <BilibiliEmbedRenderer
-                          v-if="promotionStore.bilibiliReplay"
-                          width="320"
-                          height="180"
-                          :bvid="promotionStore.bilibiliReplay.bvid">
-                        </BilibiliEmbedRenderer>
-
-                        <v-list>
-                          <v-list-item @click="appStore.analysisDialog = true">
-                            分析队伍{{ promotionStore.selectedPlayer?.team?.collegeName }}
-                          </v-list-item>
-                        </v-list>
-                      </v-card>
+                      <MatchMenu :match="match(v)"/>
                     </v-menu>
                   </div>
 
