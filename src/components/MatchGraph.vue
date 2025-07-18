@@ -13,6 +13,7 @@ import { useAppStore } from "../stores/app";
 import axios, { AxiosResponse } from "axios";
 import { BilibiliReplay } from "../types/bilibili_replay";
 import { BilibiliEmbedRenderer } from "vue-bilibili-embed-renderer";
+import { TeamInfo } from "../types/team_info";
 
 interface Props {
   zoneId: number,
@@ -257,6 +258,20 @@ function updateBilibiliReplay(orderNumber: number) {
   })
 }
 
+function updateTeamInfo(collegeName: string) {
+  axios({
+    method: "GET",
+    url: "/api/team_info",
+    params: {
+      college_name: collegeName,
+    },
+  }).then(async (response: AxiosResponse<TeamInfo>) => {
+    promotionStore.teamInfo = response.data;
+  }).catch(err => {
+    promotionStore.teamInfo = null;
+  })
+}
+
 function selectPlayerMatch(match: MatchNode, player: Player) {
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
@@ -266,7 +281,12 @@ function selectPlayerMatch(match: MatchNode, player: Player) {
     promotionStore.selectedMatch = match
 
     updateBilibiliReplay(match.orderNumber)
+    updateTeamInfo(player.team.collegeName)
   }
+}
+
+function openBilibiliSpace(uid: number) {
+  window.open(`https://space.bilibili.com/${uid}`, '_blank')
 }
 
 function matchSelected(match: MatchNode): boolean {
@@ -662,8 +682,16 @@ const round = computed(() => {
                         </BilibiliEmbedRenderer>
 
                         <v-list>
-                          <v-list-item @click="appStore.analysisDialog = true">
+                          <v-list-item
+                            @click="appStore.analysisDialog = true"
+                          >
                             分析队伍{{ promotionStore.selectedPlayer?.team?.collegeName }}
+                          </v-list-item>
+                          <v-list-item
+                            :disabled="!promotionStore.teamInfo || !promotionStore.teamInfo.bilibiliUid"
+                            @click="openBilibiliSpace(promotionStore.teamInfo?.bilibiliUid)"
+                          >
+                            访问战队 bilibili 账号
                           </v-list-item>
                         </v-list>
                       </v-card>
