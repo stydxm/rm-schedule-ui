@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { MatchNode, Player } from "../types/schedule";
+import { MatchNode } from "../types/schedule";
 import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
 import { ref } from "vue";
+import { RankListItem } from "../types/rank";
+import axios, { AxiosResponse } from "axios";
+import TeamHeader from "./TeamHeader.vue";
 
 interface Props {
   zoneId: number,
@@ -24,6 +27,32 @@ const promotionStore = usePromotionStore();
 const robotDataStore = useRobotDataStore();
 
 const loading = ref(true)
+
+const fetchTeamRank = async (collegeName: string): Promise<RankListItem> => {
+  const rankRef = ref<RankListItem | null>(null);
+  const resp = await axios({
+    method: 'GET',
+    url: '/api/rank',
+    params: {
+      season: promotionStore.season,
+      school_name: collegeName,
+    }
+  });
+  rankRef.value = resp.data;
+  return rankRef.value;
+};
+
+const redRank = ref<RankListItem | null>(null);
+const blueRank = ref<RankListItem | null>(null);
+const updateRedRank = fetchTeamRank(redPlayer.team.collegeName).then((data) => {
+  redRank.value = data;
+});
+const updateBlueRank = fetchTeamRank(bluePlayer.team.collegeName).then((data) => {
+  blueRank.value = data;
+});
+Promise.all([updateRedRank, updateBlueRank]).finally(() => {
+  loading.value = false;
+});
 </script>
 
 <template>
@@ -31,9 +60,40 @@ const loading = ref(true)
     v-if="redPlayer?.team && bluePlayer?.team"
     class="pa-2 pt-4"
   >
+    <v-row>
+      <v-col md="6" cols="12">
+        <v-card-title>
+          <TeamHeader :player="redPlayer" :rank="redRank"/>
+        </v-card-title>
+      </v-col>
+      <v-col md="6" cols="12">
+        <v-card-title>
+          <TeamHeader :player="bluePlayer" :rank="blueRank"/>
+        </v-card-title>
+      </v-col>
+    </v-row>
+
+    <v-card-text class="mt-2">
+    </v-card-text>
   </v-card>
 </template>
 
 <style scoped lang="scss">
+.container {
+  display: flex;
+  width: 100%; /* 确保容器宽度 */
+}
 
+.left-column {
+  display: flex;
+  align-items: center; /* 垂直居中对齐 */
+  justify-content: center;
+}
+
+.right-column {
+  flex: 1; /* 占据剩余的空间 */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 </style>
