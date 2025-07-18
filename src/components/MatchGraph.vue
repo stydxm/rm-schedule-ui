@@ -241,6 +241,22 @@ function playerSelected(player: Player): boolean {
   return promotionStore.selectedPlayer.id == player.id
 }
 
+function updateBilibiliReplay(orderNumber: number) {
+  axios({
+    method: "GET",
+    url: "/api/match_order_to_video",
+    params: {
+      season: promotionStore.season,
+      zone: promotionStore.getZone(props.zoneId).name,
+      order_number: orderNumber,
+    },
+  }).then(async (response: AxiosResponse<BilibiliReplay>) => {
+    promotionStore.bilibiliReplay = response.data;
+  }).catch(err => {
+    promotionStore.bilibiliReplay = null;
+  })
+}
+
 function selectPlayerMatch(match: MatchNode, player: Player) {
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
@@ -249,20 +265,7 @@ function selectPlayerMatch(match: MatchNode, player: Player) {
     promotionStore.selectedPlayer = player
     promotionStore.selectedMatch = match
 
-    // 获取B站回放
-    axios({
-      method: "GET",
-      url: "/api/match_order_to_video",
-      params: {
-        season: promotionStore.season,
-        zone: promotionStore.getZone(props.zoneId).name,
-        order_number: match.orderNumber,
-      },
-    }).then(async (response: AxiosResponse<BilibiliReplay>) => {
-      promotionStore.bilibiliReplay = response.data;
-    }).catch(err => {
-      promotionStore.bilibiliReplay = null;
-    })
+    updateBilibiliReplay(match.orderNumber)
   }
 }
 
