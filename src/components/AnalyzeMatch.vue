@@ -73,12 +73,17 @@ function getRobotData(player: Player): Team {
     <v-row>
       <v-col md="6" cols="12">
         <v-card-title>
-          <TeamHeader :player="redPlayer" :rank="redRank"/>
+          <TeamHeader
+            :player="redPlayer"
+            :rank="redRank"/>
         </v-card-title>
       </v-col>
       <v-col md="6" cols="12">
         <v-card-title>
-          <TeamHeader :player="bluePlayer" :rank="blueRank"/>
+          <TeamHeader
+            :player="bluePlayer"
+            :rank="blueRank"
+            :right="true"/>
         </v-card-title>
       </v-col>
     </v-row>
@@ -97,18 +102,5 @@ function getRobotData(player: Player): Team {
 .container {
   display: flex;
   width: 100%; /* 确保容器宽度 */
-}
-
-.left-column {
-  display: flex;
-  align-items: center; /* 垂直居中对齐 */
-  justify-content: center;
-}
-
-.right-column {
-  flex: 1; /* 占据剩余的空间 */
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 </style>
