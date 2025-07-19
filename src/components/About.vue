@@ -77,12 +77,15 @@ const items = [
       <v-card-text class="text-center">
         <h3 class="mt-2">— 研发 —</h3>
         <p>22-24赛季 软件开发组 常霆钰</p>
-        <p>反馈&建议 + QQ1067088037</p>
-        <h3 class="mt-2">— 宣传 —</h3>
+        <p>浙江理工大学钱塘蛟 潘任周</p>
+        <h3 class="mt-4">— 宣传 —</h3>
         <p>22-24赛季 宣传运营组 杨卓石</p>
         <h3 class="mt-4">— 特别鸣谢 —</h3>
         <p>RoboMaster 组委会</p>
         <p>如有更多软件 idea，可以搜索微信号 <b>rmfans666</b> 联系 RoboMaster 组委会</p>
+        <h3 class="mt-4">— 数据源 —</h3>
+        <p>各战队 bilibli 官方账号 @風雅荷</p>
+        <p>2015-2024 赛季历史赛果 @法老</p>
 
         <div class="mt-6">
           <v-img src="@/assets/qr-code2.png"></v-img>
