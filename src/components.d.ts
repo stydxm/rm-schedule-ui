@@ -18,6 +18,7 @@ declare module 'vue' {
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
     MatchMenu: typeof import('./components/MatchMenu.vue')['default']
     MatchRecord: typeof import('./components/MatchRecord.vue')['default']
+    RobotDataProgress: typeof import('./components/RobotDataProgress.vue')['default']
     RobotDataRadar: typeof import('./components/RobotDataRadar.vue')['default']
     RobotDataTable: typeof import('./components/RobotDataTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 import { Team } from "../types/robot_data";
 import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
+import RobotDataProgress from "./RobotDataProgress.vue";
 
 interface Props {
   robotDataLeft: Team
@@ -12,8 +13,6 @@ interface Props {
 const props = defineProps<Props>()
 const robotDataStore = useRobotDataStore();
 const robotDataLeft = computed(() => props.robotDataLeft)
-
-const width = ref(window.innerWidth)
 
 const RobotDataMap = ref({
   "Hero": {
@@ -84,13 +83,6 @@ const RobotDataMap = ref({
 function maxRobotData(type: string, field: string): number {
   return robotDataStore.maxRobotData.find((n) => n.type === type)![field]
 }
-
-function progressColor(value: number): string {
-  if (value >= 75) return "red";
-  if (value >= 50) return "orange";
-  if (value >= 25) return "blue";
-  return "green";
-}
 </script>
 
 <template>
@@ -116,23 +108,9 @@ function progressColor(value: number): string {
             <td style="width: 35%"><span>{{ field.th }}</span></td>
             <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
             <td style="width: 50%">
-              <div v-if="width < 500">
-                            <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
-                              {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
-                            </span>
-                <span v-else>-</span>
-              </div>
-              <v-progress-linear
-                v-else
-                :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
-                height="20"
-                :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
-                striped
-              >
-                <template v-slot:default="{ value }">
-                  <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
-                </template>
-              </v-progress-linear>
+              <RobotDataProgress
+                :value="robot[field.td]"
+                :max-value="maxRobotData(robot.type, field.td)"/>
             </td>
           </tr>
           </tbody>
