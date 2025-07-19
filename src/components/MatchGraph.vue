@@ -228,7 +228,6 @@ function colorfulNode(node: any): boolean {
 }
 
 function selectPlayer(player: Player) {
-  promotionStore.selectedMatch = null
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
   } else {
@@ -275,10 +274,8 @@ function updateTeamInfo(collegeName: string) {
 function selectPlayerMatch(match: MatchNode, player: Player) {
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
-    promotionStore.selectedMatch = null
   } else {
     promotionStore.selectedPlayer = player
-    promotionStore.selectedMatch = match
 
     updateBilibiliReplay(match.orderNumber)
     updateTeamInfo(player.team.collegeName)
@@ -291,7 +288,6 @@ function openBilibiliSpace(uid: number) {
 
 function onMatchMenuModelValue(on: boolean) {
   if (!on) {
-    promotionStore.selectedMatch = null
     promotionStore.bilibiliReplay = null
     promotionStore.teamInfo = null
   }

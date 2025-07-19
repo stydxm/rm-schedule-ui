@@ -24,6 +24,11 @@ function matchTooltip(match: MatchNode): string {
 function openBilibiliSpace(uid: number) {
   window.open(`https://space.bilibili.com/${uid}`, '_blank')
 }
+
+function onAnalyzeMatch() {
+  promotionStore.selectedMatch = match.value
+  appStore.matchAnalysisDialog = true
+}
 </script>
 
 <template>
@@ -55,7 +60,8 @@ function openBilibiliSpace(uid: number) {
 
     <v-list>
       <v-list-item
-        @click="appStore.matchAnalysisDialog = true"
+        @click="onAnalyzeMatch"
+        :disabled="!props.match"
       >
         分析比赛{{ promotionStore.getCurrentZone().name }}第{{ match.orderNumber }}场
       </v-list-item>
