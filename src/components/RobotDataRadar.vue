@@ -8,9 +8,11 @@ import { CanvasRenderer } from "echarts/renderers";
 import { RadarChart } from "echarts/charts";
 import { LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
 import { useRobotDataStore } from "../stores/robot_data";
+import { RadarSeriesDataItemOption } from "echarts/types/src/chart/radar/RadarSeries";
 
 interface Props {
   players: Player[],
+  colors: string[],
 }
 
 const props = defineProps<Props>()
@@ -26,7 +28,7 @@ use([
 ]);
 
 const currentRobotDisplays = [] as RobotDisplay[]
-const data = [
+const data: RadarSeriesDataItemOption[] = [
   {
     value: [
       robotDataStore.avgRobotDisplay.heroKeyDamage,
@@ -37,11 +39,23 @@ const data = [
       robotDataStore.avgRobotDisplay.dartWeightedScore,
       robotDataStore.avgRobotDisplay.radarMarkDuration,
     ],
-    name: '平均值'
+    name: '平均值',
+    itemStyle: {
+      color: 'white',
+      opacity: 1.0,
+    },
+    lineStyle: {
+      color: 'white',
+      opacity: 1.0,
+    },
+    areaStyle: {
+      color: 'white',
+      opacity: 0.2,
+    }
   },
 ]
 
-props.players.forEach((player) => {
+props.players.forEach((player, index) => {
   currentRobotDisplays.push(robotDataStore.robotDisplayMap.get(player.team.collegeName))
   data.push({
     value: [
@@ -54,6 +68,18 @@ props.players.forEach((player) => {
       currentRobotDisplays[currentRobotDisplays.length - 1].radarMarkDuration,
     ],
     name: player.team.collegeName,
+    itemStyle: {
+      color: props.colors[index % props.colors.length],
+      opacity: 1.0,
+    },
+    lineStyle: {
+      color: props.colors[index % props.colors.length],
+      opacity: 1.0,
+    },
+    areaStyle: {
+      color: props.colors[index % props.colors.length],
+      opacity: 0.2,
+    }
   });
 })
 
@@ -87,16 +113,14 @@ const option: echarts.EChartsOption = {
       { name: '雷达局均易伤时间', max: robotDataStore.maxRobotDisplay.radarMarkDuration },
     ]
   },
-  series: [
-    {
-      name: '机器人关键数据',
-      type: 'radar',
-      emphasis: {
-        areaStyle: {}
-      },
-      data: data,
-    }
-  ]
+  series: {
+    name: '机器人关键数据',
+    type: 'radar',
+    emphasis: {
+      areaStyle: {}
+    },
+    data: data,
+  }
 };
 </script>
 

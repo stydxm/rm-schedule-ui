@@ -97,7 +97,9 @@ function getRobotData(player: Player): Team {
       </v-col>
 
       <v-col md="6" cols="12">
-        <RobotDataRadar :players="[redPlayer, bluePlayer]"/>
+        <RobotDataRadar
+          :players="[redPlayer, bluePlayer]"
+          :colors="['#F44336', '#2196F3']"/>
       </v-col>
     </v-card-text>
   </v-card>

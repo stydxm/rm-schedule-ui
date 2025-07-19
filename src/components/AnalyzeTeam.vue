@@ -99,7 +99,9 @@ const robotData = computed(() => {
             </v-col>
 
             <v-col md="6" cols="12">
-              <RobotDataRadar :players="[props.player]"/>
+              <RobotDataRadar
+                :players="[props.player]"
+                :colors="['#FFEB3B']"/>
             </v-col>
           </v-row>
         </div>
