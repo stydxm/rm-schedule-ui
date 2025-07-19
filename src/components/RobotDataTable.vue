@@ -2,13 +2,12 @@
 
 import { computed, ref } from "vue";
 import { Team } from "../types/robot_data";
-import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
 import RobotDataProgress from "./RobotDataProgress.vue";
 
 interface Props {
   robotDataLeft: Team
-  robotDataRight: Team
+  robotDataRight?: Team
 }
 
 const props = defineProps<Props>()
@@ -86,8 +85,8 @@ function maxRobotData(type: string, field: string): number {
   return robotDataStore.maxRobotData.find((n) => n.type === type)![field]
 }
 
-const nameWidth = computed(() => robotDataRight.value ? 'width: 20%' : 'width: 35%')
-const valueWidth = computed(() => robotDataRight.value ? 'width: 10%' : 'width: 50%')
+const nameWidth = computed(() => robotDataRight.value ? 'width: 16%' : 'width: 35%')
+const valueWidth = computed(() => robotDataRight.value ? 'width: 12%' : 'width: 15%')
 const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'width: 50%')
 </script>
 
@@ -117,7 +116,7 @@ const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'widt
               <RobotDataProgress
                 :value="robotLeft[field.td]"
                 :max-value="maxRobotData(robotLeft.type, field.td)"
-                :disabled="robotLeft[field.td] < robotDataRight.robots[index][field.td]"
+                :disabled="robotDataRight ? robotLeft[field.td] < robotDataRight.robots[index][field.td] : false"
               />
             </td>
             <td v-if="robotDataRight" :style="progressWidth">

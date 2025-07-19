@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 interface Props {
-  value: number,
-  maxValue: number,
+  value: any,
+  maxValue: any,
   disabled?: boolean,
 }
 
 const props = defineProps<Props>()
-const Percentage = props.value / props.maxValue * 100;
+const Percentage = computed(() => {
+  if (typeof props.maxValue === "number") {
+    return props.value / props.maxValue * 100;
+  } else {
+    return 0;
+  }
+})
 const Width = ref(window.innerWidth)
 
 function progressColor(value: number): string {
