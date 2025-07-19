@@ -42,11 +42,11 @@ const matchList = computed(() => {
       </tr>
       </thead>
       <tbody>
-      <tr v-for="n in matchList" :key="n.id">
-        <td>{{ n.orderNumber }}</td>
-        <td>{{ n.redSide.player?.team?.collegeName }}</td>
-        <td>{{ n.blueSide.player?.team?.collegeName }}</td>
-        <td>{{ n.redSideWinGameCount }}:{{ n.blueSideWinGameCount }}</td>
+      <tr v-for="match in matchList" :key="match.id">
+        <td>{{ match.orderNumber }}</td>
+        <td>{{ match.redSide.player?.team?.collegeName }}<br>{{ match.redSide.player?.team?.name }}</td>
+        <td>{{ match.blueSide.player?.team?.collegeName }}<br>{{ match.blueSide.player?.team?.name }}</td>
+        <td>{{ match.redSideWinGameCount }}:{{ match.blueSideWinGameCount }}</td>
       </tr>
       </tbody>
     </v-table>
