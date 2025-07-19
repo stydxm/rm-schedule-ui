@@ -44,8 +44,12 @@ const matchList = computed(() => {
       <tbody>
       <tr v-for="match in matchList" :key="match.id">
         <td>{{ match.orderNumber }}</td>
-        <td>{{ match.redSide.player?.team?.collegeName }}<br>{{ match.redSide.player?.team?.name }}</td>
-        <td>{{ match.blueSide.player?.team?.collegeName }}<br>{{ match.blueSide.player?.team?.name }}</td>
+        <td :class="{ 'loser': match.redSideWinGameCount < match.blueSideWinGameCount }">
+          {{ match.redSide.player?.team?.collegeName }}<br>{{ match.redSide.player?.team?.name }}
+        </td>
+        <td :class="{ 'loser': match.redSideWinGameCount > match.blueSideWinGameCount }">
+          {{ match.blueSide.player?.team?.collegeName }}<br>{{ match.blueSide.player?.team?.name }}
+        </td>
         <td>{{ match.redSideWinGameCount }}:{{ match.blueSideWinGameCount }}</td>
       </tr>
       </tbody>
@@ -54,5 +58,7 @@ const matchList = computed(() => {
 </template>
 
 <style scoped lang="scss">
-
+.loser {
+  color: darkgrey;
+}
 </style>

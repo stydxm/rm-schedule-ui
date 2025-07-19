@@ -46,8 +46,12 @@ axios({
       <tr v-for="match in matchList" :key="match.order">
         <td>{{ match.season }}</td>
         <td>{{ match.zone }}</td>
-        <td>{{ match.redCollegeName }}<br>{{ match.redTeamName }}</td>
-        <td>{{ match.blueCollegeName }}<br>{{ match.blueCollegeName }}</td>
+        <td :class="{ 'loser': match.redSideWinGameCount < match.blueSideWinGameCount }">
+          {{ match.redCollegeName }}<br>{{ match.redTeamName }}
+        </td>
+        <td :class="{ 'loser': match.redSideWinGameCount > match.blueSideWinGameCount }">
+          {{ match.blueCollegeName }}<br>{{ match.blueTeamName }}
+        </td>
         <td>{{ match.redSideWinGameCount }}:{{ match.blueSideWinGameCount }}</td>
       </tr>
       </tbody>
@@ -56,5 +60,7 @@ axios({
 </template>
 
 <style scoped lang="scss">
-
+.loser {
+  color: darkgrey;
+}
 </style>
