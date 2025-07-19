@@ -19,6 +19,7 @@ interface DataField {
   th: string; // 表头
   td: string; // 数据字段
   tdShow: string; // 显示字段
+  hint?: string | unknown; // 提示
 }
 
 interface RobotData {
@@ -33,7 +34,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
       { th: "局均42mm弹丸命中率(%)", td: "eaBigHitRate", tdShow: "eaBigHitRate" },
       { th: "局均部署命中数", td: "eaSnipeCnt", tdShow: "eaSnipeCnt" },
       { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
-      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
   },
   "Infantry": {
@@ -43,7 +44,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
       { th: "局均总伤害", td: "eagHurt", tdShow: "eagHurt" },
       { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
       { th: "大能量机关平均激活环数", td: "matchLargeEnergyActRoundsAvg", tdShow: "matchLargeEnergyActRoundsAvg" },
-      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
   },
   "Sapper": {
@@ -52,7 +53,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
       { th: "局均兑换难度", td: "avgMineDiff", tdShow: "avgMineDiff" },
       { th: "局均兑换时间", td: "avgMineTime", tdShow: "avgMineTime" },
       { th: "局均兑换经济", td: "eaExchangeEcon", tdShow: "eaExchangeEcon" },
-      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
   },
   "Airplane": {
@@ -62,7 +63,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
       { th: "局均发弹量", td: "avgShootNum", tdShow: "avgShootNum" },
       { th: "局均总伤害", td: "eagHurt", tdShow: "eagHurt" },
       { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
-      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
   },
   "Guard": {
@@ -71,7 +72,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
       { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", tdShow: "eaSmallHitRate" },
       { th: "局均总伤害", td: "eagHurt", tdShow: "eagHurt" },
       { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
-      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
   },
   "Dart": {
@@ -81,7 +82,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
       { th: "累计命中基地固定目标数", td: "etDartFixedCnt", tdShow: "etDartFixedCnt" },
       { th: "累计命中基地随机固定目标数", td: "etDartRDFixCnt", tdShow: "etDartRDFixCnt" },
       { th: "累计命中基地随机移动目标数", td: "etDartRDMoveCnt", tdShow: "etDartRDMoveCnt" },
-      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
   },
   "Radar": {
@@ -122,7 +123,15 @@ const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'widt
           <tbody>
           <tr v-for="field in RobotDataMap[robotLeft.type].dataFields"
               :key="field.td">
-            <td :style="nameWidth"><span>{{ field.th }}</span></td>
+            <td :style="nameWidth">
+              <span>{{ field.th }}</span>
+              <v-tooltip v-if="field.hint" bottom>
+                <template #activator="{ props }">
+                  <v-icon v-bind="props" class="ml-1">mdi-information</v-icon>
+                </template>
+                <span>{{ field.hint || '无提示信息' }}</span>
+              </v-tooltip>
+            </td>
             <td :style="valueWidth"><span>{{ robotLeft[field.tdShow] }}</span></td>
             <td :style="progressWidth">
               <RobotDataProgress
