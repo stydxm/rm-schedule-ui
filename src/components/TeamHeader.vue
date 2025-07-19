@@ -4,7 +4,7 @@ import { RankListItem } from "../types/rank";
 
 interface Props {
   player: Player,
-  rank: RankListItem,
+  rank: RankListItem | null,
 }
 
 const props = defineProps<Props>()
@@ -21,7 +21,8 @@ const props = defineProps<Props>()
       </v-avatar>
     </div>
 
-    <div class="right-column ml-4">
+    <div v-if="props.rank"
+      class="right-column ml-4">
       <h3>{{ props.player.team.collegeName }}</h3>
       <h4>{{ props.player.team.name }}</h4>
       <h6 v-if="props.rank">RoboMaster 高校积分榜第 {{ props.rank.rankScoreItem.rank }} 名

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { MatchNode } from "../types/schedule";
+import { MatchNode, Player } from "../types/schedule";
 import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
 import { ref } from "vue";
 import { RankListItem } from "../types/rank";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import TeamHeader from "./TeamHeader.vue";
 
 interface Props {
   zoneId: number,
-  match: MatchNode,
+  match: MatchNode | null,
 }
 
 const props = defineProps<Props>()
