@@ -31,6 +31,7 @@ const RobotDataMap = ref({
       { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
       { th: "局均总伤害", td: "eagHurt", },
       { th: "局均关键伤害", td: "gkDamage", },
+      { th: "大能量机关平均激活环数", td: "matchLargeEnergyActRoundsAvg", },
       { th: "局均KDA", td: "eaKDA", },
     ]
   },

@@ -39,6 +39,7 @@ export interface Robot {
   avgMineTime: number //局均兑换时间
   avgMineDiff: number //局均兑换难度
   avgShootNum: number //局均发弹量
+  matchLargeEnergyActRoundsAvg: number // 大能量机关平均激活环数
 }
 
 export interface RobotDisplay {
