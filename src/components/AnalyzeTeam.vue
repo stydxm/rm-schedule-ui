@@ -70,7 +70,7 @@ const robotData = computed(() => {
     class="pa-2 pt-4"
   >
     <v-card-title>
-      <TeamHeader :player="props.player" :rank="rank"/>
+      <TeamHeader v-if="rank" :player="props.player" :rank="rank"/>
     </v-card-title>
 
     <v-card-text class="mt-2">
