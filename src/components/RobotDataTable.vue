@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { computed, ref } from "vue";
+import { computed, Ref, ref } from "vue";
 import { Team } from "../types/robot_data";
 import { useRobotDataStore } from "../stores/robot_data";
 import RobotDataProgress from "./RobotDataProgress.vue";
@@ -15,69 +15,80 @@ const robotDataStore = useRobotDataStore();
 const robotDataLeft = computed(() => props.robotDataLeft)
 const robotDataRight = computed(() => props.robotDataRight)
 
-const RobotDataMap = ref({
+interface DataField {
+  th: string; // 表头
+  td: string; // 数据字段
+  tdShow: string; // 显示字段
+}
+
+interface RobotData {
+  type: string; // 机器人类型
+  dataFields: DataField[]; // 数据字段列表
+}
+
+const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
   "Hero": {
     type: "英雄",
     dataFields: [
-      { th: "局均42mm弹丸命中率(%)", td: "eaBigHitRate", },
-      { th: "局均部署命中数", td: "eaSnipeCnt", },
-      { th: "局均关键伤害", td: "gkDamage", },
-      { th: "局均KDA", td: "eaKDA", },
+      { th: "局均42mm弹丸命中率(%)", td: "eaBigHitRate", tdShow: "eaBigHitRate" },
+      { th: "局均部署命中数", td: "eaSnipeCnt", tdShow: "eaSnipeCnt" },
+      { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
     ]
   },
   "Infantry": {
     type: "步兵",
     dataFields: [
-      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
-      { th: "局均总伤害", td: "eagHurt", },
-      { th: "局均关键伤害", td: "gkDamage", },
-      { th: "大能量机关平均激活环数", td: "matchLargeEnergyActRoundsAvg", },
-      { th: "局均KDA", td: "eaKDA", },
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", tdShow: "eaSmallHitRate" },
+      { th: "局均总伤害", td: "eagHurt", tdShow: "eagHurt" },
+      { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
+      { th: "大能量机关平均激活环数", td: "matchLargeEnergyActRoundsAvg", tdShow: "matchLargeEnergyActRoundsAvg" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
     ]
   },
   "Sapper": {
     type: "工程",
     dataFields: [
-      { th: "局均兑换难度", td: "avgMineDiff", },
-      { th: "局均兑换时间", td: "avgMineTime", },
-      { th: "局均兑换经济", td: "eaExchangeEcon", },
-      { th: "局均KDA", td: "eaKDA", },
+      { th: "局均兑换难度", td: "avgMineDiff", tdShow: "avgMineDiff" },
+      { th: "局均兑换时间", td: "avgMineTime", tdShow: "avgMineTime" },
+      { th: "局均兑换经济", td: "eaExchangeEcon", tdShow: "eaExchangeEcon" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
     ]
   },
   "Airplane": {
     type: "无人机",
     dataFields: [
-      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
-      { th: "局均发弹量", td: "avgShootNum", },
-      { th: "局均总伤害", td: "eagHurt", },
-      { th: "局均关键伤害", td: "gkDamage", },
-      { th: "局均KDA", td: "eaKDA", },
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", tdShow: "eaSmallHitRate" },
+      { th: "局均发弹量", td: "avgShootNum", tdShow: "avgShootNum" },
+      { th: "局均总伤害", td: "eagHurt", tdShow: "eagHurt" },
+      { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
     ]
   },
   "Guard": {
     type: "哨兵",
     dataFields: [
-      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", },
-      { th: "局均总伤害", td: "eagHurt", },
-      { th: "局均关键伤害", td: "gkDamage", },
-      { th: "局均KDA", td: "eaKDA", },
+      { th: "局均17mm弹丸命中率(%)", td: "eaSmallHitRate", tdShow: "eaSmallHitRate" },
+      { th: "局均总伤害", td: "eagHurt", tdShow: "eagHurt" },
+      { th: "局均关键伤害", td: "gkDamage", tdShow: "gkDamage" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
     ]
   },
   "Dart": {
     type: "飞镖",
     dataFields: [
-      { th: "累计命中前哨站数", td: "etDartOutpostCnt", },
-      { th: "累计命中基地固定目标数", td: "etDartFixedCnt", },
-      { th: "累计命中基地随机固定目标数", td: "etDartRDFixCnt", },
-      { th: "累计命中基地随机移动目标数", td: "etDartRDMoveCnt", },
-      { th: "局均KDA", td: "eaKDA", },
+      { th: "累计命中前哨站数", td: "etDartOutpostCnt", tdShow: "etDartOutpostCnt" },
+      { th: "累计命中基地固定目标数", td: "etDartFixedCnt", tdShow: "etDartFixedCnt" },
+      { th: "累计命中基地随机固定目标数", td: "etDartRDFixCnt", tdShow: "etDartRDFixCnt" },
+      { th: "累计命中基地随机移动目标数", td: "etDartRDMoveCnt", tdShow: "etDartRDMoveCnt" },
+      { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA" },
     ]
   },
   "Radar": {
     type: "雷达",
     dataFields: [
-      { th: "局均额外伤害", td: "eaRadarDebuffDmg", },
-      { th: "局均易伤时间", td: "eaRadarMarkerTime", },
+      { th: "局均额外伤害", td: "eaRadarDebuffDmg", tdShow: "eaRadarDebuffDmg" },
+      { th: "局均易伤时间", td: "eaRadarMarkerTime", tdShow: "eaRadarMarkerTime" },
     ]
   }
 })
@@ -112,7 +123,7 @@ const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'widt
           <tr v-for="field in RobotDataMap[robotLeft.type].dataFields"
               :key="field.td">
             <td :style="nameWidth"><span>{{ field.th }}</span></td>
-            <td :style="valueWidth"><span>{{ robotLeft[field.td] }}</span></td>
+            <td :style="valueWidth"><span>{{ robotLeft[field.tdShow] }}</span></td>
             <td :style="progressWidth">
               <RobotDataProgress
                 :value="robotLeft[field.td]"
@@ -128,7 +139,7 @@ const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'widt
               />
             </td>
             <td v-if="robotDataRight" :style="valueWidth">
-              <span>{{ robotDataRight.robots[index][field.td] }}</span>
+              <span>{{ robotDataRight.robots[index][field.tdShow] }}</span>
             </td>
           </tr>
           </tbody>
