@@ -15,6 +15,7 @@ declare module 'vue' {
     GraphComment: typeof import('./components/GraphComment.vue')['default']
     GroupMatchData: typeof import('./components/GroupMatchData.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    HistoryMatch: typeof import('./components/HistoryMatch.vue')['default']
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
     MatchMenu: typeof import('./components/MatchMenu.vue')['default']
     MatchRecord: typeof import('./components/MatchRecord.vue')['default']
