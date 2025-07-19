@@ -22,6 +22,7 @@ export interface Robot {
   eaSmallHitRate: number //局均17mm弹丸命中率(%)
   eagHurt: number //局均总伤害
   eaKDA: string
+  _eaKDAScore: number // (K + A) / max(D, 1)
   eagKdaScore: number
   gkDamage: number //局均关键伤害
   gKillCount: number //疑似局均击杀数，但某些数据中会略小于KDA中的击杀数
