@@ -55,6 +55,11 @@ function openBilibiliSpace(uid: number) {
 
     <v-list>
       <v-list-item
+        @click="appStore.matchAnalysisDialog = true"
+      >
+        分析比赛{{ promotionStore.getCurrentZone().name }}第{{ match.orderNumber }}场
+      </v-list-item>
+      <v-list-item
         @click="appStore.analysisDialog = true"
       >
         分析队伍{{ promotionStore.selectedPlayer?.team?.collegeName }}

@@ -6,6 +6,7 @@ import { usePromotionStore } from "../stores/promotion";
 import AnalyzeTeam from "./AnalyzeTeam.vue";
 import { useRoute, useRouter } from "vue-router";
 import { DefaultZoneMap, SeasonList, ZoneMap } from "../constant/zone";
+import AnalyzeMatch from "./AnalyzeMatch.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -249,6 +250,13 @@ const MenuItems = ref(
             :zone-id="zoneId"
             :player="promotionStore.selectedPlayer"
           ></AnalyzeTeam>
+        </v-bottom-sheet>
+
+        <v-bottom-sheet v-model="appStore.matchAnalysisDialog">
+          <AnalyzeMatch
+            :zone-id="zoneId"
+            :match="promotionStore.selectedMatch"
+          ></AnalyzeMatch>
         </v-bottom-sheet>
       </div>
     </div>

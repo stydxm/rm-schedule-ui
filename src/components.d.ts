@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     About: typeof import('./components/About.vue')['default']
+    AnalyzeMatch: typeof import('./components/AnalyzeMatch.vue')['default']
     AnalyzeTeam: typeof import('./components/AnalyzeTeam.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     CompleteFormRank: typeof import('./components/CompleteFormRank.vue')['default']
@@ -17,11 +18,13 @@ declare module 'vue' {
     MatchGraph: typeof import('./components/MatchGraph.vue')['default']
     MatchMenu: typeof import('./components/MatchMenu.vue')['default']
     MatchRecord: typeof import('./components/MatchRecord.vue')['default']
+    RobotDataProgress: typeof import('./components/RobotDataProgress.vue')['default']
     RobotDataRadar: typeof import('./components/RobotDataRadar.vue')['default']
     RobotDataTable: typeof import('./components/RobotDataTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchPlayer: typeof import('./components/SearchPlayer.vue')['default']
     Situation: typeof import('./components/Situation.vue')['default']
+    TeamHeader: typeof import('./components/TeamHeader.vue')['default']
   }
 }

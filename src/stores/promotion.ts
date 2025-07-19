@@ -102,6 +102,9 @@ export const usePromotionStore = defineStore("promotion", {
         (zone: ZoneNode) => zone.id == zoneId.toString()
       );
     },
+    getCurrentZone(): ZoneNode {
+      return this.getZone(this.zoneId);
+    },
     getMatchByOrder(
       zoneId: number,
       orderNumber: number,

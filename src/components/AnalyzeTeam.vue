@@ -11,6 +11,7 @@ import CompleteFormRank from "./CompleteFormRank.vue";
 import RobotDataTable from "./RobotDataTable.vue";
 import RobotDataRadar from "./RobotDataRadar.vue";
 import { useRobotDataStore } from "../stores/robot_data";
+import TeamHeader from "./TeamHeader.vue";
 
 interface Props {
   zoneId: number,
@@ -25,9 +26,9 @@ if (!props.player || !props.player.team) {
 const promotionStore = usePromotionStore();
 const robotDataStore = useRobotDataStore();
 
-const rank = ref<RankListItem | null>(null)
 const loading = ref(true)
 
+const rank = ref<RankListItem | null>(null)
 axios({
   method: 'GET',
   url: '/api/rank',
@@ -69,23 +70,7 @@ const robotData = computed(() => {
     class="pa-2 pt-4"
   >
     <v-card-title>
-      <div class="container">
-        <div class="left-column">
-          <v-avatar size="100">
-            <v-img
-              :src="props.player.team.collegeLogo"
-              color="white"
-            ></v-img>
-          </v-avatar>
-        </div>
-
-        <div class="right-column ml-4">
-          <h3>{{ props.player.team.collegeName }}</h3>
-          <h4>{{ props.player.team.name }}</h4>
-          <h6 v-if="rank">RoboMaster 高校积分榜第 {{ rank.rankScoreItem.rank }} 名
-            ({{ rank.rankScoreItem.score }})</h6>
-        </div>
-      </div>
+      <TeamHeader v-if="rank" :player="props.player" :rank="rank"/>
     </v-card-title>
 
     <v-card-text class="mt-2">
@@ -110,11 +95,13 @@ const robotData = computed(() => {
             </v-col>
 
             <v-col md="6" cols="12">
-              <RobotDataTable :robot-data="robotData"/>
+              <RobotDataTable :robot-data-left="robotData"/>
             </v-col>
 
             <v-col md="6" cols="12">
-              <RobotDataRadar :player="props.player"/>
+              <RobotDataRadar
+                :players="[props.player]"
+                :colors="['#FFEB3B']"/>
             </v-col>
           </v-row>
         </div>

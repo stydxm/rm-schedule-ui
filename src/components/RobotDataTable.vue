@@ -2,18 +2,18 @@
 
 import { computed, ref } from "vue";
 import { Team } from "../types/robot_data";
-import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
+import RobotDataProgress from "./RobotDataProgress.vue";
 
 interface Props {
-  robotData: Team
+  robotDataLeft: Team
+  robotDataRight?: Team
 }
 
 const props = defineProps<Props>()
 const robotDataStore = useRobotDataStore();
-const robotData = computed(() => props.robotData)
-
-const width = ref(window.innerWidth)
+const robotDataLeft = computed(() => props.robotDataLeft)
+const robotDataRight = computed(() => props.robotDataRight)
 
 const RobotDataMap = ref({
   "Hero": {
@@ -85,54 +85,49 @@ function maxRobotData(type: string, field: string): number {
   return robotDataStore.maxRobotData.find((n) => n.type === type)![field]
 }
 
-function progressColor(value: number): string {
-  if (value >= 75) return "red";
-  if (value >= 50) return "orange";
-  if (value >= 25) return "blue";
-  return "green";
-}
+const nameWidth = computed(() => robotDataRight.value ? 'width: 16%' : 'width: 35%')
+const valueWidth = computed(() => robotDataRight.value ? 'width: 12%' : 'width: 15%')
+const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'width: 50%')
 </script>
 
 <template>
-  <div v-if="robotData">
+  <div v-if="robotDataLeft">
     <v-chip class="mb-2" color="info" variant="flat" label>
       <h3>机器人数据</h3>
     </v-chip>
 
-    <div v-for="robot in robotData.robots"
-         :key="robot.robotNumber">
-      <div v-if="RobotDataMap[robot.type]" class="mt-2">
+    <div v-for="(robotLeft, index) in robotDataLeft.robots"
+         :key="robotLeft.robotNumber">
+      <div v-if="RobotDataMap[robotLeft.type]" class="mt-2">
         <v-table density="compact">
           <thead>
           <tr>
             <v-chip color="info" variant="tonal" label size="small">
-              <h3>{{ RobotDataMap[robot.type].type }}</h3>
+              <h3>{{ RobotDataMap[robotLeft.type].type }}</h3>
             </v-chip>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="field in RobotDataMap[robot.type].dataFields"
+          <tr v-for="field in RobotDataMap[robotLeft.type].dataFields"
               :key="field.td">
-            <td style="width: 35%"><span>{{ field.th }}</span></td>
-            <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
-            <td style="width: 50%">
-              <div v-if="width < 500">
-                            <span v-if="!isNaN(robot[field.td] / maxRobotData(robot.type, field.td))">
-                              {{ Math.ceil(robot[field.td] / maxRobotData(robot.type, field.td) * 100) }}% Max
-                            </span>
-                <span v-else>-</span>
-              </div>
-              <v-progress-linear
-                v-else
-                :color="progressColor(robot[field.td] / maxRobotData(robot.type, field.td) * 100)"
-                height="20"
-                :model-value="robot[field.td] / maxRobotData(robot.type, field.td) * 100"
-                striped
-              >
-                <template v-slot:default="{ value }">
-                  <strong v-if="!isNaN(value)">{{ Math.ceil(value) }}% Max</strong>
-                </template>
-              </v-progress-linear>
+            <td :style="nameWidth"><span>{{ field.th }}</span></td>
+            <td :style="valueWidth"><span>{{ robotLeft[field.td] }}</span></td>
+            <td :style="progressWidth">
+              <RobotDataProgress
+                :value="robotLeft[field.td]"
+                :max-value="maxRobotData(robotLeft.type, field.td)"
+                :disabled="robotDataRight ? robotLeft[field.td] < robotDataRight.robots[index][field.td] : false"
+              />
+            </td>
+            <td v-if="robotDataRight" :style="progressWidth">
+              <RobotDataProgress
+                :value="robotDataRight.robots[index][field.td]"
+                :max-value="maxRobotData(robotLeft.type, field.td)"
+                :disabled="robotDataRight.robots[index][field.td] < robotLeft[field.td]"
+              />
+            </td>
+            <td v-if="robotDataRight" :style="valueWidth">
+              <span>{{ robotDataRight.robots[index][field.td] }}</span>
             </td>
           </tr>
           </tbody>
