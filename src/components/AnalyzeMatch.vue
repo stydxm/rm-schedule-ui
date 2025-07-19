@@ -92,12 +92,6 @@ function getRobotData(player: Player): Team {
 
     <v-card-text class="mt-2">
       <v-row>
-        <v-col md="12" cols="12">
-          <RobotDataTable
-            :robot-data-left="getRobotData(redPlayer)"
-            :robot-data-right="getRobotData(bluePlayer)"/>
-        </v-col>
-
         <v-col md="6" cols="12">
           <RobotDataRadar
             :players="[redPlayer, bluePlayer]"
@@ -109,6 +103,12 @@ function getRobotData(player: Player): Team {
             :red-player="redPlayer"
             :blue-player="bluePlayer">
           </HistoryMatch>
+        </v-col>
+
+        <v-col md="12" cols="12">
+          <RobotDataTable
+            :robot-data-left="getRobotData(redPlayer)"
+            :robot-data-right="getRobotData(bluePlayer)"/>
         </v-col>
       </v-row>
     </v-card-text>
