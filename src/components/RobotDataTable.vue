@@ -8,11 +8,13 @@ import RobotDataProgress from "./RobotDataProgress.vue";
 
 interface Props {
   robotDataLeft: Team
+  robotDataRight: Team
 }
 
 const props = defineProps<Props>()
 const robotDataStore = useRobotDataStore();
 const robotDataLeft = computed(() => props.robotDataLeft)
+const robotDataRight = computed(() => props.robotDataRight)
 
 const RobotDataMap = ref({
   "Hero": {
@@ -83,6 +85,10 @@ const RobotDataMap = ref({
 function maxRobotData(type: string, field: string): number {
   return robotDataStore.maxRobotData.find((n) => n.type === type)![field]
 }
+
+const nameWidth = computed(() => robotDataRight.value ? 'width: 20%' : 'width: 35%')
+const valueWidth = computed(() => robotDataRight.value ? 'width: 10%' : 'width: 50%')
+const progressWidth = computed(() => robotDataRight.value ? 'width: 30%' : 'width: 50%')
 </script>
 
 <template>
@@ -91,26 +97,38 @@ function maxRobotData(type: string, field: string): number {
       <h3>机器人数据</h3>
     </v-chip>
 
-    <div v-for="robot in robotDataLeft.robots"
-         :key="robot.robotNumber">
-      <div v-if="RobotDataMap[robot.type]" class="mt-2">
+    <div v-for="(robotLeft, index) in robotDataLeft.robots"
+         :key="robotLeft.robotNumber">
+      <div v-if="RobotDataMap[robotLeft.type]" class="mt-2">
         <v-table density="compact">
           <thead>
           <tr>
             <v-chip color="info" variant="tonal" label size="small">
-              <h3>{{ RobotDataMap[robot.type].type }}</h3>
+              <h3>{{ RobotDataMap[robotLeft.type].type }}</h3>
             </v-chip>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="field in RobotDataMap[robot.type].dataFields"
+          <tr v-for="field in RobotDataMap[robotLeft.type].dataFields"
               :key="field.td">
-            <td style="width: 35%"><span>{{ field.th }}</span></td>
-            <td style="width: 15%"><span>{{ robot[field.td] }}</span></td>
-            <td style="width: 50%">
+            <td :style="nameWidth"><span>{{ field.th }}</span></td>
+            <td :style="valueWidth"><span>{{ robotLeft[field.td] }}</span></td>
+            <td :style="progressWidth">
               <RobotDataProgress
-                :value="robot[field.td]"
-                :max-value="maxRobotData(robot.type, field.td)"/>
+                :value="robotLeft[field.td]"
+                :max-value="maxRobotData(robotLeft.type, field.td)"
+                :disabled="robotLeft[field.td] < robotDataRight.robots[index][field.td]"
+              />
+            </td>
+            <td v-if="robotDataRight" :style="progressWidth">
+              <RobotDataProgress
+                :value="robotDataRight.robots[index][field.td]"
+                :max-value="maxRobotData(robotLeft.type, field.td)"
+                :disabled="robotDataRight.robots[index][field.td] < robotLeft[field.td]"
+              />
+            </td>
+            <td v-if="robotDataRight" :style="valueWidth">
+              <span>{{ robotDataRight.robots[index][field.td] }}</span>
             </td>
           </tr>
           </tbody>

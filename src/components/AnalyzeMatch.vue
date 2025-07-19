@@ -6,6 +6,8 @@ import { ref } from "vue";
 import { RankListItem } from "../types/rank";
 import axios from "axios";
 import TeamHeader from "./TeamHeader.vue";
+import RobotDataTable from "./RobotDataTable.vue";
+import { Team } from "../types/robot_data";
 
 interface Props {
   zoneId: number,
@@ -53,6 +55,14 @@ const updateBlueRank = fetchTeamRank(bluePlayer.team.collegeName).then((data) =>
 Promise.all([updateRedRank, updateBlueRank]).finally(() => {
   loading.value = false;
 });
+
+function getRobotData(player: Player): Team {
+  return robotDataStore.robotData.zones.find((zone) => {
+    return Number(zone.zoneId) == props.zoneId
+  })?.teams.find((team) => {
+    return team.collegeName == player.team?.collegeName
+  })
+}
 </script>
 
 <template>
@@ -74,6 +84,11 @@ Promise.all([updateRedRank, updateBlueRank]).finally(() => {
     </v-row>
 
     <v-card-text class="mt-2">
+      <v-col md="12" cols="12">
+        <RobotDataTable
+          :robot-data-left="getRobotData(redPlayer)"
+          :robot-data-right="getRobotData(bluePlayer)"/>
+      </v-col>
     </v-card-text>
   </v-card>
 </template>
