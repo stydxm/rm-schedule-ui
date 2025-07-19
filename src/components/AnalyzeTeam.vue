@@ -95,7 +95,7 @@ const robotData = computed(() => {
             </v-col>
 
             <v-col md="6" cols="12">
-              <RobotDataTable :robot-data="robotData"/>
+              <RobotDataTable :robot-data-left="robotData"/>
             </v-col>
 
             <v-col md="6" cols="12">

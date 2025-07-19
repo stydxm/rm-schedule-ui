@@ -6,12 +6,12 @@ import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
 
 interface Props {
-  robotData: Team
+  robotDataLeft: Team
 }
 
 const props = defineProps<Props>()
 const robotDataStore = useRobotDataStore();
-const robotData = computed(() => props.robotData)
+const robotDataLeft = computed(() => props.robotDataLeft)
 
 const width = ref(window.innerWidth)
 
@@ -94,12 +94,12 @@ function progressColor(value: number): string {
 </script>
 
 <template>
-  <div v-if="robotData">
+  <div v-if="robotDataLeft">
     <v-chip class="mb-2" color="info" variant="flat" label>
       <h3>机器人数据</h3>
     </v-chip>
 
-    <div v-for="robot in robotData.robots"
+    <div v-for="robot in robotDataLeft.robots"
          :key="robot.robotNumber">
       <div v-if="RobotDataMap[robot.type]" class="mt-2">
         <v-table density="compact">
