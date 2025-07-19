@@ -40,6 +40,7 @@ export const useRobotDataStore = defineStore("robot_data", {
             for (const robot of team.robots) {
               robot.eaKDA = this.fixKDA(robot.eaKDA);
               robot._eaKDAScore = this.getEaKDAScore(robot);
+              robot._reciprocalOfAvgMineTime = this.getReciprocalOfAvgMineTime(robot);
               robot._etDartCnt = this.getDartHitCnt(robot);
               robot._etDartWeightedScore = this.getDartWeightedScore(robot);
               newSumRobotData.find((r: Robot, index: number) => {
@@ -102,6 +103,12 @@ export const useRobotDataStore = defineStore("robot_data", {
         Number(parseFloat(part).toFixed(1))
       );
       return (kills + assists) / Math.max(deaths, 1);
+    },
+    getReciprocalOfAvgMineTime(robot: Robot): number {
+      if (robot.avgMineTime === 0) {
+        return 0;
+      }
+      return 1 / robot.avgMineTime
     },
     getDartHitCnt(robot: Robot): number {
       return robot.etDartOutpostCnt + robot.etDartFixedCnt + robot.etDartRDFixCnt + robot.etDartRDMoveCnt;

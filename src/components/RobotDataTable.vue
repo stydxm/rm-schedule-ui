@@ -51,7 +51,7 @@ const RobotDataMap: Ref<{ [key: string]: RobotData }> = ref({
     type: "工程",
     dataFields: [
       { th: "局均兑换难度", td: "avgMineDiff", tdShow: "avgMineDiff" },
-      { th: "局均兑换时间", td: "avgMineTime", tdShow: "avgMineTime" },
+      { th: "局均兑换时间", td: "_reciprocalOfAvgMineTime", tdShow: "avgMineTime", hint: '排名依据 1 / 局均兑换时间' },
       { th: "局均兑换经济", td: "eaExchangeEcon", tdShow: "eaExchangeEcon" },
       { th: "局均KDA", td: "_eaKDAScore", tdShow: "eaKDA", hint: '排名依据 (Kill + Assist) / Max(Death, 1)' },
     ]
