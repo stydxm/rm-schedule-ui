@@ -10,7 +10,7 @@ import { LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent }
 import { useRobotDataStore } from "../stores/robot_data";
 
 interface Props {
-  player: Player,
+  players: Player[],
 }
 
 const props = defineProps<Props>()
@@ -25,12 +25,43 @@ use([
   VisualMapComponent,
 ]);
 
-const currentTeamDisplay = robotDataStore.robotDisplayMap.get(props.player.team.collegeName) as RobotDisplay
+const currentRobotDisplays = [] as RobotDisplay[]
+const data = [
+  {
+    value: [
+      robotDataStore.avgRobotDisplay.heroKeyDamage,
+      robotDataStore.avgRobotDisplay.engineerEco,
+      robotDataStore.avgRobotDisplay.standardDamage,
+      robotDataStore.avgRobotDisplay.aerialDamage,
+      robotDataStore.avgRobotDisplay.sentryDamage,
+      robotDataStore.avgRobotDisplay.dartWeightedScore,
+      robotDataStore.avgRobotDisplay.radarMarkDuration,
+    ],
+    name: '平均值'
+  },
+]
+
+props.players.forEach((player) => {
+  currentRobotDisplays.push(robotDataStore.robotDisplayMap.get(player.team.collegeName))
+  data.push({
+    value: [
+      currentRobotDisplays[currentRobotDisplays.length - 1].heroKeyDamage,
+      currentRobotDisplays[currentRobotDisplays.length - 1].engineerEco,
+      currentRobotDisplays[currentRobotDisplays.length - 1].standardDamage,
+      currentRobotDisplays[currentRobotDisplays.length - 1].aerialDamage,
+      currentRobotDisplays[currentRobotDisplays.length - 1].sentryDamage,
+      currentRobotDisplays[currentRobotDisplays.length - 1].dartWeightedScore,
+      currentRobotDisplays[currentRobotDisplays.length - 1].radarMarkDuration,
+    ],
+    name: player.team.collegeName,
+  });
+})
+
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
 const option: echarts.EChartsOption = {
   title: {
     subtext: '* 取所有队伍的最大值为 100%\n' +
-        '** 飞镖加权命中分数 = 1*前哨站数 + 5*基地固定 + 10*基地随机固定 + 25*基地随机移动',
+      '** 飞镖加权命中分数 = 1*前哨站数 + 5*基地固定 + 10*基地随机固定 + 25*基地随机移动',
     subtextStyle: {
       color: "white"
     }
@@ -63,32 +94,7 @@ const option: echarts.EChartsOption = {
       emphasis: {
         areaStyle: {}
       },
-      data: [
-        {
-          value: [
-            robotDataStore.avgRobotDisplay.heroKeyDamage,
-            robotDataStore.avgRobotDisplay.engineerEco,
-            robotDataStore.avgRobotDisplay.standardDamage,
-            robotDataStore.avgRobotDisplay.aerialDamage,
-            robotDataStore.avgRobotDisplay.sentryDamage,
-            robotDataStore.avgRobotDisplay.dartWeightedScore,
-            robotDataStore.avgRobotDisplay.radarMarkDuration,
-          ],
-          name: '平均值'
-        },
-        {
-          value: [
-            currentTeamDisplay.heroKeyDamage,
-            currentTeamDisplay.engineerEco,
-            currentTeamDisplay.standardDamage,
-            currentTeamDisplay.aerialDamage,
-            currentTeamDisplay.sentryDamage,
-            currentTeamDisplay.dartWeightedScore,
-            currentTeamDisplay.radarMarkDuration,
-          ],
-          name: props.player.team.collegeName,
-        }
-      ]
+      data: data,
     }
   ]
 };

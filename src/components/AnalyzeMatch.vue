@@ -8,6 +8,7 @@ import axios from "axios";
 import TeamHeader from "./TeamHeader.vue";
 import RobotDataTable from "./RobotDataTable.vue";
 import { Team } from "../types/robot_data";
+import RobotDataRadar from "./RobotDataRadar.vue";
 
 interface Props {
   zoneId: number,
@@ -93,6 +94,10 @@ function getRobotData(player: Player): Team {
         <RobotDataTable
           :robot-data-left="getRobotData(redPlayer)"
           :robot-data-right="getRobotData(bluePlayer)"/>
+      </v-col>
+
+      <v-col md="6" cols="12">
+        <RobotDataRadar :players="[redPlayer, bluePlayer]"/>
       </v-col>
     </v-card-text>
   </v-card>

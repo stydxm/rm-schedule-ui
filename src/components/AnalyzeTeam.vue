@@ -99,7 +99,7 @@ const robotData = computed(() => {
             </v-col>
 
             <v-col md="6" cols="12">
-              <RobotDataRadar :player="props.player"/>
+              <RobotDataRadar :players="[props.player]"/>
             </v-col>
           </v-row>
         </div>
