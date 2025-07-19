@@ -9,6 +9,7 @@ import TeamHeader from "./TeamHeader.vue";
 import RobotDataTable from "./RobotDataTable.vue";
 import { Team } from "../types/robot_data";
 import RobotDataRadar from "./RobotDataRadar.vue";
+import HistoryMatch from "./HistoryMatch.vue";
 
 interface Props {
   zoneId: number,
@@ -90,17 +91,26 @@ function getRobotData(player: Player): Team {
     </v-row>
 
     <v-card-text class="mt-2">
-      <v-col md="12" cols="12">
-        <RobotDataTable
-          :robot-data-left="getRobotData(redPlayer)"
-          :robot-data-right="getRobotData(bluePlayer)"/>
-      </v-col>
+      <v-row>
+        <v-col md="12" cols="12">
+          <RobotDataTable
+            :robot-data-left="getRobotData(redPlayer)"
+            :robot-data-right="getRobotData(bluePlayer)"/>
+        </v-col>
 
-      <v-col md="6" cols="12">
-        <RobotDataRadar
-          :players="[redPlayer, bluePlayer]"
-          :colors="['#F44336', '#2196F3']"/>
-      </v-col>
+        <v-col md="6" cols="12">
+          <RobotDataRadar
+            :players="[redPlayer, bluePlayer]"
+            :colors="['#F44336', '#2196F3']"/>
+        </v-col>
+
+        <v-col md="6" cols="12">
+          <HistoryMatch
+            :red-player="redPlayer"
+            :blue-player="bluePlayer">
+          </HistoryMatch>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
