@@ -16,7 +16,12 @@ import {
   RevivalZoneRoundOrder
 } from "./revival_zone";
 import { GroupType, TitleData, ImageData, ZoneJsonData } from "../types/zone";
-import { RevivalZone2GroupJsonData, RevivalZone2ImageData, RevivalZone2RoundOrder } from "./revival_zone2";
+import {
+  RevivalZone2GroupJsonData,
+  RevivalZone2GroupJsonData2025,
+  RevivalZone2ImageData, RevivalZone2ImageData2025,
+  RevivalZone2RoundOrder, RevivalZone2RoundOrder2025
+} from "./revival_zone2";
 import {
   FinalZoneGroup1JsonData, FinalZoneGroup1RoundOrder, FinalZoneGroup2JsonData, FinalZoneGroup2RoundOrder,
   FinalZoneKnockoutJsonData,
@@ -391,9 +396,9 @@ export const ZoneMap: { [key: number]: Zone[] } = {
           name: 'C组',
           type: 'group',
           group: 'C',
-          jsonData: RevivalZone2GroupJsonData,
-          roundOrder: RevivalZone2RoundOrder,
-          extraImageData: RevivalZone2ImageData,
+          jsonData: RevivalZone2GroupJsonData2025,
+          roundOrder: RevivalZone2RoundOrder2025,
+          extraImageData: RevivalZone2ImageData2025,
         },
       ]
     },

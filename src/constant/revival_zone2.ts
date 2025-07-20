@@ -479,9 +479,9 @@ export const RevivalZone2GroupJsonData2025: ZoneJsonData = {
             matches: [35],
             winners: [34],
             losers: [31],
-            text: ['第31场 败者', '第34场 胜者'],
+            text: ['第31场 败者', '第34场 胜者'], // 与规则手册文案不一致，实际含义一致
             forecasts: [
-              { red: 2, blue: 1 },
+              { red: 2, blue: 3 },
             ]
           }
         ]
@@ -504,7 +504,7 @@ export const RevivalZone2GroupJsonData2025: ZoneJsonData = {
             matches: [34],
             winners: [32, 33],
             losers: [],
-            text: ['第32场 胜者', '第33场 胜者'],
+            text: ['C组 第三轮 第3名', 'C组 第三轮 第4名'],
             forecasts: [
               { red: 3, blue: 4 },
             ]
