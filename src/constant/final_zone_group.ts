@@ -1,4 +1,4 @@
-import {TitleData, ZoneJsonData} from "../types/zone";
+import { ZoneJsonData } from "../types/zone";
 
 const rx = 0;
 const ry = 0;
@@ -56,10 +56,10 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             text: ['A组 第一轮 第1名', 'A组 第一轮 第2名', 'A组 第一轮 第3名', 'A组 第一轮 第4名',
               'A组 第一轮 第6名', 'A组 第一轮 第5名', 'A组 第一轮 第8名', 'A组 第一轮 第7名'],
             forecasts: [
-              {red: 1, blue: 2},
-              {red: 3, blue: 4},
-              {red: 6, blue: 5},
-              {red: 8, blue: 7},
+              { red: 1, blue: 2 },
+              { red: 3, blue: 4 },
+              { red: 6, blue: 5 },
+              { red: 8, blue: 7 },
             ]
           },
           {
@@ -69,10 +69,10 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             text: ['B组 第一轮 第2名', 'B组 第一轮 第1名', 'B组 第一轮 第4名', 'B组 第一轮 第3名',
               'B组 第一轮 第5名', 'B组 第一轮 第6名', 'B组 第一轮 第7名', 'B组 第一轮 第8名'],
             forecasts: [
-              {red: 2, blue: 1},
-              {red: 4, blue: 3},
-              {red: 5, blue: 6},
-              {red: 7, blue: 8},
+              { red: 2, blue: 1 },
+              { red: 4, blue: 3 },
+              { red: 5, blue: 6 },
+              { red: 7, blue: 8 },
             ]
           }
         ]
@@ -98,10 +98,10 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             text: ['A组 第一轮 第9名', 'A组 第一轮 第10名', 'A组 第一轮 第11名', 'A组 第一轮 第12名',
               'A组 第一轮 第14名', 'A组 第一轮 第13名', 'A组 第一轮 第16名', 'A组 第一轮 第15名'],
             forecasts: [
-              {red: 9, blue: 10},
-              {red: 11, blue: 12},
-              {red: 14, blue: 13},
-              {red: 16, blue: 15},
+              { red: 9, blue: 10 },
+              { red: 11, blue: 12 },
+              { red: 14, blue: 13 },
+              { red: 16, blue: 15 },
             ]
           },
           {
@@ -111,10 +111,10 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             text: ['B组 第一轮 第10名', 'B组 第一轮 第9名', 'B组 第一轮 第12名', 'B组 第一轮 第11名',
               'B组 第一轮 第13名', 'B组 第一轮 第14名', 'B组 第一轮 第15名', 'B组 第一轮 第16名'],
             forecasts: [
-              {red: 10, blue: 9},
-              {red: 12, blue: 11},
-              {red: 13, blue: 14},
-              {red: 15, blue: 16},
+              { red: 10, blue: 9 },
+              { red: 12, blue: 11 },
+              { red: 13, blue: 14 },
+              { red: 15, blue: 16 },
             ]
           }
         ]
@@ -139,8 +139,8 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             losers: [],
             text: ['A组 第二轮 第1名', 'A组 第二轮 第2名', 'A组 第二轮 第3名', 'A组 第二轮 第4名'],
             forecasts: [
-              {red: 1, blue: 2},
-              {red: 3, blue: 4},
+              { red: 1, blue: 2 },
+              { red: 3, blue: 4 },
             ]
           },
           {
@@ -149,8 +149,8 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             losers: [],
             text: ['B组 第二轮 第2名', 'B组 第二轮 第1名', 'B组 第二轮 第4名', 'B组 第二轮 第3名'],
             forecasts: [
-              {red: 2, blue: 1},
-              {red: 4, blue: 3},
+              { red: 2, blue: 1 },
+              { red: 4, blue: 3 },
             ]
           }
         ]
@@ -176,10 +176,10 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             text: ['A组 第二轮 第6名', 'A组 第二轮 第5名', 'A组 第二轮 第8名', 'A组 第二轮 第7名',
               'A组 第二轮 第9名', 'A组 第二轮 第10名', 'A组 第二轮 第11名', 'A组 第二轮 第12名'],
             forecasts: [
-              {red: 6, blue: 5},
-              {red: 8, blue: 7},
-              {red: 9, blue: 10},
-              {red: 11, blue: 12},
+              { red: 6, blue: 5 },
+              { red: 8, blue: 7 },
+              { red: 9, blue: 10 },
+              { red: 11, blue: 12 },
             ]
           },
           {
@@ -189,10 +189,10 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             text: ['B组 第二轮 第5名', 'B组 第二轮 第6名', 'B组 第二轮 第7名', 'B组 第二轮 第8名',
               'B组 第二轮 第10名', 'B组 第二轮 第9名', 'B组 第二轮 第12名', 'B组 第二轮 第11名'],
             forecasts: [
-              {red: 5, blue: 6},
-              {red: 7, blue: 8},
-              {red: 10, blue: 9},
-              {red: 12, blue: 11},
+              { red: 5, blue: 6 },
+              { red: 7, blue: 8 },
+              { red: 10, blue: 9 },
+              { red: 12, blue: 11 },
             ]
           }
         ]
@@ -217,8 +217,8 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             losers: [21, 22, 23, 24],
             text: ['A组 第二轮 第14名', 'A组 第二轮 第13名', 'A组 第二轮 第16名', 'A组 第二轮 第15名'],
             forecasts: [
-              {red: 14, blue: 13},
-              {red: 16, blue: 15},
+              { red: 14, blue: 13 },
+              { red: 16, blue: 15 },
             ]
           },
           {
@@ -227,8 +227,8 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             losers: [29, 30, 31, 32],
             text: ['B组 第二轮 第13名', 'B组 第二轮 第14名', 'B组 第二轮 第15名', 'B组 第二轮 第16名'],
             forecasts: [
-              {red: 13, blue: 14},
-              {red: 15, blue: 16},
+              { red: 13, blue: 14 },
+              { red: 15, blue: 16 },
             ]
           }
         ]
@@ -314,9 +314,9 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             // 3-4 6-5 8-7
             text: ['A组 第三轮 第3名', 'A组 第三轮 第4名', 'A组 第三轮 第6名', 'A组 第三轮 第5名', 'A组 第三轮 第8名', 'A组 第三轮 第7名'],
             forecasts: [
-              {red: 3, blue: 4},
-              {red: 6, blue: 5},
-              {red: 8, blue: 7},
+              { red: 3, blue: 4 },
+              { red: 6, blue: 5 },
+              { red: 8, blue: 7 },
             ]
           },
           {
@@ -326,9 +326,9 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             // 4-3 5-6 7-8
             text: ['B组 第三轮 第4名', 'B组 第三轮 第3名', 'B组 第三轮 第5名', 'B组 第三轮 第6名', 'B组 第三轮 第7名', 'B组 第三轮 第8名'],
             forecasts: [
-              {red: 4, blue: 3},
-              {red: 5, blue: 6},
-              {red: 7, blue: 8},
+              { red: 4, blue: 3 },
+              { red: 5, blue: 6 },
+              { red: 7, blue: 8 },
             ]
           }
         ]
@@ -354,9 +354,9 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             // 9-10 11-12 14-13
             text: ['A组 第三轮 第9名', 'A组 第三轮 第10名', 'A组 第三轮 第11名', 'A组 第三轮 第12名', 'A组 第三轮 第14名', 'A组 第三轮 第13名'],
             forecasts: [
-              {red: 9, blue: 10},
-              {red: 11, blue: 12},
-              {red: 14, blue: 13},
+              { red: 9, blue: 10 },
+              { red: 11, blue: 12 },
+              { red: 14, blue: 13 },
             ]
           },
           {
@@ -366,9 +366,9 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
             // 10-9 12-11 13-14
             text: ['B组 第三轮 第10名', 'B组 第三轮 第9名', 'B组 第三轮 第12名', 'B组 第三轮 第11名', 'B组 第三轮 第13名', 'B组 第三轮 第14名'],
             forecasts: [
-              {red: 10, blue: 9},
-              {red: 12, blue: 11},
-              {red: 13, blue: 14},
+              { red: 10, blue: 9 },
+              { red: 12, blue: 11 },
+              { red: 13, blue: 14 },
             ]
           }
         ]
@@ -376,18 +376,18 @@ export const FinalZoneGroup1JsonData: ZoneJsonData = {
     },
   ],
   lines: [
-    {from: '#1', to: '#2',},
-    {from: '#1', to: '#3',},
-    {from: '#2', to: '#4',},
-    {from: '#2', to: '#5',},
-    {from: '#3', to: '#5',},
-    {from: '#3', to: '#6',},
-    {from: '#4', to: '#7', lineShape: 5},
-    {from: '#6', to: '#8', lineShape: 5},
-    {from: '#4', to: '#9',},
-    {from: '#5', to: '#9',},
-    {from: '#5', to: '#10',},
-    {from: '#6', to: '#10',},
+    { from: '#1', to: '#2', },
+    { from: '#1', to: '#3', },
+    { from: '#2', to: '#4', },
+    { from: '#2', to: '#5', },
+    { from: '#3', to: '#5', },
+    { from: '#3', to: '#6', },
+    { from: '#4', to: '#7', lineShape: 5 },
+    { from: '#6', to: '#8', lineShape: 5 },
+    { from: '#4', to: '#9', },
+    { from: '#5', to: '#9', },
+    { from: '#5', to: '#10', },
+    { from: '#6', to: '#10', },
   ],
 }
 
@@ -448,9 +448,9 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
             losers: [33, 34],
             text: ['A组 第三轮 第3名', 'A组 第三轮 第4名', 'A组 第三轮 第6名', 'A组 第三轮 第5名', 'A组 第三轮 第8名', 'A组 第三轮 第7名'],
             forecasts: [
-              {red: 3, blue: 4},
-              {red: 6, blue: 5},
-              {red: 8, blue: 7},
+              { red: 3, blue: 4 },
+              { red: 6, blue: 5 },
+              { red: 8, blue: 7 },
             ]
           },
           {
@@ -459,9 +459,9 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
             losers: [41, 42],
             text: ['B组 第三轮 第4名', 'B组 第三轮 第3名', 'B组 第三轮 第5名', 'B组 第三轮 第6名', 'B组 第三轮 第7名', 'B组 第三轮 第8名'],
             forecasts: [
-              {red: 4, blue: 3},
-              {red: 5, blue: 6},
-              {red: 7, blue: 8},
+              { red: 4, blue: 3 },
+              { red: 5, blue: 6 },
+              { red: 7, blue: 8 },
             ]
           }
         ]
@@ -486,9 +486,9 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
             losers: [35, 36, 37, 38],
             text: ['A组 第三轮 第9名', 'A组 第三轮 第10名', 'A组 第三轮 第11名', 'A组 第三轮 第12名', 'A组 第三轮 第14名', 'A组 第三轮 第13名'],
             forecasts: [
-              {red: 9, blue: 10},
-              {red: 11, blue: 12},
-              {red: 14, blue: 13},
+              { red: 9, blue: 10 },
+              { red: 11, blue: 12 },
+              { red: 14, blue: 13 },
             ]
           },
           {
@@ -497,9 +497,9 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
             losers: [43, 44, 45, 46],
             text: ['B组 第三轮 第10名', 'B组 第三轮 第9名', 'B组 第三轮 第12名', 'B组 第三轮 第11名', 'B组 第三轮 第13名', 'B组 第三轮 第14名'],
             forecasts: [
-              {red: 10, blue: 9},
-              {red: 12, blue: 11},
-              {red: 13, blue: 14},
+              { red: 10, blue: 9 },
+              { red: 12, blue: 11 },
+              { red: 13, blue: 14 },
             ]
           }
         ]
@@ -554,9 +554,9 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
             losers: [49, 50, 51],
             text: ['A组 第四轮 第6名', 'A组 第四轮 第7名', 'A组 第四轮 第8名', 'A组 第四轮 第9名', 'A组 第四轮 第11名', 'A组 第四轮 第10名'],
             forecasts: [
-              {red: 6, blue: 7},
-              {red: 8, blue: 9},
-              {red: 11, blue: 10},
+              { red: 6, blue: 7 },
+              { red: 8, blue: 9 },
+              { red: 11, blue: 10 },
             ]
           },
           {
@@ -565,9 +565,9 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
             losers: [55, 56, 57],
             text: ['B组 第四轮 第7名', 'B组 第四轮 第6名', 'B组 第四轮 第8名', 'B组 第四轮 第9名', 'B组 第四轮 第11名', 'B组 第四轮 第10名'],
             forecasts: [
-              {red: 7, blue: 6},
-              {red: 8, blue: 9},
-              {red: 11, blue: 10},
+              { red: 7, blue: 6 },
+              { red: 8, blue: 9 },
+              { red: 11, blue: 10 },
             ]
           }
         ]
@@ -665,12 +665,12 @@ export const FinalZoneGroup2JsonData: ZoneJsonData = {
     }
   ],
   lines: [
-    {from: '#2', to: '#4',},
-    {from: '#2', to: '#5',},
-    {from: '#3', to: '#5',},
-    {from: '#3', to: '#6',},
-    {from: '#5', to: '#7',},
-    {from: '#5', to: '#8',},
+    { from: '#2', to: '#4', },
+    { from: '#2', to: '#5', },
+    { from: '#3', to: '#5', },
+    { from: '#3', to: '#6', },
+    { from: '#5', to: '#7', },
+    { from: '#5', to: '#8', },
   ],
 }
 
