@@ -23,10 +23,10 @@ import {
   RevivalZone2RoundOrder, RevivalZone2RoundOrder2025
 } from "./revival_zone2";
 import {
-  FinalZoneGroup1JsonData,
-  FinalZoneGroup1RoundOrder,
-  FinalZoneGroup2JsonData,
-  FinalZoneGroup2RoundOrder
+  FinalZoneGroup1JsonData, FinalZoneGroup1JsonData2025,
+  FinalZoneGroup1RoundOrder, FinalZoneGroup1RoundOrder2025,
+  FinalZoneGroup2JsonData, FinalZoneGroup2JsonData2025,
+  FinalZoneGroup2RoundOrder, FinalZoneGroup2RoundOrder2025
 } from "./final_zone_group";
 import {
   FinalZoneKnockoutJsonData,
@@ -414,29 +414,29 @@ export const ZoneMap: { [key: number]: Zone[] } = {
           name: 'A组前段',
           type: 'group',
           group: 'A',
-          jsonData: FinalZoneGroup1JsonData,
-          roundOrder: FinalZoneGroup1RoundOrder,
+          jsonData: FinalZoneGroup1JsonData2025,
+          roundOrder: FinalZoneGroup1RoundOrder2025,
         },
         {
           name: 'B组前段',
           type: 'group',
           group: 'B',
-          jsonData: FinalZoneGroup1JsonData,
-          roundOrder: FinalZoneGroup1RoundOrder,
+          jsonData: FinalZoneGroup1JsonData2025,
+          roundOrder: FinalZoneGroup1RoundOrder2025,
         },
         {
           name: 'A组后段',
           type: 'group',
           group: 'A',
-          jsonData: FinalZoneGroup2JsonData,
-          roundOrder: FinalZoneGroup2RoundOrder,
+          jsonData: FinalZoneGroup2JsonData2025,
+          roundOrder: FinalZoneGroup2RoundOrder2025,
         },
         {
           name: 'B组后段',
           type: 'group',
           group: 'B',
-          jsonData: FinalZoneGroup2JsonData,
-          roundOrder: FinalZoneGroup2RoundOrder
+          jsonData: FinalZoneGroup2JsonData2025,
+          roundOrder: FinalZoneGroup2RoundOrder2025
         },
         {
           name: '淘汰赛败者组',
