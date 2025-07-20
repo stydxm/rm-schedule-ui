@@ -2,7 +2,7 @@
 import { MatchNode, Player } from "../types/schedule";
 import { usePromotionStore } from "../stores/promotion";
 import { useRobotDataStore } from "../stores/robot_data";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { RankListItem } from "../types/rank";
 import axios from "axios";
 import TeamHeader from "./TeamHeader.vue";
@@ -65,6 +65,9 @@ function getRobotData(player: Player): Team {
     return team.collegeName == player.team?.collegeName
   })
 }
+
+const redSideRobotData = computed(() => getRobotData(redPlayer))
+const blueSideRobotData = computed(() => getRobotData(bluePlayer))
 </script>
 
 <template>
@@ -92,7 +95,7 @@ function getRobotData(player: Player): Team {
 
     <v-card-text class="mt-2">
       <v-row>
-        <v-col md="6" cols="12">
+        <v-col v-if="redSideRobotData" md="6" cols="12">
           <RobotDataRadar
             :players="[redPlayer, bluePlayer]"
             :colors="['#F44336', '#2196F3']"/>
@@ -105,10 +108,10 @@ function getRobotData(player: Player): Team {
           </HistoryMatch>
         </v-col>
 
-        <v-col md="12" cols="12">
+        <v-col v-if="redSideRobotData" md="12" cols="12">
           <RobotDataTable
-            :robot-data-left="getRobotData(redPlayer)"
-            :robot-data-right="getRobotData(bluePlayer)"/>
+            :robot-data-left="redSideRobotData"
+            :robot-data-right="blueSideRobotData"/>
         </v-col>
       </v-row>
     </v-card-text>

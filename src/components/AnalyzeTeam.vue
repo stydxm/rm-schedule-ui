@@ -94,11 +94,11 @@ const robotData = computed(() => {
               <CompleteFormRank :rank="rank"/>
             </v-col>
 
-            <v-col md="6" cols="12">
+            <v-col v-if="robotData" md="6" cols="12">
               <RobotDataTable :robot-data-left="robotData"/>
             </v-col>
 
-            <v-col md="6" cols="12">
+            <v-col v-if="robotData" md="6" cols="12">
               <RobotDataRadar
                 :players="[props.player]"
                 :colors="['#FFEB3B']"/>
