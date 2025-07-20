@@ -29,10 +29,10 @@ import {
   FinalZoneGroup2RoundOrder, FinalZoneGroup2RoundOrder2025
 } from "./final_zone_group";
 import {
-  FinalZoneKnockoutJsonData,
-  FinalZoneKnockoutLoserJsonData,
-  FinalZoneKnockoutLoserTitleData,
-  FinalZoneKnockoutTitleData
+  FinalZoneKnockoutJsonData, FinalZoneKnockoutJsonData2025,
+  FinalZoneKnockoutLoserJsonData, FinalZoneKnockoutLoserJsonData2025,
+  FinalZoneKnockoutLoserTitleData, FinalZoneKnockoutLoserTitleData2025,
+  FinalZoneKnockoutTitleData, FinalZoneKnockoutTitleData2025
 } from "./final_zone_knockout";
 
 export interface Part {
@@ -442,15 +442,15 @@ export const ZoneMap: { [key: number]: Zone[] } = {
           name: '淘汰赛败者组',
           type: 'knockout',
           group: 'Knockout',
-          jsonData: FinalZoneKnockoutLoserJsonData,
-          extraTitleData: FinalZoneKnockoutLoserTitleData,
+          jsonData: FinalZoneKnockoutLoserJsonData2025,
+          extraTitleData: FinalZoneKnockoutLoserTitleData2025,
         },
         {
           name: '淘汰赛胜者组',
           type: 'knockout',
           group: 'Knockout',
-          jsonData: FinalZoneKnockoutJsonData,
-          extraTitleData: FinalZoneKnockoutTitleData,
+          jsonData: FinalZoneKnockoutJsonData2025,
+          extraTitleData: FinalZoneKnockoutTitleData2025,
         },
       ]
     },
