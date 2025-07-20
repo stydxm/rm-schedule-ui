@@ -16,14 +16,24 @@ import {
   RevivalZoneRoundOrder
 } from "./revival_zone";
 import { GroupType, TitleData, ImageData, ZoneJsonData } from "../types/zone";
-import { RevivalZone2GroupJsonData, RevivalZone2ImageData, RevivalZone2RoundOrder } from "./revival_zone2";
 import {
-  FinalZoneGroup1JsonData, FinalZoneGroup1RoundOrder, FinalZoneGroup2JsonData, FinalZoneGroup2RoundOrder,
-  FinalZoneKnockoutJsonData,
-  FinalZoneKnockoutLoserJsonData,
-  FinalZoneKnockoutLoserTitleData,
-  FinalZoneKnockoutTitleData
-} from "./final_zone";
+  RevivalZone2GroupJsonData,
+  RevivalZone2GroupJsonData2025,
+  RevivalZone2ImageData, RevivalZone2ImageData2025,
+  RevivalZone2RoundOrder, RevivalZone2RoundOrder2025
+} from "./revival_zone2";
+import {
+  FinalZoneGroup1JsonData, FinalZoneGroup1JsonData2025,
+  FinalZoneGroup1RoundOrder, FinalZoneGroup1RoundOrder2025,
+  FinalZoneGroup2JsonData, FinalZoneGroup2JsonData2025,
+  FinalZoneGroup2RoundOrder, FinalZoneGroup2RoundOrder2025
+} from "./final_zone_group";
+import {
+  FinalZoneKnockoutJsonData, FinalZoneKnockoutJsonData2025,
+  FinalZoneKnockoutLoserJsonData, FinalZoneKnockoutLoserJsonData2025,
+  FinalZoneKnockoutLoserTitleData, FinalZoneKnockoutLoserTitleData2025,
+  FinalZoneKnockoutTitleData, FinalZoneKnockoutTitleData2025
+} from "./final_zone_knockout";
 
 export interface Part {
   name: string,
@@ -363,6 +373,85 @@ export const ZoneMap: { [key: number]: Zone[] } = {
           extraTitleData: GroupZoneKnockoutTitleData,
           roundOrder: GroupZoneRoundOrder
         }
+      ]
+    },
+    {
+      id: 570, name: '复活赛第一赛段', disabled: false,
+      parts: [
+        {
+          name: 'A组',
+          type: 'group',
+          group: 'A',
+          jsonData: RevivalZoneGroupJsonData,
+          roundOrder: RevivalZoneRoundOrder
+        },
+        {
+          name: 'B组',
+          type: 'group',
+          group: 'B',
+          jsonData: RevivalZoneGroupJsonData,
+          roundOrder: RevivalZoneRoundOrder
+        }
+      ]
+    },
+    {
+      id: 571, name: '复活赛第二赛段', disabled: false,
+      parts: [
+        {
+          name: 'C组',
+          type: 'group',
+          group: 'C',
+          jsonData: RevivalZone2GroupJsonData2025,
+          roundOrder: RevivalZone2RoundOrder2025,
+          extraImageData: RevivalZone2ImageData2025,
+        },
+      ]
+    },
+    {
+      id: 572, name: '全国赛', disabled: false,
+      parts: [
+        {
+          name: 'A组前段',
+          type: 'group',
+          group: 'A',
+          jsonData: FinalZoneGroup1JsonData2025,
+          roundOrder: FinalZoneGroup1RoundOrder2025,
+        },
+        {
+          name: 'B组前段',
+          type: 'group',
+          group: 'B',
+          jsonData: FinalZoneGroup1JsonData2025,
+          roundOrder: FinalZoneGroup1RoundOrder2025,
+        },
+        {
+          name: 'A组后段',
+          type: 'group',
+          group: 'A',
+          jsonData: FinalZoneGroup2JsonData2025,
+          roundOrder: FinalZoneGroup2RoundOrder2025,
+        },
+        {
+          name: 'B组后段',
+          type: 'group',
+          group: 'B',
+          jsonData: FinalZoneGroup2JsonData2025,
+          roundOrder: FinalZoneGroup2RoundOrder2025
+        },
+        {
+          name: '淘汰赛败者组',
+          type: 'knockout',
+          group: 'Knockout',
+          jsonData: FinalZoneKnockoutLoserJsonData2025,
+          extraTitleData: FinalZoneKnockoutLoserTitleData2025,
+        },
+        {
+          name: '淘汰赛胜者组',
+          type: 'knockout',
+          group: 'Knockout',
+          jsonData: FinalZoneKnockoutJsonData2025,
+          extraTitleData: FinalZoneKnockoutTitleData2025,
+        },
       ]
     },
   ]
