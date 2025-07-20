@@ -23,12 +23,17 @@ import {
   RevivalZone2RoundOrder, RevivalZone2RoundOrder2025
 } from "./revival_zone2";
 import {
-  FinalZoneGroup1JsonData, FinalZoneGroup1RoundOrder, FinalZoneGroup2JsonData, FinalZoneGroup2RoundOrder,
+  FinalZoneGroup1JsonData,
+  FinalZoneGroup1RoundOrder,
+  FinalZoneGroup2JsonData,
+  FinalZoneGroup2RoundOrder
+} from "./final_zone_group";
+import {
   FinalZoneKnockoutJsonData,
   FinalZoneKnockoutLoserJsonData,
   FinalZoneKnockoutLoserTitleData,
   FinalZoneKnockoutTitleData
-} from "./final_zone";
+} from "./final_zone_knockout";
 
 export interface Part {
   name: string,
