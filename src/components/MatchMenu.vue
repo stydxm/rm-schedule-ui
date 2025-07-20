@@ -44,10 +44,13 @@ function onAnalyzeMatch() {
     </template>
 
     <template v-slot:subtitle>
-      <span class="font-weight-black">
+      <span v-if="match.redSide.player && match.blueSide.player" class="font-weight-black">
         {{ match.redSide.player?.team.collegeName }}
         vs
         {{ match.blueSide.player?.team.collegeName }}
+      </span>
+      <span v-else class="font-weight-black">
+        红方 vs 蓝方
       </span>
     </template>
 

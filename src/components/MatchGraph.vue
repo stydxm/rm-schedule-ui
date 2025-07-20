@@ -271,14 +271,14 @@ function updateTeamInfo(collegeName: string) {
   })
 }
 
-function selectPlayerMatch(match: MatchNode, player: Player) {
+function selectPlayerMatch(match: MatchNode, player?: Player) {
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
   } else {
     promotionStore.selectedPlayer = player
 
     updateBilibiliReplay(match.orderNumber)
-    updateTeamInfo(player.team.collegeName)
+    updateTeamInfo(player?.team?.collegeName)
   }
 }
 
