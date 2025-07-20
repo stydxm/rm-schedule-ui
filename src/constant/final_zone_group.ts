@@ -1226,22 +1226,22 @@ export const FinalZoneGroup2JsonData2025: ZoneJsonData = {
             matches: [61, 62, 63],
             winners: [52, 53, 54],
             losers: [49, 50, 51],
-            text: ['A组 第四轮 第6名', 'A组 第四轮 第7名', 'A组 第四轮 第8名', 'A组 第四轮 第9名', 'A组 第四轮 第11名', 'A组 第四轮 第10名'],
+            text: ['A组 第四轮 第6名', 'A组 第四轮 第11名', 'A组 第四轮 第10名', 'A组 第四轮 第7名', 'A组 第四轮 第8名', 'A组 第四轮 第9名'],
             forecasts: [
-              { red: 6, blue: 7 },
+              { red: 6, blue: 11 },
+              { red: 10, blue: 7 },
               { red: 8, blue: 9 },
-              { red: 11, blue: 10 },
             ]
           },
           {
             matches: [64, 65, 66],
             winners: [58, 59, 60],
             losers: [55, 56, 57],
-            text: ['B组 第四轮 第7名', 'B组 第四轮 第6名', 'B组 第四轮 第8名', 'B组 第四轮 第9名', 'B组 第四轮 第11名', 'B组 第四轮 第10名'],
+            text: ['B组 第四轮 第11名', 'B组 第四轮 第6名', 'B组 第四轮 第7名', 'B组 第四轮 第10名', 'B组 第四轮 第9名', 'B组 第四轮 第8名'],
             forecasts: [
-              { red: 7, blue: 6 },
-              { red: 8, blue: 9 },
-              { red: 11, blue: 10 },
+              { red: 11, blue: 6 },
+              { red: 7, blue: 10 },
+              { red: 9, blue: 8 },
             ]
           }
         ]
