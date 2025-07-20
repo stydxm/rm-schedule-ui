@@ -242,6 +242,10 @@ function playerSelected(player: Player): boolean {
 }
 
 function updateBilibiliReplay(orderNumber: number) {
+  if (!orderNumber || !match(orderNumber).redSide.player) {
+    promotionStore.bilibiliReplay = null
+    return
+  }
   axios({
     method: "GET",
     url: "/api/match_order_to_video",
@@ -258,6 +262,10 @@ function updateBilibiliReplay(orderNumber: number) {
 }
 
 function updateTeamInfo(collegeName: string) {
+  if (!collegeName) {
+    promotionStore.teamInfo = null
+    return
+  }
   axios({
     method: "GET",
     url: "/api/team_info",
@@ -271,14 +279,14 @@ function updateTeamInfo(collegeName: string) {
   })
 }
 
-function selectPlayerMatch(match: MatchNode, player: Player) {
+function selectPlayerMatch(match: MatchNode, player?: Player) {
   if (promotionStore.selectedPlayer && player && promotionStore.selectedPlayer.id == player.id) {
     promotionStore.selectedPlayer = null
   } else {
     promotionStore.selectedPlayer = player
 
     updateBilibiliReplay(match.orderNumber)
-    updateTeamInfo(player.team.collegeName)
+    updateTeamInfo(player?.team?.collegeName)
   }
 }
 

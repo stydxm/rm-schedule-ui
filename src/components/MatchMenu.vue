@@ -44,10 +44,13 @@ function onAnalyzeMatch() {
     </template>
 
     <template v-slot:subtitle>
-      <span class="font-weight-black">
+      <span v-if="match.redSide.player && match.blueSide.player" class="font-weight-black">
         {{ match.redSide.player?.team.collegeName }}
         vs
         {{ match.blueSide.player?.team.collegeName }}
+      </span>
+      <span v-else class="font-weight-black">
+        红方 vs 蓝方
       </span>
     </template>
 
@@ -61,12 +64,13 @@ function onAnalyzeMatch() {
     <v-list>
       <v-list-item
         @click="onAnalyzeMatch"
-        :disabled="!props.match"
+        :disabled="!props.match.redSide.player || !props.match.blueSide.player"
       >
         分析比赛{{ promotionStore.getCurrentZone().name }}第{{ match.orderNumber }}场
       </v-list-item>
       <v-list-item
         @click="appStore.analysisDialog = true"
+        :disabled="!promotionStore.selectedPlayer?.team"
       >
         分析队伍{{ promotionStore.selectedPlayer?.team?.collegeName }}
       </v-list-item>
