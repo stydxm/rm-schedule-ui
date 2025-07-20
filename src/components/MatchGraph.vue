@@ -242,6 +242,10 @@ function playerSelected(player: Player): boolean {
 }
 
 function updateBilibiliReplay(orderNumber: number) {
+  if (!orderNumber || !match(orderNumber).redSide.player) {
+    promotionStore.bilibiliReplay = null
+    return
+  }
   axios({
     method: "GET",
     url: "/api/match_order_to_video",
@@ -258,6 +262,10 @@ function updateBilibiliReplay(orderNumber: number) {
 }
 
 function updateTeamInfo(collegeName: string) {
+  if (!collegeName) {
+    promotionStore.teamInfo = null
+    return
+  }
   axios({
     method: "GET",
     url: "/api/team_info",
