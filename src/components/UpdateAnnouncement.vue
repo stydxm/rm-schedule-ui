@@ -61,18 +61,19 @@ function onOpenUpdateAnnouncement() {
         </v-list>
       </v-card-text>
       <template v-slot:actions>
-        <v-btn
-          class="ma-2"
-          variant="outlined"
-          text="近期不提醒"
-          @click="onNotRemindMeRecently"
-        ></v-btn>
-        <v-btn
-          class="ma-2"
-          variant="outlined"
-          text="查看图文公告"
-          @click="onOpenUpdateAnnouncement"
-        ></v-btn>
+        <div class="ma-2">
+          <v-btn
+            variant="outlined"
+            text="近期不提醒"
+            @click="onNotRemindMeRecently"
+          ></v-btn>
+          <v-btn
+            class="ml-2"
+            variant="outlined"
+            text="查看图文公告"
+            @click="onOpenUpdateAnnouncement"
+          ></v-btn>
+        </div>
       </template>
     </v-card>
   </v-dialog>
