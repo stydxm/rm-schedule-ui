@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Player } from "../types/schedule";
 import { RankListItem } from "../types/rank";
+import logoCDN from './MatchGraph.vue'
 
 interface Props {
   player: Player,
@@ -16,7 +17,7 @@ const props = defineProps<Props>()
     <div class="left-column">
       <v-avatar size="100">
         <v-img
-          :src="props.player.team.collegeLogo"
+          :src="logoCDN(props.player.team.collegeLogo)"
           color="white"
         ></v-img>
       </v-avatar>
