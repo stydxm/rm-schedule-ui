@@ -5,6 +5,25 @@ import { UpdateVersionCode, UpdateVersionCodeKey } from "../constant/common";
 
 const appStore = useAppStore()
 
+const updateList = [
+  {
+    title: "赛程适配",
+    content: "现已完成 2025 赛季复活赛、全国赛全阶段赛程适配，实时同步最新对战信息。",
+  },
+  {
+    title: "B 站联动",
+    content: "支持小窗快速回看 B 站视频或跳转原视频，支持一键跳转战队 B 站主页。",
+  },
+  {
+    title: "战队分析",
+    content: "新增机器人关键数据面板、雷达图面板，同步对比全局最强战队，优势与差距一目了然。",
+  },
+  {
+    title: "比赛分析",
+    content: "支持对比红蓝双方的雷达图和机器人关键数据，亦可查看历史交手记录。",
+  }
+]
+
 function onNotRemindMeRecently() {
   appStore.updateAnnouncementDialog = false
   localStorage.setItem(UpdateVersionCodeKey, UpdateVersionCode.toString())
@@ -29,18 +48,20 @@ function onOpenUpdateAnnouncement() {
     >
       <v-card-text>
         我们发布了全新的版本，包含众多实用性功能和错误修复，以下是本次更新的主要内容：
-        <br>
-        <br>
-        [赛程适配] 现已完成 2025 赛季复活赛、全国赛全阶段赛程适配。
-        <br>
-        [B 站联动] 支持小窗快速回看 B 站视频，支持一键跳转战队 B 站主页。
-        <br>
-        [战队分析] 新增机器人关键数据面板和雷达图面板，优势与差距一目了然。
-        <br>
-        [比赛分析] 支持对比红蓝双方的雷达图和机器人关键数据，亦可查看历史交手记录。
+        <v-list lines="two">
+          <v-list-item
+            v-for="(item, index) in updateList"
+            :key="index"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-subtitle>{{ item.content }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </v-card-text>
       <template v-slot:actions>
-        <div class="ma-1">
+        <div class="ma-2">
           <v-btn
             variant="outlined"
             text="近期不提醒"
