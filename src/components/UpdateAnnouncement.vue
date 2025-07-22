@@ -1,15 +1,19 @@
 <script setup lang="ts">
 
 import { useAppStore } from "../stores/app";
+import { UpdateVersionCode, UpdateVersionCodeKey } from "../constant/common";
 
 const appStore = useAppStore()
 
 function onNotRemindMeRecently() {
   appStore.updateAnnouncementDialog = false
+  localStorage.setItem(UpdateVersionCodeKey, UpdateVersionCode.toString())
 }
 
 function onOpenUpdateAnnouncement() {
+  window.open("https://mp.weixin.qq.com/s/rLSAF9DuE4GUPKvW90DyZQ?click_id=17")
   appStore.updateAnnouncementDialog = false
+  localStorage.setItem(UpdateVersionCodeKey, UpdateVersionCode.toString())
 }
 </script>
 
@@ -21,21 +25,33 @@ function onOpenUpdateAnnouncement() {
     <v-card
       max-width="400"
       prepend-icon="mdi-update"
-      title="更新公告"
+      title="更新公告 2025-07-22"
     >
       <v-card-text>
-        我们已经发布了新的更新公告，点击下面的按钮查看详情。
+        我们发布了全新的版本，包含众多实用性功能和错误修复，以下是本次更新的主要内容：
+        <br>
+        <br>
+        [赛程适配] 现已完成 2025 赛季复活赛、全国赛全阶段赛程适配。
+        <br>
+        [B 站联动] 支持小窗快速回看 B 站视频，支持一键跳转战队 B 站主页。
+        <br>
+        [战队分析] 新增机器人关键数据面板和雷达图面板，优势与差距一目了然。
+        <br>
+        [比赛分析] 支持对比红蓝双方的雷达图和机器人关键数据，亦可查看历史交手记录。
       </v-card-text>
       <template v-slot:actions>
-        <v-btn
-          class="ms-auto"
-          text="近期不提醒"
-          @click="onNotRemindMeRecently"
-        ></v-btn>
-        <v-btn
-          text="查看公告"
-          @click="onOpenUpdateAnnouncement"
-        ></v-btn>
+        <div class="ma-1">
+          <v-btn
+            variant="outlined"
+            text="近期不提醒"
+            @click="onNotRemindMeRecently"
+          ></v-btn>
+          <v-btn
+            variant="outlined"
+            text="查看图文公告"
+            @click="onOpenUpdateAnnouncement"
+          ></v-btn>
+        </div>
       </template>
     </v-card>
   </v-dialog>

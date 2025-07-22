@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { UpdateVersionCode, UpdateVersionCodeKey } from "../constant/common";
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -12,7 +13,10 @@ export const useAppStore = defineStore('app', {
   }),
   actions: {
     initStore() {
-      this.updateAnnouncementDialog = true
+      const updateVersion = localStorage.getItem(UpdateVersionCodeKey)
+      if (!updateVersion || parseInt(updateVersion) < UpdateVersionCode) {
+        this.updateAnnouncementDialog = true
+      }
     }
   }
 })
