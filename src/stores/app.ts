@@ -1,5 +1,5 @@
-import {defineStore} from 'pinia'
-import {ref} from 'vue'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -8,5 +8,11 @@ export const useAppStore = defineStore('app', {
     aboutDialog: ref(false),
     searchDialog: ref(false),
     commentDialog: ref(false),
+    updateAnnouncementDialog: ref(false),
   }),
+  actions: {
+    initStore() {
+      this.updateAnnouncementDialog = true
+    }
+  }
 })
