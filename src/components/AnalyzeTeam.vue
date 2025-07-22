@@ -101,7 +101,8 @@ const robotData = computed(() => {
             <v-col v-if="robotData" md="6" cols="12">
               <RobotDataRadar
                 :players="[props.player]"
-                :colors="['#FFEB3B']"/>
+                :colors="['#FFEB3B']"
+                :zone="props.zoneId"/>
             </v-col>
           </v-row>
         </div>

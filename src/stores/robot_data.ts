@@ -7,16 +7,21 @@ export const useRobotDataStore = defineStore("robot_data", {
     robotData: {} as RobotData,
     avgRobotData: [] as Robot[],
     maxRobotData: [] as Robot[],
-    robotDisplayMap: new Map<string, RobotDisplay>(),
+    robotDisplayMapRegional: new Map<string, RobotDisplay>(),
+    robotDisplayMapRepechage: new Map<string, RobotDisplay>(),
+    robotDisplayMapFinals: new Map<string, RobotDisplay>(),
     avgRobotDisplay: {} as RobotDisplay,
     maxRobotDisplay: {} as RobotDisplay,
   }),
   getters: {},
   actions: {
-    async updateRobotData() {
+    async updateRobotData(season: number) {
       await axios({
         method: "GET",
         url: "/api/robot_data",
+        params: {
+          season: season,
+        },
       }).then((response: AxiosResponse<any>) => {
         const newRobotData: RobotData = response.data;
         const newSumRobotData: Robot[] = [];
@@ -67,7 +72,14 @@ export const useRobotDataStore = defineStore("robot_data", {
                 }
               }) || newMaxRobotData.push({ ...robot });
             }
-            this.robotDisplayMap.set(team.collegeName, this.extractDisplayData(team.robots));
+            const currentZoneId = Number(zone.zoneId)
+            let targetMap = new Map<string, RobotDisplay>()
+            if (season === 2025) {
+              if (currentZoneId <= 567) targetMap = this.robotDisplayMapRegional
+              else if (currentZoneId <= 571) targetMap = this.robotDisplayMapRepechage
+              else if (currentZoneId === 572) targetMap = this.robotDisplayMapFinals
+            }
+            targetMap.set(team.collegeName, this.extractDisplayData(team.robots));
           }
         }
         const newAvgRobotData: Robot[] = [];
