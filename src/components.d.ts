@@ -27,5 +27,7 @@ declare module 'vue' {
     SearchPlayer: typeof import('./components/SearchPlayer.vue')['default']
     Situation: typeof import('./components/Situation.vue')['default']
     TeamHeader: typeof import('./components/TeamHeader.vue')['default']
+    Update: typeof import('./components/Update.vue')['default']
+    UpdateAnnouncement: typeof import('./components/UpdateAnnouncement.vue')['default']
   }
 }
