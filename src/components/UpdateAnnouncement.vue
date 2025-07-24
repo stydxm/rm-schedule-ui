@@ -53,10 +53,8 @@ function onOpenUpdateAnnouncement() {
             v-for="(item, index) in updateList"
             :key="index"
           >
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-              <v-list-item-subtitle>{{ item.content }}</v-list-item-subtitle>
-            </v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-subtitle>{{ item.content }}</v-list-item-subtitle>
           </v-list-item>
         </v-list>
       </v-card-text>
