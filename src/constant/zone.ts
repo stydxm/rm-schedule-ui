@@ -56,7 +56,7 @@ export const SeasonList = [2024, 2025];
 
 export const DefaultZoneMap = {
   2024: 526,
-  2025: 567,
+  2025: 570,
 }
 
 export const ZoneMap: { [key: number]: Zone[] } = {
