@@ -66,6 +66,12 @@ function getRobotData(player: Player): Team {
   })
 }
 
+const showRobotDataRadar = computed(() => {
+  if (promotionStore.season === 2024) return false
+  return robotDataStore.existRobotDataSet.has(redPlayer.team.collegeName) &&
+    robotDataStore.existRobotDataSet.has(bluePlayer.team.collegeName)
+})
+
 const redSideRobotData = computed(() => getRobotData(redPlayer))
 const blueSideRobotData = computed(() => getRobotData(bluePlayer))
 </script>
@@ -95,10 +101,9 @@ const blueSideRobotData = computed(() => getRobotData(bluePlayer))
 
     <v-card-text class="mt-2">
       <v-row>
-        <v-col v-if="redSideRobotData" md="6" cols="12">
+        <v-col v-if="showRobotDataRadar" md="6" cols="12">
           <RobotDataRadar
-            :players="[redPlayer, bluePlayer]"
-            :colors="['#F44336', '#2196F3']"/>
+            :players="[redPlayer, bluePlayer]"/>
         </v-col>
 
         <v-col md="6" cols="12">

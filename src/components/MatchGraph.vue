@@ -40,7 +40,7 @@ const robotDataStore = useRobotDataStore();
 const dataUpdatePromises = [
   promotionStore.updateSchedule(),
   promotionStore.updateGroupRank(),
-  robotDataStore.updateRobotData()
+  robotDataStore.updateRobotData(promotionStore.season)
 ]
 Promise.all(dataUpdatePromises).then(async () => {
   await updateMpMatch()
@@ -52,7 +52,7 @@ Promise.all(dataUpdatePromises).then(async () => {
 function refresh() {
   promotionStore.updateSchedule()
   promotionStore.updateGroupRank()
-  robotDataStore.updateRobotData()
+  robotDataStore.updateRobotData(promotionStore.season)
   updateMpMatch()
 }
 

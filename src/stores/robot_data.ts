@@ -7,16 +7,22 @@ export const useRobotDataStore = defineStore("robot_data", {
     robotData: {} as RobotData,
     avgRobotData: [] as Robot[],
     maxRobotData: [] as Robot[],
-    robotDisplayMap: new Map<string, RobotDisplay>(),
+    existRobotDataSet: new Set<string>(), // 存在机器人数据的集合
+    robotDisplayMapRegional: new Map<string, RobotDisplay>(),
+    robotDisplayMapRepechage: new Map<string, RobotDisplay>(),
+    robotDisplayMapFinals: new Map<string, RobotDisplay>(),
     avgRobotDisplay: {} as RobotDisplay,
     maxRobotDisplay: {} as RobotDisplay,
   }),
   getters: {},
   actions: {
-    async updateRobotData() {
+    async updateRobotData(season: number) {
       await axios({
         method: "GET",
         url: "/api/robot_data",
+        params: {
+          season: season,
+        },
       }).then((response: AxiosResponse<any>) => {
         const newRobotData: RobotData = response.data;
         const newSumRobotData: Robot[] = [];
@@ -26,7 +32,7 @@ export const useRobotDataStore = defineStore("robot_data", {
         let teamCount = 0;
         for (const zone of newRobotData.zones) {
           for (const team of zone.teams) {
-
+            this.existRobotDataSet.add(team.collegeName)
             // 国赛复活赛与区域赛分开计算，这里是临时解决方案，避免未开赛时全0数据覆盖了区域赛数据
             let avgHurtSum = 0
             for (const robot of team.robots) {
@@ -67,7 +73,14 @@ export const useRobotDataStore = defineStore("robot_data", {
                 }
               }) || newMaxRobotData.push({ ...robot });
             }
-            this.robotDisplayMap.set(team.collegeName, this.extractDisplayData(team.robots));
+            const currentZoneId = Number(zone.zoneId)
+            let targetMap = new Map<string, RobotDisplay>()
+            if (season === 2025) {
+              if (currentZoneId <= 567) targetMap = this.robotDisplayMapRegional
+              else if (currentZoneId <= 571) targetMap = this.robotDisplayMapRepechage
+              else if (currentZoneId === 572) targetMap = this.robotDisplayMapFinals
+            }
+            targetMap.set(team.collegeName, this.extractDisplayData(team.robots));
           }
         }
         const newAvgRobotData: Robot[] = [];

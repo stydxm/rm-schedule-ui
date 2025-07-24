@@ -6,13 +6,13 @@ import { Player } from "../types/schedule";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { RadarChart } from "echarts/charts";
+import { Dictionary } from "echarts/types/src/util/types.js";
 import { LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from "echarts/components";
 import { useRobotDataStore } from "../stores/robot_data";
 import { RadarSeriesDataItemOption } from "echarts/types/src/chart/radar/RadarSeries";
 
 interface Props {
   players: Player[],
-  colors: string[],
 }
 
 const props = defineProps<Props>()
@@ -27,60 +27,103 @@ use([
   VisualMapComponent,
 ]);
 
-const currentRobotDisplays = [] as RobotDisplay[]
-const data: RadarSeriesDataItemOption[] = [
-  {
+const plotData: RadarSeriesDataItemOption[] = []
+const selectedLegends: Dictionary<boolean> = {}
+const addItem = (displayData: RobotDisplay, name: string, color: string, itemOpacity?: number, lineOpacity?: number, areaOpacity?: number) => {
+  if (itemOpacity === undefined) itemOpacity = 1.0
+  if (lineOpacity === undefined) lineOpacity = 1.0
+  if (areaOpacity === undefined) areaOpacity = 0.2
+  plotData.push({
     value: [
-      robotDataStore.avgRobotDisplay.heroKeyDamage,
-      robotDataStore.avgRobotDisplay.engineerEco,
-      robotDataStore.avgRobotDisplay.standardDamage,
-      robotDataStore.avgRobotDisplay.aerialDamage,
-      robotDataStore.avgRobotDisplay.sentryDamage,
-      robotDataStore.avgRobotDisplay.dartWeightedScore,
-      robotDataStore.avgRobotDisplay.radarMarkDuration,
+      displayData.heroKeyDamage,
+      displayData.engineerEco,
+      displayData.standardDamage,
+      displayData.aerialDamage,
+      displayData.sentryDamage,
+      displayData.dartWeightedScore,
+      displayData.radarMarkDuration
     ],
-    name: '平均值',
+    name: name,
     itemStyle: {
-      color: 'white',
-      opacity: 1.0,
+      color: color,
+      opacity: itemOpacity,
     },
     lineStyle: {
-      color: 'white',
-      opacity: 1.0,
+      color: color,
+      opacity: lineOpacity,
     },
     areaStyle: {
-      color: 'white',
-      opacity: 0.2,
+      color: color,
+      opacity: areaOpacity,
     }
-  },
-]
+  })
+}
 
-props.players.forEach((player, index) => {
-  currentRobotDisplays.push(robotDataStore.robotDisplayMap.get(player.team.collegeName))
-  data.push({
-    value: [
-      currentRobotDisplays[currentRobotDisplays.length - 1].heroKeyDamage,
-      currentRobotDisplays[currentRobotDisplays.length - 1].engineerEco,
-      currentRobotDisplays[currentRobotDisplays.length - 1].standardDamage,
-      currentRobotDisplays[currentRobotDisplays.length - 1].aerialDamage,
-      currentRobotDisplays[currentRobotDisplays.length - 1].sentryDamage,
-      currentRobotDisplays[currentRobotDisplays.length - 1].dartWeightedScore,
-      currentRobotDisplays[currentRobotDisplays.length - 1].radarMarkDuration,
-    ],
-    name: player.team.collegeName,
-    itemStyle: {
-      color: props.colors[index % props.colors.length],
-      opacity: 1.0,
-    },
-    lineStyle: {
-      color: props.colors[index % props.colors.length],
-      opacity: 1.0,
-    },
-    areaStyle: {
-      color: props.colors[index % props.colors.length],
-      opacity: 0.2,
+const addTeam = (player: Player) => {
+  let singleTeam = false
+  let redSide = false
+  if (props.players.length === 1) {
+    singleTeam = true
+  } else {
+    redSide = player.teamId === props.players[0].teamId
+  }
+  if (player.team === undefined) return
+
+  interface Stage {
+    name: string,
+    data: Map<string, RobotDisplay>,
+    singleColor: string,
+    redColor: string,
+    blueColor: string,
+  }
+
+  const stages: Stage[] = [{
+    name: "区域赛",
+    data: robotDataStore.robotDisplayMapRegional,
+    singleColor: '#FFCA28',
+    redColor: '#EF5350',
+    blueColor: '#42A5F5',
+  }, {
+    name: "复活赛",
+    data: robotDataStore.robotDisplayMapRepechage,
+    singleColor: '#FFC107',
+    redColor: '#F44336',
+    blueColor: '#2196F3',
+  }, {
+    name: "全国赛",
+    data: robotDataStore.robotDisplayMapFinals,
+    singleColor: '#FFB300',
+    redColor: '#E53935',
+    blueColor: '#1E88E5',
+  }]
+  const displayName = (stage: Stage) => singleTeam ? player.team!.collegeName + stage.name : stage.name
+  stages.forEach(stage => {
+    const currentTeamDisplays = stage.data.get(player.team!.collegeName)
+    if (currentTeamDisplays !== undefined) {
+      const color = singleTeam ? stage.singleColor : (redSide ? stage.redColor : stage.blueColor)
+      addItem(
+        currentTeamDisplays,
+        displayName(stage),
+        color,
+      )
+      // 如果该队参与了多个赛事阶段，仅显示最后一个
+      for (const i of stages)
+        if (selectedLegends[displayName(i)] !== undefined)
+          selectedLegends[displayName(i)] = false
+      selectedLegends[displayName(stage)] = true
     }
-  });
+  })
+}
+
+addItem(
+  robotDataStore.avgRobotDisplay,
+  '平均值',
+  'white'
+)
+selectedLegends["平均值"] = true
+
+props.players.forEach((player) => {
+  addTeam(player)
 })
 
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763
@@ -97,7 +140,8 @@ const option: echarts.EChartsOption = {
     bottom: "bottom",
     textStyle: {
       color: "white"
-    }
+    },
+    selected: selectedLegends
   },
   tooltip: {
     trigger: 'item'
@@ -119,7 +163,7 @@ const option: echarts.EChartsOption = {
     emphasis: {
       areaStyle: {}
     },
-    data: data,
+    data: plotData,
   }
 };
 </script>
