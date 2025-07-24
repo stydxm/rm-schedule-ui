@@ -59,11 +59,17 @@ const addItem = (displayData: RobotDisplay, name: string, color: string, itemOpa
     }
   })
 }
+
 const addTeam = (player: Player, color: string) => {
   let singleTeam = true
   if (props.players.length === 1) singleTeam = false
   if (player.team === undefined) return
-  interface Stage { name: string, data: Map<string, RobotDisplay> }
+
+  interface Stage {
+    name: string,
+    data: Map<string, RobotDisplay>
+  }
+
   const stages: Stage[] = [{
     name: "区域赛",
     data: robotDataStore.robotDisplayMapRegional
@@ -150,7 +156,7 @@ const option: echarts.EChartsOption = {
     <v-chip color="info" variant="flat" label>
       <h3>雷达图</h3>
     </v-chip>
-    <v-chart class="chart" :option="option" autoresize />
+    <v-chart class="chart" :option="option" autoresize/>
   </div>
 </template>
 
