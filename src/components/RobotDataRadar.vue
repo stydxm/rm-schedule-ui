@@ -14,7 +14,6 @@ import { RadarSeriesDataItemOption } from "echarts/types/src/chart/radar/RadarSe
 interface Props {
   players: Player[],
   colors: string[],
-  zone: number
 }
 
 const props = defineProps<Props>()
