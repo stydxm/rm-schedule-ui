@@ -55,6 +55,11 @@ const groupRank = computed(() => {
   return []
 })
 
+const showRobotDataRadar = computed(() => {
+  if (promotionStore.season === 2024) return false
+  return robotDataStore.existRobotDataSet.has(props.player.team.collegeName)
+})
+
 const robotData = computed(() => {
   return robotDataStore.robotData.zones.find((zone) => {
     return Number(zone.zoneId) == props.zoneId
@@ -98,11 +103,10 @@ const robotData = computed(() => {
               <RobotDataTable :robot-data-left="robotData"/>
             </v-col>
 
-            <v-col v-if="robotData" md="6" cols="12">
+            <v-col v-if="showRobotDataRadar" md="6" cols="12">
               <RobotDataRadar
                 :players="[props.player]"
-                :colors="['#FFEB3B']"
-                :zone="props.zoneId"/>
+                :colors="['#FFEB3B']"/>
             </v-col>
           </v-row>
         </div>

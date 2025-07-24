@@ -7,6 +7,7 @@ export const useRobotDataStore = defineStore("robot_data", {
     robotData: {} as RobotData,
     avgRobotData: [] as Robot[],
     maxRobotData: [] as Robot[],
+    existRobotDataSet: new Set<string>(), // 存在机器人数据的集合
     robotDisplayMapRegional: new Map<string, RobotDisplay>(),
     robotDisplayMapRepechage: new Map<string, RobotDisplay>(),
     robotDisplayMapFinals: new Map<string, RobotDisplay>(),
@@ -31,7 +32,7 @@ export const useRobotDataStore = defineStore("robot_data", {
         let teamCount = 0;
         for (const zone of newRobotData.zones) {
           for (const team of zone.teams) {
-
+            this.existRobotDataSet.add(team.collegeName)
             // 国赛复活赛与区域赛分开计算，这里是临时解决方案，避免未开赛时全0数据覆盖了区域赛数据
             let avgHurtSum = 0
             for (const robot of team.robots) {
