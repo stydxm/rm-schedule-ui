@@ -13,7 +13,6 @@ import { RadarSeriesDataItemOption } from "echarts/types/src/chart/radar/RadarSe
 
 interface Props {
   players: Player[],
-  colors: string[],
 }
 
 const props = defineProps<Props>()
@@ -60,34 +59,52 @@ const addItem = (displayData: RobotDisplay, name: string, color: string, itemOpa
   })
 }
 
-const addTeam = (player: Player, color: string) => {
-  let singleTeam = true
-  if (props.players.length === 1) singleTeam = false
+const addTeam = (player: Player) => {
+  let singleTeam = false
+  let redSide = false
+  if (props.players.length === 1) {
+    singleTeam = true
+  } else {
+    redSide = player.teamId === props.players[0].teamId
+  }
   if (player.team === undefined) return
 
   interface Stage {
     name: string,
-    data: Map<string, RobotDisplay>
+    data: Map<string, RobotDisplay>,
+    singleColor: string,
+    redColor: string,
+    blueColor: string,
   }
 
   const stages: Stage[] = [{
     name: "区域赛",
-    data: robotDataStore.robotDisplayMapRegional
+    data: robotDataStore.robotDisplayMapRegional,
+    singleColor: '#FFCA28',
+    redColor: '#EF5350',
+    blueColor: '#42A5F5',
   }, {
     name: "复活赛",
-    data: robotDataStore.robotDisplayMapRepechage
+    data: robotDataStore.robotDisplayMapRepechage,
+    singleColor: '#FFC107',
+    redColor: '#F44336',
+    blueColor: '#2196F3',
   }, {
     name: "全国赛",
-    data: robotDataStore.robotDisplayMapFinals
+    data: robotDataStore.robotDisplayMapFinals,
+    singleColor: '#FFB300',
+    redColor: '#E53935',
+    blueColor: '#1E88E5',
   }]
   const displayName = (stage: Stage) => singleTeam ? player.team!.collegeName + stage.name : stage.name
   stages.forEach(stage => {
     const currentTeamDisplays = stage.data.get(player.team!.collegeName)
     if (currentTeamDisplays !== undefined) {
+      const color = singleTeam ? stage.singleColor : (redSide ? stage.redColor : stage.blueColor)
       addItem(
         currentTeamDisplays,
         displayName(stage),
-        color
+        color,
       )
       // 如果该队参与了多个赛事阶段，仅显示最后一个
       for (const i of stages)
@@ -105,8 +122,8 @@ addItem(
 )
 selectedLegends["平均值"] = true
 
-props.players.forEach((player, index) => {
-  addTeam(player, props.colors[index % props.colors.length])
+props.players.forEach((player) => {
+  addTeam(player)
 })
 
 // ECharts在控制台报的警告是一个一直存在的bug：https://github.com/apache/echarts/issues/17763

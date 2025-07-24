@@ -103,8 +103,7 @@ const blueSideRobotData = computed(() => getRobotData(bluePlayer))
       <v-row>
         <v-col v-if="showRobotDataRadar" md="6" cols="12">
           <RobotDataRadar
-            :players="[redPlayer, bluePlayer]"
-            :colors="['#F44336', '#2196F3']"/>
+            :players="[redPlayer, bluePlayer]"/>
         </v-col>
 
         <v-col md="6" cols="12">
