@@ -96,7 +96,7 @@ const addTeam = (player: Player) => {
     redColor: '#E53935',
     blueColor: '#1E88E5',
   }]
-  const displayName = (stage: Stage) => singleTeam ? player.team!.collegeName + stage.name : stage.name
+  const displayName = (stage: Stage) => singleTeam ? stage.name : player.team!.collegeName + stage.name
   stages.forEach(stage => {
     const currentTeamDisplays = stage.data.get(player.team!.collegeName)
     if (currentTeamDisplays !== undefined) {
