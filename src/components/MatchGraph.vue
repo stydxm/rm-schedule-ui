@@ -324,7 +324,14 @@ function matchTooltip(match: MatchNode): string {
   return `预计 ${time.format('M月D日 HH:mm')} 开始`
 }
 
-const logoCDN = (url: string): string => StaticCDN(url);
+const logoCDN = (url: string): string => {
+  const ext = url.split('.').pop()?.toLowerCase();
+  if (ext === 'png') {
+    // 如果是PNG图片，将透明背景转换为白色背景
+    url = `${url}?process=bg_white`;
+  }
+  return StaticCDN(url);
+};
 
 const fingersCount = ref(0);
 const updateFingersCount = (event: TouchEvent) => {
