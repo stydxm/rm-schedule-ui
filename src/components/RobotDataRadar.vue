@@ -36,6 +36,8 @@ const addItem = (displayData: RobotDisplay, name: string, color: string, itemOpa
   plotData.push({
     value: [
       displayData.heroKeyDamage,
+      displayData.heroBigHitRate,
+      // displayData.heroSnipeCnt,
       displayData.engineerEco,
       displayData.standardDamage,
       displayData.aerialDamage,
@@ -149,6 +151,8 @@ const option: echarts.EChartsOption = {
   radar: {
     indicator: [
       { name: '英雄局均关键伤害', max: robotDataStore.maxRobotDisplay.heroKeyDamage },
+      { name: '英雄局均大弹丸命中率', max: robotDataStore.maxRobotDisplay.heroBigHitRate },
+      // { name: '英雄局均部署命中数', max: robotDataStore.maxRobotDisplay.heroSnipeCnt },
       { name: '工程局均兑换经济', max: robotDataStore.maxRobotDisplay.engineerEco },
       { name: '步兵局均总伤害', max: robotDataStore.maxRobotDisplay.standardDamage },
       { name: '无人机局均总伤害', max: robotDataStore.maxRobotDisplay.aerialDamage },
