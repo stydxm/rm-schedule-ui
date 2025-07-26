@@ -18,7 +18,17 @@ const match = computed(() => props.match)
 function matchTooltip(match: MatchNode): string {
   if (!match) return ""
   const time = moment.parseZone(match.planStartedAt).utcOffset(8)
-  return `预计 ${time.format('M月D日 HH:mm')} 开始`
+  switch (match.status) {
+    case "WAITING":
+      return `预计 ${time.format('M月D日 HH:mm')} 开始`
+    case "STARTED":
+      return "比赛直播中"
+    case "PENDING":
+      return "成绩待确认"
+    case "DONE":
+      return "比赛已结束"
+  }
+  return ""
 }
 
 function openBilibiliSpace(uid: number) {
