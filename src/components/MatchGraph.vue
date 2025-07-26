@@ -504,7 +504,7 @@ const round = computed(() => {
                               <div v-else style="background: #616161">
                                 <h4 class="px-1" style="width: 2.5rem"> 待定 </h4>
                               </div>
-                              <v-avatar class="mx-1 avatar-center" color="white" size="x-small">
+                              <v-avatar class="mx-1 avatar-center bg-white" color="white" size="x-small">
                                 <v-img :src="logoCDN(v.player.team.collegeLogo)"/>
                               </v-avatar>
                               <span class="one-line-text">{{ v.player.team.collegeName }}</span>
@@ -590,7 +590,7 @@ const round = computed(() => {
                                     }">
                                     {{ (100 * promotionStore.getMpMatch(match(v).id).redRate).toFixed(1) }}%
                                   </div>
-                                  <v-avatar v-if="match(v).redSide.player?.team" class="mx-1" color="white"
+                                  <v-avatar v-if="match(v).redSide.player?.team" class="mx-1 bg-white" color="white"
                                             size="x-small">
                                     <v-img :src="logoCDN(match(v).redSide.player?.team.collegeLogo)"></v-img>
                                   </v-avatar>
@@ -639,7 +639,7 @@ const round = computed(() => {
                                  }">
                                     {{ (100 * promotionStore.getMpMatch(match(v).id).blueRate).toFixed(1) }}%
                                   </div>
-                                  <v-avatar v-if="match(v).blueSide.player?.team" class="mx-1" color="white"
+                                  <v-avatar v-if="match(v).blueSide.player?.team" class="mx-1 bg-white" color="white"
                                             size="x-small">
                                     <v-img :src="logoCDN(match(v).blueSide.player?.team.collegeLogo)"></v-img>
                                   </v-avatar>
@@ -748,7 +748,7 @@ const round = computed(() => {
                                 {{ convertToOrdinal(groupTrulyRank(node.data.zones[groupIndex].group, v)) }}
                               </h4>
                             </div>
-                            <v-avatar class="mx-1 avatar-center" color="white" size="x-small">
+                            <v-avatar class="mx-1 avatar-center bg-white" color="white" size="x-small">
                               <v-img v-if="groupRank(node.data.zones[groupIndex].group, v).team"
                                      :src="logoCDN(groupRank(node.data.zones[groupIndex].group, v).team?.collegeLogo)"/>
                               <v-img v-else src="@/assets/school_grey.png"/>
@@ -798,7 +798,7 @@ const round = computed(() => {
                             <div v-else style="background: #616161">
                               <h4 class="px-1" style="width: 2.5rem; color: white"> 待定 </h4>
                             </div>
-                            <v-avatar class="mx-1 avatar-center" color="white" size="x-small">
+                            <v-avatar class="mx-1 avatar-center bg-white" color="white" size="x-small">
                               <v-img :src="logoCDN(v.player.team.collegeLogo)"/>
                             </v-avatar>
                             <span :style="{color: (node as ZoneNodeJsonData).data.collegeNameColor}"
