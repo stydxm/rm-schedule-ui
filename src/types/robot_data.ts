@@ -46,6 +46,8 @@ export interface Robot {
 
 export interface RobotDisplay {
   heroKeyDamage: number
+  heroBigHitRate: number
+  heroSnipeCnt: number
   engineerEco: number
   standardDamage: number
   aerialDamage: number

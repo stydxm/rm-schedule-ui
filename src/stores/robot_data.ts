@@ -138,6 +138,8 @@ export const useRobotDataStore = defineStore("robot_data", {
         switch (robot.type) {
           case "Hero":
             result.heroKeyDamage = robot.gkDamage
+            result.heroBigHitRate = robot.eaBigHitRate
+            result.heroSnipeCnt = robot.eaSnipeCnt
             break
           case "Sapper":
             result.engineerEco = robot.eaExchangeEcon
