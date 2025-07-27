@@ -325,12 +325,8 @@ function matchTooltip(match: MatchNode): string {
 }
 
 const logoCDN = (url: string): string => {
-  const ext = url.split('.').pop()?.toLowerCase();
-  if (ext === 'png') {
-    // 如果是PNG图片，将透明背景转换为白色背景
-    url = `${url}?process=bg_white`;
-  }
-  return StaticCDN(url);
+  // 如果是PNG图片，将透明背景转换为白色背景
+  return StaticCDN(`${url}?process=bg_white`);
 };
 
 const fingersCount = ref(0);
