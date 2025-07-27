@@ -464,11 +464,11 @@ export const RevivalZone2GroupJsonData2025: ZoneJsonData = {
     },
     {
       id: '#7',
-      text: '第三轮 2-1',
+      text: '全国赛名额争夺',
       x: rx - xOffset,
       y: ry + 60,
       data: {
-        title: '瑞士轮第三轮 2-1',
+        title: '全国赛名额争夺',
         titleColor: '#FFFFFF',
         titleImage: '/static/title_bg.png',
         borderColor: '#5A879C',
@@ -489,11 +489,11 @@ export const RevivalZone2GroupJsonData2025: ZoneJsonData = {
     },
     {
       id: '#8',
-      text: '第三轮 2-1',
+      text: '全国赛名额争夺',
       x: rx - xOffset,
       y: ry + 320,
       data: {
-        title: '瑞士轮第三轮 2-1',
+        title: '全国赛名额争夺',
         titleColor: '#FFFFFF',
         titleImage: '/static/title_bg.png',
         borderColor: '#5A879C',
