@@ -421,7 +421,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 572, name: '全国赛', disabled: false,
-      defaultGroup: 2,
+      defaultGroup: 5,
       parts: [
         {
           name: 'A组前段',
