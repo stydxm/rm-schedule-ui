@@ -13,7 +13,7 @@ const router = useRouter()
 
 const liveMode = ref(Boolean(route.query.live == "1"))
 const predict = ref(Boolean(route.query.predict == "1"))
-const selectedGroup = ref(Number([route.query.group || 0]))
+const selectedGroup = ref(Number([route.query.group || -1]))
 const appStore = useAppStore()
 const promotionStore = usePromotionStore();
 
@@ -34,11 +34,15 @@ if (!ZoneMap[promotionStore.season].find((zone) => zone.id == zoneId.value)) {
   promotionStore.zoneId = DefaultZoneMap[promotionStore.season]
   updateQuery()
 }
+// 如果 selectedGroup 为 -1 或不存在，则重置为默认组
+if (selectedGroup.value === -1) {
+  updateQuery()
+}
 
 function updateQuery() {
   // 如果选中的组不存在，则重置为第一个组
   if (!zone.value?.parts[selectedGroup.value]) {
-    selectedGroup.value = 0
+    selectedGroup.value = zone.value?.defaultGroup
   }
   router.push({ path: `/${promotionStore.season}/${zoneId.value}`, query: { group: selectedGroup.value } })
 }

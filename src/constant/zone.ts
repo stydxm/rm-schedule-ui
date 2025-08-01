@@ -49,6 +49,7 @@ export interface Zone {
   id: number,
   name: string,
   disabled: boolean,
+  defaultGroup: number,
   parts: Part[],
 }
 
@@ -63,6 +64,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
   2024: [
     {
       id: 498, name: '东部赛区', disabled: false,
+      defaultGroup: 2,
       parts: [
         {
           name: 'A组',
@@ -90,6 +92,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 499, name: '中部赛区', disabled: false,
+      defaultGroup: 2,
       parts: [
         {
           name: 'A组',
@@ -117,6 +120,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 500, name: '南部赛区', disabled: false,
+      defaultGroup: 2,
       parts: [
         {
           name: 'A组',
@@ -144,6 +148,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 524, name: '国际赛区&复活赛第一赛段', disabled: false,
+      defaultGroup: 2,
       parts: [
         {
           name: 'A组',
@@ -171,6 +176,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 525, name: '复活赛第二赛段', disabled: false,
+      defaultGroup: 0,
       parts: [
         {
           name: 'C组',
@@ -184,6 +190,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 526, name: '全国赛', disabled: false,
+      defaultGroup: 5,
       parts: [
         {
           name: 'A组前段',
@@ -233,6 +240,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
   2025: [
     {
       id: 565, name: '南部赛区', disabled: false,
+      defaultGroup: 5,
       parts: [
         {
           name: 'A组前段',
@@ -281,6 +289,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 566, name: '中部赛区', disabled: false,
+      defaultGroup: 5,
       parts: [
         {
           name: 'A组前段',
@@ -329,6 +338,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 567, name: '东部赛区', disabled: false,
+      defaultGroup: 5,
       parts: [
         {
           name: 'A组前段',
@@ -377,6 +387,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 570, name: '复活赛第一赛段', disabled: false,
+      defaultGroup: 1,
       parts: [
         {
           name: 'A组',
@@ -396,6 +407,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 571, name: '复活赛第二赛段', disabled: false,
+      defaultGroup: 0,
       parts: [
         {
           name: 'C组',
@@ -409,6 +421,7 @@ export const ZoneMap: { [key: number]: Zone[] } = {
     },
     {
       id: 572, name: '全国赛', disabled: false,
+      defaultGroup: 2,
       parts: [
         {
           name: 'A组前段',
